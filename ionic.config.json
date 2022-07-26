@@ -1,0 +1,7 @@
+{
+  "name": "notifika",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "662199781443",
+    "project_id": "notifika-uy",
+    "storage_bucket": "notifika-uy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662199781443:android:027cd868d8b2a9d14a2cf6",
+        "android_client_info": {
+          "package_name": "uy.notifika.notifika"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662199781443-n1f220rh7agvcfao2ciua0p7v2i04b87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9IBA5st7AXsyTUZv9a5n0EqyzwqlMcDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662199781443-n1f220rh7agvcfao2ciua0p7v2i04b87.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,11 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'notifika',
+  appId: 'uy.notifika.notifika',
+  appName: 'Notifika',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  server: { iosScheme: 'ionic' }
 };
 
 export default config;

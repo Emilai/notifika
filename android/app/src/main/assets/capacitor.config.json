@@ -1,0 +1,9 @@
+{
+	"appId": "uy.notifika.notifika",
+	"appName": "Notifika",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"server": {
+		"iosScheme": "ionic"
+	}
+}

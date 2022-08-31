@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "notifika-uy"
+  },
+  "targets": {
+    "notifika-uy": {
+      "hosting": {
+        "app": [
+          "notifika-uy"
+        ]
+      }
+    }
+  }
+}

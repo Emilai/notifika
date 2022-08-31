@@ -1,0 +1,54 @@
+<ion-header mode="md">
+  <ion-toolbar mode="md">
+    <ion-img class="ion-padding img" src="../../../assets/logotipo.png"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="codes">
+  <div class="form">
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Nombre" [(ngModel)]="userInfo.nombre" required></ion-input>
+    </ion-item>
+
+        <ion-item class="ion-margin-bottom">
+      <ion-input type="number" placeholder="Cédula de Identidad" [(ngModel)]="userInfo.cedula" required></ion-input>
+      <ion-note slot="error">Cédula sin guión (ej: para 1.234.567-8 poner 12345678)</ion-note>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Código de Institución" [(ngModel)]="userInfo.code" required id="code"></ion-input>
+    </ion-item>
+
+  </div>
+
+
+  <form [formGroup]="credentials" (ngSubmit)="check()" *ngIf="userInfo.code && userInfo.nombre">
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">Email invalido</ion-note>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="password" placeholder="Password" formControlName="password" ></ion-input>
+      <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Password invalido (minimo 8 caracteres)</ion-note>
+    </ion-item>
+
+
+    <ion-button type="submit" expand="block" shape="round" [disabled]="!credentials.valid" class="loginBtn">
+      Registrar Cuenta
+    </ion-button>
+
+
+  </form>
+
+  <hr class="hr">
+
+      <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+      Volver a Login
+    </ion-button>
+
+
+</ion-content>
+

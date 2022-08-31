@@ -1,0 +1,75 @@
+<ion-header [translucent]="true">
+  <app-upbar></app-upbar>
+</ion-header>
+
+<ion-content *ngIf="userInfo" class="ion-padding">
+
+   <ion-button *ngIf="userInfo.admin" id="popover-button" expand="block" fill="clear" shape="round" class="ion-padding-horizontal adminBtn">Administrar</ion-button>
+<ion-popover trigger="popover-button" side="top" alignment="center" [dismissOnSelect]="true">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item *ngIf="userInfo.admin" (click)="comunicado()" [button]="true" [detail]="false">Crear Comunicado</ion-item>
+        <ion-item *ngIf="userInfo.admin" (click)="galeryload()" [button]="true" [detail]="false">Crear Galería</ion-item>
+        <ion-item *ngIf="userInfo.superadmin" (click)="galery()" [button]="true" [detail]="false">Crear Galería (SA)</ion-item>
+        <ion-item *ngIf="userInfo.admin" (click)="evento()" [button]="true" [detail]="false"> Crear Evento</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+  <ion-card *ngIf="instituto">
+    <ion-img src="{{instituto.img}}"></ion-img>
+    <ion-card-header>
+      <ion-card-title color="dark">{{instituto.nombre}}</ion-card-title>
+      <ion-card-subtitle>{{instituto.sub}}</ion-card-subtitle>
+      <ion-card-subtitle>Dirección: {{instituto.dir}}</ion-card-subtitle>
+      <ion-button href="tel:{{instituto.tel}}" shape="round" size="small" class="ion-margin-top">
+        Teléfono: {{instituto.tel}}
+      </ion-button>
+    </ion-card-header>
+
+  </ion-card>
+
+  <ion-card *ngIf="userInfo">
+    <ion-card-header>
+      <ion-card-subtitle>Usuario: {{userInfo.nombre}}</ion-card-subtitle>
+      <ion-card-subtitle>Cedula: {{userInfo.cedula}}</ion-card-subtitle>
+            <ion-card-subtitle>Correo: {{userInfo.email}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      Grupos:
+      <ion-chip color="primary" mode="ios" outline="true" size="small" *ngFor="let grupo of userInfo.grupos">
+        <ion-label color="primary">{{grupo}}</ion-label>
+      </ion-chip>
+
+    </ion-card-content>
+  </ion-card>
+
+
+
+
+
+
+
+  <ion-button (click)="logout()" expand="block" fill="solid" shape="round" class="ion-padding loginBtn" color="danger">
+    Cerrar Sesión
+  </ion-button>
+
+  <!-- <ion-button *ngIf="userInfo.admin" (click)="comunicado()" expand="block" fill="clear" shape="round" class="ion-padding">
+    Crear Comunicado
+  </ion-button>
+
+  <ion-button *ngIf="userInfo.admin" (click)="galeryload()" expand="block" fill="clear" shape="round" class="ion-padding">
+    Cargar Galería
+  </ion-button>
+
+    <ion-button *ngIf="userInfo.superadmin" (click)="galery()" expand="block" fill="clear" shape="round" class="ion-padding">
+    Crear Galería (SA)
+  </ion-button>
+
+    <ion-button *ngIf="userInfo.admin" (click)="evento()" expand="block" fill="clear" shape="round" class="ion-padding">
+    Crear Evento
+  </ion-button> -->
+
+</ion-content>

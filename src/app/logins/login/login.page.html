@@ -1,0 +1,62 @@
+<ion-header mode="md">
+  <ion-toolbar mode="md">
+    <ion-img class="ion-padding img" src="../../../assets/logotipo.png"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!forgetBox">
+    <form [formGroup]="credentials" (ngSubmit)="login()" class="ion-padding">
+
+<ion-item class="title">
+  <ion-label>
+    Ingresar a la Aplicación
+  </ion-label>
+  <ion-icon name="person-circle-outline" size="large" slot="end"></ion-icon>
+</ion-item>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+        <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">Email invalido</ion-note>
+      </ion-item>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+        <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Email invalido</ion-note>
+      </ion-item>
+
+
+      <ion-button type="submit" expand="block" shape="round" [disabled]="!credentials.valid" class="loginBtn">
+        Ingresar
+      </ion-button>
+
+
+    </form>
+
+    <hr class="hr">
+
+    <ion-button type="button" (click)="register()" expand="block" fill="clear" shape="round">
+      Registrar nueva cuenta
+    </ion-button>
+    <hr>
+    <ion-button type="button" (click)="passwordReset()" expand="block" fill="clear" shape="round" color="danger">
+      Olvidé mi Contraseña
+    </ion-button>
+  </div>
+
+
+
+
+  <div *ngIf="forgetBox" class="ion-padding forget">
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Email" [(ngModel)]="forgetEmail"></ion-input>
+    </ion-item>
+    <ion-button (click)="forgotPassword(forgetEmail)" expand="block" fill="clear" shape="round" color="danger" class="btn">
+      Resetear Contraseña
+    </ion-button>
+    <ion-button (click)="passwordReset()" expand="block" fill="clear" shape="round">
+      Volver a Login
+    </ion-button>
+  </div>
+</ion-content>

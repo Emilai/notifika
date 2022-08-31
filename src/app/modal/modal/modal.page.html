@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon class="icon ion-padding" slot="start" name="backspace-outline" (click)="salir()"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-img [src]="cardInfo.img"></ion-img>
+    <ion-card-header class="ion-padding">
+      <ion-card-subtitle>{{cardInfo.fecha}}</ion-card-subtitle>
+      <ion-card-title color="dark">{{cardInfo.titulo}}</ion-card-title>
+                <ion-chip *ngFor="let chip of cardInfo.grupos" color="primary" mode="ios" outline="true" size="small" class="ion-margin-top">
+        <ion-label>{{chip}}</ion-label>
+      </ion-chip>
+    </ion-card-header>
+
+<ion-card-content class="ion-padding">
+  {{cardInfo.contenido}}
+  <ion-card-subtitle *ngIf="cardInfo.link" class="ion-margin-top" (click)="link()">
+  Link: {{cardInfo.link}}
+</ion-card-subtitle>
+</ion-card-content>
+
+  </ion-card>
+  
+
+</ion-content>

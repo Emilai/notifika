@@ -1,17 +1,33 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
+  <app-upbar></app-upbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div *ngFor="let card of cards">
+  <ion-card *ngIf="
+  card.grupos.includes(userGroups[0]) ||
+  card.grupos.includes(userGroups[1]) || 
+  card.grupos.includes(userGroups[2]) || 
+  card.grupos.includes(userGroups[3]) || 
+  card.grupos.includes(userGroups[4]) || 
+  card.grupos.includes(userGroups[5]) || 
+  card.grupos.includes(userGroups[6]) || 
+  card.grupos.includes(userGroups[7]) || 
+  card.grupos.includes(userGroups[8]) || 
+  card.grupos.includes(userGroups[9]) || 
+  card.grupos.includes(userGroups[10])" 
+  class="ion-margin" (click)="mostrarModal(card)" mode="md">
+    <ion-img [src]="card.img" class="cardImg"></ion-img>
+    <ion-card-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+      <ion-card-subtitle color="medium">{{card.fecha}}</ion-card-subtitle>
+      <ion-card-title color="dark">{{card.titulo}}</ion-card-title>
+      <ion-chip *ngFor="let chip of card.grupos" color="primary" mode="ios" outline="true" size="small" class="ion-margin-top">
+        <ion-label>{{chip}}</ion-label>
+      </ion-chip>
+    </ion-card-header>
+  </ion-card>
+
+</div>
+
 </ion-content>

@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon class="icon ion-padding" slot="start" name="backspace-outline" (click)="salir()"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div *ngIf="cardImgs">
+
+<ion-img *ngFor="let img of imagenes" src="{{img.url_m}}" (click)="openImg(img.url_m)"></ion-img>
+</div>
+</ion-content>

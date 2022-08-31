@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">notifika</string>
+    <string name="title_activity_main">notifika</string>
+    <string name="package_name">uy.notifika.notifika</string>
+    <string name="custom_url_scheme">uy.notifika.notifika</string>
+</resources>

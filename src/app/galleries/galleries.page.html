@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <app-upbar></app-upbar>
+</ion-header>
+
+<ion-content>
+  <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+    <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+    Volver a la App
+  </ion-button>
+
+  <div class="ion-padding">
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Titulo" [(ngModel)]="comunicado.titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-item>
+        <span slot="title">Seleccione la fecha</span>
+        <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" presentation="date" [(ngModel)]="comunicado.fecha"
+          required></ion-datetime>
+      </ion-item>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Imagen de Portada" [(ngModel)]="comunicado.img" required></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="ID Galería FLICKR" [(ngModel)]="comunicado.link" required></ion-input>
+    </ion-item>
+
+    <ion-list *ngIf="instituto">
+
+      <ion-item>
+        <ion-select placeholder="Seleccione el/los grupos" [multiple]="true" (ionChange)="checkValue($event)">
+          <ion-select-option *ngFor="let grupo of instituto.grupos" value="{{grupo}}" required>{{grupo}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-list>
+
+
+
+    <ion-button (click)="cargarGaleria()" expand="block" fill="clear" shape="round"
+      [disabled]="!comunicado.titulo || !comunicado.fecha || !comunicado.img || !comunicado.grupos">
+      Cargar Evento
+    </ion-button>
+
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,22 @@
+{
+  "appId": "uy.notifika.notifika",
+  "appName": "Notifika",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+            "launchAutoHide": false,
+            "androidScaleType": "CENTER_CROP",
+            "splashFullScreen": true,
+            "splashImmersive": false,
+            "backgroundColor": "#f0eb63" 
+        },
+        "PushNotifications": {
+            "presentationOptions": [
+                "alert",
+                "badge",
+                "sound"
+            ]
+        }
+  }
+}

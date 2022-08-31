@@ -1,8 +1,8 @@
 {
   "name": "notifika",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Emi Laino",
+  "homepage": "https://notifika.uy/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -31,12 +31,11 @@
     "@capacitor/push-notifications": "^4.0.1",
     "@capacitor/splash-screen": "^4.0.1",
     "@capacitor/status-bar": "1.0.8",
-    "@ionic/angular": "^6.1.9",
-    "@ngtools/webpack": "^14.2.1",
+    "@ionic/angular": "^6.2.5",
+    "@ionic/angular-server": "^6.2.5",
     "date-fns": "^2.29.1",
     "firebase": "^9.9.1",
     "ngx-order-pipe": "^2.2.0",
-    "onesignal-cordova-plugin": "^3.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

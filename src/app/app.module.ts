@@ -20,7 +20,6 @@ import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { DatePipe, LowerCasePipe } from '@angular/common';
 import { OrderModule } from 'ngx-order-pipe';
-import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
 
 
 @NgModule({
@@ -39,7 +38,7 @@ import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
   provideAuth(() => getAuth()),
   provideFirestore(() => getFirestore()),
   provideStorage(() => getStorage())],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, DatePipe, LowerCasePipe, OneSignal],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, DatePipe, LowerCasePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -18,7 +18,7 @@ export class AppComponent {
         persistence: indexedDBLocalPersistence
       });
     }
-    this.pushService.configuracionInicial();
+    this.pushService.configuracionInicialPush();
 
   }
 }

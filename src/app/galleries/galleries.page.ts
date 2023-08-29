@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { PushService } from '../services/push.service';
 
 @Component({
   selector: 'app-galleries',
@@ -19,7 +20,7 @@ export class GalleriesPage implements OnInit {
     date: undefined,
     img: '',
     link: '',
-    grupos: '',
+    grupos: [],
   };
 
   userInfo: any;
@@ -29,7 +30,8 @@ export class GalleriesPage implements OnInit {
   constructor(private router: Router, private authService: AuthService,
     public cardService: CardService,
     private loadingController: LoadingController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private pushService: PushService) {
   }
 
   async ngOnInit() {
@@ -62,6 +64,8 @@ export class GalleriesPage implements OnInit {
     this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
     await this.cardService.createGalery(this.userInfo.code, this.comunicado);
     await console.log(this.comunicado);
+    // eslint-disable-next-line max-len
+    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay una nueva Gallería disponible!', this.userInfo.code + g));
     await loading.dismiss();
     // this.kuponInfo = this.kuponInfo2;
     this.showAlert('Galeria Ingresada', 'Exito');
@@ -89,4 +93,11 @@ export class GalleriesPage implements OnInit {
     this.comunicado.grupos = result;
   }
 
+  notification(titulo, texto, grupos) {
+    try {
+      this.pushService.sendNotification(titulo, texto, grupos);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }

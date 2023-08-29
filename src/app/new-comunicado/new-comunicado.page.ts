@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { PushService } from '../services/push.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class NewComunicadoPage implements OnInit {
     contenido: '',
     img: '',
     link: '',
-    grupos: '',
+    grupos: [],
   };
   fecha = new Date();
 
@@ -34,7 +35,8 @@ export class NewComunicadoPage implements OnInit {
     public cardService: CardService,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe,
+    private pushService: PushService) {
     this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
     }
 
@@ -65,8 +67,8 @@ export class NewComunicadoPage implements OnInit {
     await loading.present();
     this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
     await this.cardService.createCom(this.userInfo.code, this.comunicado);
+    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, this.comunicado.contenido, this.userInfo.code + g));
     await loading.dismiss();
-    // this.kuponInfo = this.kuponInfo2;
     this.showAlert('Comunicado Ingresado', 'Exito');
     this.router.navigateByUrl('/tabs/tab1', {
       replaceUrl: true
@@ -91,5 +93,13 @@ export class NewComunicadoPage implements OnInit {
     const result = event.detail.value;
     this.comunicado.grupos = result;
     console.log(this.comunicado.grupos);
+  }
+
+  notification(titulo, texto, grupos) {
+    try {
+      this.pushService.sendNotification(titulo, texto, grupos);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

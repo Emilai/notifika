@@ -3,20 +3,21 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div *ngFor="let card of cards">
+
+    <div *ngIf="cards">
+<ion-card *ngIf="cards.length === 0">
+  <ion-card-header>
+        <ion-card-title>No tienes Eventos disponibles</ion-card-title>
+    <ion-card-subtitle>Aqui verás los eventos de tu Institución</ion-card-subtitle>
+  </ion-card-header>
+</ion-card>
+</div>
+
+<ion-grid>
+  <ion-row>
+    <ion-col *ngFor="let card of cards" size="12" size-sm="12" size-md="6" size-lg="3">
     <ion-card 
-    *ngIf="
-  card.grupos.includes(userGroups[0]) ||
-  card.grupos.includes(userGroups[1]) || 
-  card.grupos.includes(userGroups[2]) || 
-  card.grupos.includes(userGroups[3]) || 
-  card.grupos.includes(userGroups[4]) || 
-  card.grupos.includes(userGroups[5]) || 
-  card.grupos.includes(userGroups[6]) || 
-  card.grupos.includes(userGroups[7]) || 
-  card.grupos.includes(userGroups[8]) || 
-  card.grupos.includes(userGroups[9]) || 
-  card.grupos.includes(userGroups[10])"  (click)="mostrarModal(card)" class="ion-padding-start ion-padding-end">
+      (click)="mostrarModal(card)" class="ion-padding-start ion-padding-end">
       <ion-card-header>
         <ion-card-subtitle class="sub">{{card.fecha}}</ion-card-subtitle>
         <ion-card-title color="dark">{{card.titulo}}</ion-card-title>
@@ -27,6 +28,9 @@
       </ion-card-header>
     </ion-card>
 
-  </div>
+  </ion-col>
+  </ion-row>
+</ion-grid>
+  
 
 </ion-content>

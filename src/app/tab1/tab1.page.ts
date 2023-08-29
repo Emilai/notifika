@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { PushService } from '../services/push.service';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  constructor() {
+
+  }
 
 }

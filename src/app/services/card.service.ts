@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -11,6 +12,7 @@ import { DatePipe } from '@angular/common';
 export class CardService {
   comunica: any;
   gallery: any;
+  events: any;
   instInfo: any;
   userInfo: any;
   cardInfo: any;
@@ -31,12 +33,12 @@ export class CardService {
     return this.http.get('../../assets/cards.json');
   }
 
-  async getComunic(code) {
+  async getComunic(code, grupos) {
     // console.log(this.code);
     try {
-      const comunicados = await this.firestore.collection(code).doc('datos').collection('comunicados').snapshotChanges();
+      const comunicados = await this.firestore.collection(code).doc('datos').collection('comunicados', ref => ref.where('grupos', 'array-contains-any', grupos));
       this.comunica = comunicados;
-      return comunicados;
+      return comunicados.snapshotChanges();
 
 
     } catch (error) {
@@ -53,12 +55,12 @@ export class CardService {
     }
   };
 
-  async getEvent(code) {
+  async getEvent(code, grupos) {
     // console.log(this.code);
     try {
-      const comunicados = await this.firestore.collection(code).doc('datos').collection('eventos').snapshotChanges();
-      this.comunica = comunicados;
-      return comunicados;
+      const events = await this.firestore.collection(code).doc('datos').collection('eventos', ref => ref.where('grupos', 'array-contains-any', grupos));
+      this.events = events;
+      return events.snapshotChanges();
 
 
     } catch (error) {
@@ -66,11 +68,11 @@ export class CardService {
     }
   }
 
-  async getGalleries(colection) {
+  async getGalleries(colection, grupos) {
     try {
-      const galerias = await this.firestore.collection(colection).doc('datos').collection('galerias').snapshotChanges();
+      const galerias = await this.firestore.collection(colection).doc('datos').collection('galerias', ref => ref.where('grupos', 'array-contains-any', grupos));
       this.gallery = galerias;
-      return galerias;
+      return galerias.snapshotChanges();
 
 
     } catch (error) {

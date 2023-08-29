@@ -16,7 +16,7 @@ export class RegisterPage implements OnInit {
   userInfo = {
     nombre: '',
     code: undefined,
-    cedula: undefined
+    cedula: ''
   };
   codes: any;
 
@@ -102,6 +102,7 @@ export class RegisterPage implements OnInit {
   back() {
     this.router.navigateByUrl('/tlogin', { replaceUrl: true });
   }
+
 
 
 }

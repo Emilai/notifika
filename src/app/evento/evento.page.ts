@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { PushService } from '../services/push.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class EventoPage implements OnInit {
     contenido: '',
     img: '',
     link: '',
-    grupos: '',
+    grupos: [],
   };
 
   userInfo: any;
@@ -31,7 +32,8 @@ export class EventoPage implements OnInit {
   constructor(private router: Router, private authService: AuthService,
     public cardService: CardService,
     private loadingController: LoadingController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private pushService: PushService) {
     }
 
   async ngOnInit() {
@@ -64,6 +66,7 @@ export class EventoPage implements OnInit {
     this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
     await this.cardService.createEvent(this.userInfo.code, this.comunicado);
     await console.log(this.comunicado);
+    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, this.comunicado.contenido, this.userInfo.code + g));
     await loading.dismiss();
     // this.kuponInfo = this.kuponInfo2;
     this.showAlert('Evento Ingresado', 'Exito');
@@ -89,6 +92,14 @@ export class EventoPage implements OnInit {
   checkValue(event) {
     const result = event.detail.value;
     this.comunicado.grupos = result;
+  }
+
+  notification(titulo, texto, grupos) {
+    try {
+      this.pushService.sendNotification(titulo, texto, grupos);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 }

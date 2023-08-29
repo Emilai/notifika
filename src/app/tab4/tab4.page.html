@@ -4,7 +4,8 @@
 
 <ion-content *ngIf="userInfo" class="ion-padding">
 
-   <ion-button *ngIf="userInfo.admin" id="popover-button" expand="block" fill="clear" shape="round" class="ion-padding-horizontal adminBtn">Administrar</ion-button>
+  <div class="maxDiv">
+ <ion-button *ngIf="userInfo.admin" id="popover-button" expand="block" fill="clear" shape="round" class="ion-padding-horizontal adminBtn">Administrar</ion-button>
 <ion-popover trigger="popover-button" side="top" alignment="center" [dismissOnSelect]="true">
   <ng-template>
     <ion-content>
@@ -19,7 +20,7 @@
 </ion-popover>
 
   <ion-card *ngIf="instituto">
-    <ion-img src="{{instituto.img}}"></ion-img>
+    <ion-img class="instImg" src="{{instituto.img}}"></ion-img>
     <ion-card-header>
       <ion-card-title color="dark">{{instituto.nombre}}</ion-card-title>
       <ion-card-subtitle>{{instituto.sub}}</ion-card-subtitle>
@@ -56,20 +57,11 @@
     Cerrar Sesión
   </ion-button>
 
-  <!-- <ion-button *ngIf="userInfo.admin" (click)="comunicado()" expand="block" fill="clear" shape="round" class="ion-padding">
-    Crear Comunicado
+    <ion-button (click)="deleteAccountOption()" expand="block" fill="solid" shape="round" class="ion-padding loginBtn" color="danger">
+    Eliminar mi Cuenta
   </ion-button>
+  </div>
 
-  <ion-button *ngIf="userInfo.admin" (click)="galeryload()" expand="block" fill="clear" shape="round" class="ion-padding">
-    Cargar Galería
-  </ion-button>
-
-    <ion-button *ngIf="userInfo.superadmin" (click)="galery()" expand="block" fill="clear" shape="round" class="ion-padding">
-    Crear Galería (SA)
-  </ion-button>
-
-    <ion-button *ngIf="userInfo.admin" (click)="evento()" expand="block" fill="clear" shape="round" class="ion-padding">
-    Crear Evento
-  </ion-button> -->
+  
 
 </ion-content>

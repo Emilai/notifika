@@ -32,6 +32,7 @@ export class AuthService {
       return null;
     }
   }
+
   logout() {
     return signOut(this.auth);
   }
@@ -53,6 +54,17 @@ export class AuthService {
     return collection.doc(id).set(data);
   }
 
+  async deleteUserData() {
+    try {
+      return await this.firestore.collection('Usuarios').doc(this.auth.currentUser.uid).delete();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  deleteAuthData() {
+    this.auth.currentUser.delete();
+  }
 
 
   async userData() {

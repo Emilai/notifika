@@ -31,7 +31,7 @@ export class Tab3Page implements OnInit{
       const userInfo = userData.data();
       this.userInfo = userInfo;
       this.userGroups = this.userInfo.grupos;
-      this.cardService.getEvent(this.userInfo.code).then(cards => {
+      this.cardService.getEvent(this.userInfo.code, this.userInfo.grupos).then(cards => {
         cards.subscribe(card => {
           this.cards = card.map(cardRef => {
             const data = cardRef.payload.doc.data();

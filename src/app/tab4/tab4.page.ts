@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
+import { PushService } from '../services/push.service';
 
 @Component({
   selector: 'app-tab4',
@@ -17,6 +19,8 @@ export class Tab4Page implements OnInit {
     public authService: AuthService,
     public cardService: CardService,
     private router: Router,
+    private alertController: AlertController,
+    private pushService: PushService
   ) { }
 
 
@@ -38,6 +42,19 @@ export class Tab4Page implements OnInit {
     this.router.navigateByUrl('/login', {
       replaceUrl: true
     });
+  }
+
+  deleteAccountOption() {
+    this.showAlert('Su cuenta será borrada', 'Desea hacerlo?');
+  }
+
+  async deleteAccount() {
+    await this.authService.deleteUserData();
+    await this.authService.logout();
+    this.router.navigateByUrl('/login', {
+      replaceUrl: true
+    });
+    this.showAlert2('Su cuenta ha sido eliminada');
   }
 
 
@@ -66,6 +83,36 @@ export class Tab4Page implements OnInit {
       replaceUrl: true
     }
     );
+  }
+
+  async showAlert(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.deleteAccount();
+            this.authService.deleteAuthData();
+          }
+        }]
+    });
+    await alert.present();
+  }
+
+  async showAlert2(header) {
+    const alert = await this.alertController.create({
+      header,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
 }

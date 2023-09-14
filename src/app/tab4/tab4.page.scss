@@ -16,3 +16,26 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.icons {
+  color: #393939;
+  width: 25px;
+  height: 25px;
+  margin-left: auto;
+}
+
+.divContact {
+  display: flex;
+    align-items: baseline;
+}
+.label {
+    font-size: 10px;
+}
+
+.chip {
+    padding: 3px;
+    border-radius: 10px;
+    height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

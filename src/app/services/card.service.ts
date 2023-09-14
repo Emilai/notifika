@@ -20,6 +20,9 @@ export class CardService {
   myDate = new Date();
   currentDate: any;
   imgs: any;
+  editGroups: any;
+  lecturas: any;
+  docExists = false;
 
   constructor(private http: HttpClient,
     private firestore: AngularFirestore,
@@ -93,8 +96,8 @@ export class CardService {
     }
   }
 
-  createCom(collection, data) {
-    this.firestore.collection(collection).doc('datos').collection('comunicados').doc().set(data);
+  createCom(collection, data, id) {
+    this.firestore.collection(collection).doc('datos').collection('comunicados').doc(id).set(data);
   }
 
   createEvent(collection, data) {
@@ -107,5 +110,56 @@ export class CardService {
 
   uploadGalery(collection, data) {
     this.firestore.collection(collection).doc('datos').collection('galleryToUpload').doc().set(data);
+  }
+
+  markAsRead(collection, id, user, data) {
+    this.firestore.collection(collection).doc('datos').collection('comunicados').doc(id).collection('lecturas').doc(user).set(data);
+  }
+
+  async getCompanyUsers(code) {
+    // console.log(this.code);
+    try {
+      const events = await this.firestore.collection('Usuarios', ref => ref.where('code', '==', code));
+      this.events = events;
+      return events.snapshotChanges();
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getReadCom(collection, id) {
+    // console.log(this.code);
+    try {
+      const lecturas = await this.firestore.collection(collection).doc('datos').collection('comunicados').doc(id).collection('lecturas');
+      this.lecturas = lecturas;
+      return lecturas.snapshotChanges();
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async checkReadCom(collection, id, userId) {
+    try {
+      this.firestore.collection(collection).doc('datos').collection('comunicados').doc(id).collection('lecturas').doc(userId).get().subscribe((doc) => {
+        if (doc.exists) {
+          this.docExists = true;
+          // console.log('Document data:', doc.data());
+          return doc.data();
+        } else {
+          // doc.data() will be undefined in this case
+          this.docExists = false;
+          // console.log('No such document!');
+          return doc.data();
+
+        }
+      });
+    } catch (error) {
+      console.log('error:' ,error);
+      this.docExists = false;
+    }
   }
 }

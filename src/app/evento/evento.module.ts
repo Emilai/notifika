@@ -8,6 +8,7 @@ import { EventoPageRoutingModule } from './evento-routing.module';
 
 import { EventoPage } from './evento.page';
 import { ComponentsModule } from '../components/components.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentsModule } from '../components/components.module';
     FormsModule,
     IonicModule,
     EventoPageRoutingModule,
-    ComponentsModule
+    CKEditorModule,
+    ComponentsModule,
   ],
   declarations: [EventoPage]
 })

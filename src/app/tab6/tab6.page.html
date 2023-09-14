@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <app-upbar></app-upbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-searchbar placeholder="Buscar por Nombre o Apellido" inputmode="text"
+            (ionChange)="onSearchChange($event)" [debounce]="250" animated mode="ios" #cardContent id="cardContent">
+          </ion-searchbar>
+          <h3>{{textoBuscar}}</h3>
+        </ion-col>
+        <ion-col size="4">
+          <ion-searchbar placeholder="Buscar por Documento" inputmode="text" (ionChange)="onSearchChange2($event)"
+            [debounce]="250" animated mode="ios" #cardContent2 id="cardContent2">
+          </ion-searchbar>
+          <h3>{{docBuscar}}</h3>
+        </ion-col>
+        <ion-col size="4">
+          <ion-searchbar placeholder="Buscar por Email" inputmode="text" (ionChange)="onSearchChange3($event)"
+            [debounce]="250" animated mode="ios" #cardContent3 id="cardContent3">
+          </ion-searchbar>
+          <h3>{{mailBuscar}}</h3>
+        </ion-col>
+
+         <ion-col size="12">
+        <ion-chip color="primary" *ngIf="cards" class="chip">
+          <ion-avatar>
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <ion-label>Total Usuarios: <span>{{cards.length}}</span></ion-label>
+        </ion-chip>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-card>
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2" class="title">NOMBRE</ion-col>
+        <ion-col size="2" class="title">DOCUMENTO</ion-col>
+        <ion-col size="2" class="title">EMAIL</ion-col>
+        <ion-col size="5" class="title">GRUPOS</ion-col>
+        <ion-col size="1" class="title">Editar Usuario</ion-col>
+      </ion-row>
+      <hr class="hr">
+    </ion-grid>
+
+    <ion-grid *ngFor="let user of cards | filtro:textoBuscar | filtrodoc:docBuscar | filtromail:mailBuscar">
+      <ion-row>
+        <ion-col size="2">{{user.nombre}}</ion-col>
+        <ion-col size="2">{{user.cedula}}</ion-col>
+        <ion-col size="2">{{user.email}}</ion-col>
+        <ion-col size="5">{{user.grupos}}</ion-col>
+        <ion-col size="1">
+          <ion-icon id="click-trigger" name="create-outline" color="primary" (click)="editGroups(user)"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <hr class="hr2">
+    </ion-grid>
+  </ion-card>
+
+
+</ion-content>

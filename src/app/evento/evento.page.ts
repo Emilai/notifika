@@ -6,6 +6,9 @@ import { CardService } from '../services/card.service';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PushService } from '../services/push.service';
+import { DatePipe } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 @Component({
@@ -14,6 +17,8 @@ import { PushService } from '../services/push.service';
   styleUrls: ['./evento.page.scss'],
 })
 export class EventoPage implements OnInit {
+
+  public editor = ClassicEditor;
 
   comunicado = {
     titulo: '',
@@ -29,10 +34,17 @@ export class EventoPage implements OnInit {
   instituto: any;
   grupos: any;
 
+  imgg: any;
+
+  date = new Date();
+  date2: any;
+
   constructor(private router: Router, private authService: AuthService,
     public cardService: CardService,
     private loadingController: LoadingController,
     private alertController: AlertController,
+    private datePipe: DatePipe,
+    private fireStorage: AngularFireStorage,
     private pushService: PushService) {
     }
 
@@ -49,11 +61,12 @@ export class EventoPage implements OnInit {
         });
       });
     });
+    this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     return;
   }
 
   back() {
-    this.router.navigateByUrl('/tabs', {
+    this.router.navigateByUrl('/tabs/tab5', {
       replaceUrl: true
     }
     );
@@ -63,10 +76,11 @@ export class EventoPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     this.comunicado.date = this.comunicado.fecha;
+    this.comunicado.img = this.imgg;
     this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
     await this.cardService.createEvent(this.userInfo.code, this.comunicado);
     await console.log(this.comunicado);
-    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, this.comunicado.contenido, this.userInfo.code + g));
+    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo evento para tí!', this.userInfo.code + g));
     await loading.dismiss();
     // this.kuponInfo = this.kuponInfo2;
     this.showAlert('Evento Ingresado', 'Exito');
@@ -102,4 +116,18 @@ export class EventoPage implements OnInit {
     }
   }
 
+  async onFileChange(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      const path = `${this.userInfo.code}/${this.date2}/${file.name}`;
+      const uploadTask = await this.fireStorage.upload(path, file);
+      const url = await uploadTask.ref.getDownloadURL();
+      console.log('URL: ', url);
+      this.imgg = url;
+      await loading.dismiss();
+    }
+  }
 }

@@ -2,22 +2,10 @@
   <app-upbar></app-upbar>
 </ion-header>
 
-<ion-content *ngIf="userInfo" class="ion-padding">
+<ion-content *ngIf="userInfo" class="ion-padding" [fullscreen]="true">
 
   <div class="maxDiv">
- <ion-button *ngIf="userInfo.admin" id="popover-button" expand="block" fill="clear" shape="round" class="ion-padding-horizontal adminBtn">Administrar</ion-button>
-<ion-popover trigger="popover-button" side="top" alignment="center" [dismissOnSelect]="true">
-  <ng-template>
-    <ion-content>
-      <ion-list>
-        <ion-item *ngIf="userInfo.admin" (click)="comunicado()" [button]="true" [detail]="false">Crear Comunicado</ion-item>
-        <ion-item *ngIf="userInfo.admin" (click)="galeryload()" [button]="true" [detail]="false">Crear Galería</ion-item>
-        <ion-item *ngIf="userInfo.superadmin" (click)="galery()" [button]="true" [detail]="false">Crear Galería (SA)</ion-item>
-        <ion-item *ngIf="userInfo.admin" (click)="evento()" [button]="true" [detail]="false"> Crear Evento</ion-item>
-      </ion-list>
-    </ion-content>
-  </ng-template>
-</ion-popover>
+
 
   <ion-card *ngIf="instituto">
     <ion-img class="instImg" src="{{instituto.img}}"></ion-img>
@@ -25,9 +13,18 @@
       <ion-card-title color="dark">{{instituto.nombre}}</ion-card-title>
       <ion-card-subtitle>{{instituto.sub}}</ion-card-subtitle>
       <ion-card-subtitle>Dirección: {{instituto.dir}}</ion-card-subtitle>
-      <ion-button href="tel:{{instituto.tel}}" shape="round" size="small" class="ion-margin-top">
+
+      <div class="divContact">
+         <ion-button href="tel:{{instituto.tel}}" fill="outline" shape="round" size="small" class="ion-margin-top">
         Teléfono: {{instituto.tel}}
       </ion-button>
+        <ion-icon *ngIf="instituto.whatsapp" name="logo-whatsapp" class="icons" (click)="whatsapp()" target="_blank">
+      </ion-icon>
+      <ion-icon *ngIf="instituto.instagram" name="logo-instagram" class="icons iconWpp" (click)="instagram()" target="_blank">
+      </ion-icon>
+      <ion-icon *ngIf="instituto.web" name="globe-outline" class="icons" (click)="web()" target="_blank">
+      </ion-icon>
+      </div>
     </ion-card-header>
 
   </ion-card>
@@ -40,8 +37,8 @@
     </ion-card-header>
     <ion-card-content>
       Grupos:
-      <ion-chip color="primary" mode="ios" outline="true" size="small" *ngFor="let grupo of userInfo.grupos">
-        <ion-label color="primary">{{grupo}}</ion-label>
+      <ion-chip color="primary" mode="ios" outline="true" size="small" *ngFor="let grupo of userInfo.grupos" class="chip">
+        <ion-label class="label" color="primary">{{grupo}}</ion-label>
       </ion-chip>
 
     </ion-card-content>
@@ -57,7 +54,7 @@
     Cerrar Sesión
   </ion-button>
 
-    <ion-button (click)="deleteAccountOption()" expand="block" fill="solid" shape="round" class="ion-padding loginBtn" color="danger">
+    <ion-button (click)="deleteAccountOption()" expand="block" fill="outline" shape="round" class="ion-padding loginBtn" color="danger">
     Eliminar mi Cuenta
   </ion-button>
   </div>

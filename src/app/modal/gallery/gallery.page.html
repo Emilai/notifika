@@ -5,8 +5,12 @@
 </ion-header>
 
 <ion-content>
-<div *ngIf="cardImgs">
+<div *ngIf="galleryInfo">
+  <ion-card *ngFor="let img of galleryInfo.link" >
+  <ion-card-header class="cardHD">
+    <ion-img src="{{img}}" (click)="openImg(img)"></ion-img>
+  </ion-card-header>
+</ion-card>
 
-<ion-img *ngFor="let img of imagenes" src="{{img.url_m}}" (click)="openImg(img.url_m)"></ion-img>
 </div>
 </ion-content>

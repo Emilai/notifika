@@ -5,24 +5,60 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card *ngIf="content">
     <ion-img [src]="cardInfo.img"></ion-img>
     <ion-card-header class="ion-padding">
+          <ion-chip class="tick" color="secondary" *ngIf="docIsRead">
+      <ion-label>Leído</ion-label>
+      <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
+    </ion-chip>
       <ion-card-subtitle>{{cardInfo.fecha}}</ion-card-subtitle>
-      <ion-card-title color="dark">{{cardInfo.titulo}}</ion-card-title>
-                <ion-chip *ngFor="let chip of cardInfo.grupos" color="primary" mode="ios" outline="true" size="small" class="ion-margin-top">
-        <ion-label>{{chip}}</ion-label>
+      <ion-card-title color="dark" class="title2">{{cardInfo.titulo}}</ion-card-title>
+      <ion-chip *ngFor="let chip of cardInfo.grupos" color="primary" mode="ios" outline="true" size="small"
+        class="ion-margin-top chip">
+        <ion-label class="label">{{chip}}</ion-label>
       </ion-chip>
     </ion-card-header>
 
-<ion-card-content class="ion-padding">
-  {{cardInfo.contenido}}
-  <ion-card-subtitle *ngIf="cardInfo.link" class="ion-margin-top" (click)="link()">
-  Link: {{cardInfo.link}}
-</ion-card-subtitle>
-</ion-card-content>
+    <ion-card-content class="ion-padding">
+
+      <div [innerHTML]="cardInfo.contenido"></div>
+
+      <ion-card-subtitle *ngIf="cardInfo.link" class="ion-margin-top" (click)="link()">
+        Link: {{cardInfo.link}}
+      </ion-card-subtitle>
+    </ion-card-content>
+    <ion-chip class="tick" color="secondary" (click)="controlLect()" *ngIf="userInfo && userInfo.admin">
+      <ion-label>Verificar Lecturas</ion-label>
+    </ion-chip>
 
   </ion-card>
-  
+
+  <ion-card *ngIf="controlLecturas">
+
+    <ion-chip color="secondary" (click)="toModal()">
+      <ion-label>Volver al Comunicado</ion-label>
+      <ion-icon name="arrow-back-circle-outline" color="secondary"></ion-icon>
+    </ion-chip>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4" class="title">NOMBRE</ion-col>
+        <ion-col size="4" class="title">DOCUMENTO</ion-col>
+        <ion-col size="4" class="title">Fecha</ion-col>
+      </ion-row>
+      <hr class="hr">
+
+      <div *ngIf="lecturas">
+        <ion-row *ngFor="let data of lecturas">
+          <ion-col size="4" >{{data.nombre}}</ion-col>
+          <ion-col size="4" >{{data.cedula}}</ion-col>
+          <ion-col size="4" >{{data.fecha}}</ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+
+  </ion-card>
+
 
 </ion-content>

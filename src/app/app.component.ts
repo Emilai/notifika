@@ -5,12 +5,17 @@ import { indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { PushService } from './services/push.service';
 
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  title = 'angular';
+  public editor = ClassicEditor;
+
   constructor( private pushService: PushService) {
     const app = initializeApp(environment.firebase);
     if (Capacitor.isNativePlatform) {
@@ -19,6 +24,5 @@ export class AppComponent {
       });
     }
     this.pushService.configuracionInicialPush();
-
   }
 }

@@ -61,7 +61,7 @@ export class Tab2Page implements OnInit {
       animated: true,
       mode: 'ios',
     });
-    this.cardService.cardInfo = card;
+    this.cardService.gallery = card;
     await modal.present();
   }
 

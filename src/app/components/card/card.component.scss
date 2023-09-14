@@ -3,3 +3,27 @@
   height: 200px;
   width: 100%;
 }
+
+.card {
+    min-height: 200px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.delete {
+float: right;
+margin-right: 20px;
+margin-bottom: 10px;
+}
+
+.label {
+    font-size: 10px;
+}
+
+.chip {
+    padding: 3px;
+    border-radius: 10px;
+    height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

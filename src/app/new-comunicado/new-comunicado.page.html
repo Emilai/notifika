@@ -3,36 +3,46 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+
+
+  <div class="ion-padding maxDiv">
+
+      <ion-button (click)="back()" expand="block" fill="clear" shape="round">
     <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
     Volver a la App
   </ion-button>
-
-  <div class="ion-padding">
 
     <ion-item class="ion-margin-bottom">
       <ion-input type="text" placeholder="Titulo" [(ngModel)]="comunicado.titulo" required></ion-input>
     </ion-item>
 
-    <ion-item class="ion-margin-bottom">
-      <ion-item>
+    <ion-item class="ion-margin-bottom ion-align-items-center">
+      <ion-item class="">
         <span slot="title">Seleccione la fecha</span>
         <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" presentation="date" [(ngModel)]="comunicado.fecha"
           required></ion-datetime>
       </ion-item>
     </ion-item>
 
+
+
+
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required></ion-input>
+      <!-- <ion-input type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required></ion-input> -->
+      <ckeditor [editor]="editor" [(ngModel)]="comunicado.contenido" class="textEditor"></ckeditor>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Link a imagen" [(ngModel)]="comunicado.img" required></ion-input>
+      <ion-label>
+    <p>Seleccionar Imagen</p>
+  </ion-label>
+      <ion-input  type="file" accept=".jpg,.png" placeholder="Cargar Imagen" (change)="onFileChange($event)" required></ion-input>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Link externo (opcional)" [(ngModel)]="comunicado.link" required></ion-input>
+      <ion-input type="text" placeholder="Link externo (opcional)" [(ngModel)]="comunicado.link" required></ion-input>    
     </ion-item>
+
 
     <ion-list *ngIf="instituto">
 
@@ -48,7 +58,7 @@
 
 
     <ion-button (click)="cargarComunicado()" expand="block" fill="clear" shape="round"
-      [disabled]="!comunicado.titulo || !comunicado.fecha || !comunicado.contenido || !comunicado.img || !comunicado.grupos">
+      [disabled]="!comunicado.titulo || !comunicado.fecha || !comunicado.contenido || !imgg || !comunicado.grupos[0]">
       Cargar Comunicado
     </ion-button>
 

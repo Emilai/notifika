@@ -2,13 +2,14 @@
   <app-upbar></app-upbar>
 </ion-header>
 
-<ion-content>
+    <ion-content>
+
+  <div class="ion-padding maxDiv">
+
   <ion-button (click)="back()" expand="block" fill="clear" shape="round">
     <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
     Volver a la App
   </ion-button>
-
-  <div class="ion-padding">
 
     <ion-item class="ion-margin-bottom">
       <ion-input type="text" placeholder="Titulo" [(ngModel)]="comunicado.titulo" required></ion-input>
@@ -23,12 +24,22 @@
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
-      <ion-input class="content" type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required></ion-input>
+      <!-- <ion-input class="content" type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required>
+      </ion-input> -->
+      <ckeditor [editor]="editor" [(ngModel)]="comunicado.contenido" class="textEditor"></ckeditor>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Link a imagen" [(ngModel)]="comunicado.img" required></ion-input>
+      <ion-label>
+        <p>Seleccionar Imagen</p>
+      </ion-label>
+      <ion-input type="file" accept=".jpg,.png" placeholder="Cargar Imagen" (change)="onFileChange($event)" required>
+      </ion-input>
     </ion-item>
+
+    <!-- <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Link a imagen" [(ngModel)]="comunicado.img" required></ion-input>
+    </ion-item> -->
 
     <ion-item class="ion-margin-bottom">
       <ion-input type="text" placeholder="Link externo (opcional)" [(ngModel)]="comunicado.link" required></ion-input>
@@ -48,7 +59,7 @@
 
 
     <ion-button (click)="cargarComunicado()" expand="block" fill="clear" shape="round"
-      [disabled]="!comunicado.titulo || !comunicado.fecha || !comunicado.contenido || !comunicado.img || !comunicado.grupos">
+      [disabled]="!comunicado.titulo || !comunicado.fecha || !comunicado.contenido || !imgg || !comunicado.grupos">
       Cargar Evento
     </ion-button>
 

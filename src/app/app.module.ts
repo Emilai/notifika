@@ -20,11 +20,13 @@ import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { DatePipe, LowerCasePipe } from '@angular/common';
 import { OrderModule } from 'ngx-order-pipe';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, OrderModule,
+    CKEditorModule,
     IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ServiceWorkerModule.register('ngsw-worker.js', {
   enabled: environment.production,
   // Register the ServiceWorker as soon as the application is stable

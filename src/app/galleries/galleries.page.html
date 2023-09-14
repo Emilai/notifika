@@ -3,12 +3,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+
+  <div class="ion-padding maxDiv">
+      <ion-button (click)="back()" expand="block" fill="clear" shape="round">
     <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
     Volver a la App
   </ion-button>
-
-  <div class="ion-padding">
 
     <ion-item class="ion-margin-bottom">
       <ion-input type="text" placeholder="Titulo" [(ngModel)]="comunicado.titulo" required></ion-input>
@@ -22,13 +22,27 @@
       </ion-item>
     </ion-item>
 
-    <ion-item class="ion-margin-bottom">
+    <!-- <ion-item class="ion-margin-bottom">
       <ion-input type="text" placeholder="Imagen de Portada" [(ngModel)]="comunicado.img" required></ion-input>
+    </ion-item> -->
+
+           <ion-item class="ion-margin-bottom">
+            <ion-label>
+    <p>Seleccionar Imagen Principal</p>
+  </ion-label>
+      <ion-input type="file" accept=".jpg,.png" placeholder="Cargar Imagen Principal" (change)="onFileChangePrincipal($event)" required></ion-input>
     </ion-item>
 
-    <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="ID Galería FLICKR" [(ngModel)]="comunicado.link" required></ion-input>
+        <ion-item class="ion-margin-bottom">
+          <ion-label>
+    <p>Seleccionar Galería de Imagenes</p>
+  </ion-label>
+      <ion-input type="file" accept=".jpg,.png" placeholder="Cargar Galeria" (change)="onFileChange($event)" multiple required></ion-input>
     </ion-item>
+
+    <!-- <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="ID Galería FLICKR" [(ngModel)]="comunicado.link" required></ion-input>
+    </ion-item> -->
 
     <ion-list *ngIf="instituto">
 
@@ -44,7 +58,7 @@
 
 
     <ion-button (click)="cargarGaleria()" expand="block" fill="clear" shape="round"
-      [disabled]="!comunicado.titulo || !comunicado.fecha || !comunicado.img || !comunicado.grupos">
+      [disabled]="!comunicado.titulo || !comunicado.fecha || !imgg || !imgPrincipal || !comunicado.grupos">
       Cargar Evento
     </ion-button>
 

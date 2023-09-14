@@ -8,6 +8,9 @@ import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PushService } from '../services/push.service';
 
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+
 
 @Component({
   selector: 'app-new-comunicado',
@@ -15,6 +18,8 @@ import { PushService } from '../services/push.service';
   styleUrls: ['./new-comunicado.page.scss'],
 })
 export class NewComunicadoPage implements OnInit {
+
+  public editor = ClassicEditor;
 
   comunicado = {
     titulo: '',
@@ -24,17 +29,25 @@ export class NewComunicadoPage implements OnInit {
     img: '',
     link: '',
     grupos: [],
+    id: ''
   };
   fecha = new Date();
 
   userInfo: any;
   instituto: any;
   grupos: any;
+  imgg: any;
 
-  constructor(private router: Router, private authService: AuthService,
+  date = new Date();
+  date2: any;
+  id: any;
+
+  constructor(private router: Router,
+    private authService: AuthService,
     public cardService: CardService,
     private loadingController: LoadingController,
     private alertController: AlertController,
+    private fireStorage: AngularFireStorage,
     private datePipe: DatePipe,
     private pushService: PushService) {
     this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
@@ -51,12 +64,16 @@ export class NewComunicadoPage implements OnInit {
           this.instituto = kupones.data();
         });
       });
+      this.userInfo = userInfo;
+      this.id = this.userInfo.code + '-' + this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     });
+    this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
+
     return;
   }
 
   back() {
-    this.router.navigateByUrl('/tabs', {
+    this.router.navigateByUrl('/tabs/tab5', {
       replaceUrl: true
     }
     );
@@ -65,9 +82,11 @@ export class NewComunicadoPage implements OnInit {
   async cargarComunicado(){
     const loading = await this.loadingController.create();
     await loading.present();
+    this.comunicado.img = this.imgg;
+    this.comunicado.id = this.id;
     this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
-    await this.cardService.createCom(this.userInfo.code, this.comunicado);
-    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, this.comunicado.contenido, this.userInfo.code + g));
+    await this.cardService.createCom(this.userInfo.code, this.comunicado, this.id);
+    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo Comunicado!', this.userInfo.code + g));
     await loading.dismiss();
     this.showAlert('Comunicado Ingresado', 'Exito');
     this.router.navigateByUrl('/tabs/tab1', {
@@ -100,6 +119,21 @@ export class NewComunicadoPage implements OnInit {
       this.pushService.sendNotification(titulo, texto, grupos);
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async onFileChange(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      const path = `${this.userInfo.code}/${this.date2}/${file.name}`;
+      const uploadTask = await this.fireStorage.upload(path, file);
+      const url = await uploadTask.ref.getDownloadURL();
+      console.log('URL: ',url);
+      this.imgg = url;
+      await loading.dismiss();
     }
   }
 }

@@ -9,19 +9,14 @@ import { CardService } from 'src/app/services/card.service';
 })
 export class GalleryPage implements OnInit {
 
-  cardInfo: any;
+  galleryInfo: any;
   cardImgs: any;
   imagenes: any;
 
   constructor(private modalCtrl: ModalController, private cardService: CardService) { }
 
   async ngOnInit() {
-    this.cardInfo = this.cardService.cardInfo;
-    await (await this.cardService.getGallery(this.cardInfo.link)).subscribe(imgs => {
-      this.cardImgs = imgs;
-      this.imagenes = this.cardImgs.photoset.photo;
-      console.log(this.imagenes);
-    });
+    this.galleryInfo = this.cardService.gallery;
 
   }
 

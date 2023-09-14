@@ -9,13 +9,13 @@
     <ion-img [src]="cardInfo.img"></ion-img>
     <ion-card-header class="ion-padding">
       <ion-card-subtitle>{{cardInfo.fecha}}</ion-card-subtitle>
-      <ion-card-title color="dark">{{cardInfo.titulo}}</ion-card-title>
-            <ion-chip *ngFor="let chip of cardInfo.grupos" color="primary" mode="ios" outline="true" size="small" class="ion-margin-top">
-        <ion-label>{{chip}}</ion-label>
+      <ion-card-title color="dark" class="title">{{cardInfo.titulo}}</ion-card-title>
+            <ion-chip *ngFor="let chip of cardInfo.grupos" color="primary" mode="ios" outline="true" size="small" class="ion-margin-top chip">
+        <ion-label class="label">{{chip}}</ion-label>
       </ion-chip>
     </ion-card-header>
     <ion-card-content>
-  {{cardInfo.contenido}}
+  <div [innerHTML]="cardInfo.contenido"></div>
   <ion-card-subtitle *ngIf="cardInfo.link" class="ion-margin-top" (click)="link()">
   Link: {{cardInfo.link}}
 </ion-card-subtitle>

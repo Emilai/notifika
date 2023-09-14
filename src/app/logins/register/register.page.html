@@ -5,15 +5,15 @@
 </ion-header>
 
 <ion-content class="ion-padding" *ngIf="codes">
-  <div class="form">
+  <div class="form maxDiv">
 
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Nombre" [(ngModel)]="userInfo.nombre" required></ion-input>
+      <ion-input type="text" placeholder="Nombre y Apellido" [(ngModel)]="userInfo.nombre" required></ion-input>
     </ion-item>
 
         <ion-item class="ion-margin-bottom">
-      <ion-input type="number" placeholder="Cédula de Identidad (opcional)" [(ngModel)]="userInfo.cedula"></ion-input>
-      <ion-note slot="error">Cédula sin guión (ej: para 1.234.567-8 poner 12345678)</ion-note>
+      <ion-input type="text" placeholder="Cédula de Identidad" [attr.maxlength]="8" [(ngModel)]="userInfo.cedula" required></ion-input>
+      <ion-note slot="error" *ngIf="email.errors">Cédula sin guión (ej: para 1.234.567-8 poner 12345678)</ion-note>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
@@ -23,7 +23,7 @@
   </div>
 
 
-  <form [formGroup]="credentials" (ngSubmit)="check()" *ngIf="userInfo.code && userInfo.nombre">
+  <form [formGroup]="credentials" (ngSubmit)="check()" *ngIf="userInfo.code && userInfo.nombre" class="maxDiv">
 
     <ion-item class="ion-margin-bottom">
       <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
@@ -45,7 +45,7 @@
 
   <hr class="hr">
 
-      <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+      <ion-button (click)="back()" expand="block" fill="clear" shape="round" class="maxDiv">
       Volver a Login
     </ion-button>
 

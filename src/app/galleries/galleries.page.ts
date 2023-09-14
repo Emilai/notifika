@@ -6,6 +6,8 @@ import { CardService } from '../services/card.service';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PushService } from '../services/push.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-galleries',
@@ -27,10 +29,18 @@ export class GalleriesPage implements OnInit {
   instituto: any;
   grupos: any;
 
+  imgg: any;
+  imgPrincipal: any;
+
+  date = new Date();
+  date2: any;
+
   constructor(private router: Router, private authService: AuthService,
     public cardService: CardService,
     private loadingController: LoadingController,
     private alertController: AlertController,
+    private fireStorage: AngularFireStorage,
+    private datePipe: DatePipe,
     private pushService: PushService) {
   }
 
@@ -47,11 +57,12 @@ export class GalleriesPage implements OnInit {
         });
       });
     });
+    this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     return;
   }
 
   back() {
-    this.router.navigateByUrl('/tabs', {
+    this.router.navigateByUrl('/tabs/tab5', {
       replaceUrl: true
     }
     );
@@ -61,6 +72,8 @@ export class GalleriesPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     this.comunicado.date = this.comunicado.fecha;
+    this.comunicado.img = this.imgPrincipal;
+    this.comunicado.link = this.imgg;
     this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
     await this.cardService.createGalery(this.userInfo.code, this.comunicado);
     await console.log(this.comunicado);
@@ -98,6 +111,48 @@ export class GalleriesPage implements OnInit {
       this.pushService.sendNotification(titulo, texto, grupos);
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async onFileChangePrincipal(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      const path = `${this.userInfo.code}/${this.date2}/principal-${file.name}`;
+      const uploadTask = await this.fireStorage.upload(path, file);
+      const url = await uploadTask.ref.getDownloadURL();
+      console.log('URL: ', url);
+      this.imgPrincipal = url;
+      await loading.dismiss();
+    }
+  }
+
+  async onFileChange(event: any) {
+    const files = event.target.files;
+
+    if (files) {
+      const imagesUrlArray = [];
+      const loading = await this.loadingController.create();
+      await loading.present();
+      console.log(files);
+
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      for (let i = 0; i < files.length; i++) {
+        // const id = uuidv4();
+        // const metadata = {
+        //   contentType: 'image/jpeg'
+        // };
+        const path = `${this.userInfo.code}/${this.date2}/${files[i].name}`;
+        const uploadTask = await this.fireStorage.upload(path, files[i]);
+        const url = await uploadTask.ref.getDownloadURL();
+        imagesUrlArray.push(url);
+      }
+
+      // console.log(imagesUrlArray);
+      this.imgg = imagesUrlArray;
+      await loading.dismiss();
     }
   }
 }

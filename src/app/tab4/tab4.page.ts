@@ -57,34 +57,6 @@ export class Tab4Page implements OnInit {
     this.showAlert2('Su cuenta ha sido eliminada');
   }
 
-
-  comunicado() {
-    this.router.navigateByUrl('/comunicado', {
-      replaceUrl: true}
-      );
-  }
-
-  galery() {
-    this.router.navigateByUrl('/galleries', {
-      replaceUrl: true
-    }
-    );
-  }
-
-  galeryload() {
-    this.router.navigateByUrl('/galleryload', {
-      replaceUrl: true
-    }
-    );
-  }
-
-  evento() {
-    this.router.navigateByUrl('/evento', {
-      replaceUrl: true
-    }
-    );
-  }
-
   async showAlert(header, message) {
     const alert = await this.alertController.create({
       header,
@@ -113,6 +85,18 @@ export class Tab4Page implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  whatsapp() {
+    window.location.href = 'https://wa.me/' + this.instituto.whatsapp;
+  }
+
+  instagram() {
+    window.location.href = this.instituto.instagram;
+  }
+
+  web() {
+    window.location.href = this.instituto.web;
   }
 
 }

@@ -1,6 +1,6 @@
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { iosTransitionAnimation, ModalController } from '@ionic/angular';
+import { AlertController, iosTransitionAnimation, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ModalPage } from 'src/app/modal/modal/modal.page';
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,6 +24,7 @@ export class CardComponent implements OnInit {
   constructor( public cardService: CardService, public modalCtrl: ModalController,
     public authService: AuthService,
     public orderBy: OrderModule,
+    private alertController: AlertController,
     private orderPipe: OrderPipe) {
      }
 
@@ -62,6 +63,5 @@ export class CardComponent implements OnInit {
     this.cardService.cardInfo = card;
     await modal.present();
   }
-
 
 }

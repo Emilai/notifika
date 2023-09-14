@@ -9,9 +9,13 @@ import { PushService } from '../services/push.service';
 })
 export class TabsPage implements OnInit {
   userInfo: any;
+
   token: any;
 
   constructor(private pushService: PushService, private authService: AuthService) {
+    this.userInfo = {
+      admin: false
+    };
   }
 
   async ngOnInit() {

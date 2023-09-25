@@ -11,19 +11,16 @@
           <ion-searchbar placeholder="Buscar por Nombre o Apellido" inputmode="text"
             (ionChange)="onSearchChange($event)" [debounce]="250" animated mode="ios" #cardContent id="cardContent">
           </ion-searchbar>
-          <h3>{{textoBuscar}}</h3>
         </ion-col>
         <ion-col size="4">
           <ion-searchbar placeholder="Buscar por Documento" inputmode="text" (ionChange)="onSearchChange2($event)"
             [debounce]="250" animated mode="ios" #cardContent2 id="cardContent2">
           </ion-searchbar>
-          <h3>{{docBuscar}}</h3>
         </ion-col>
         <ion-col size="4">
           <ion-searchbar placeholder="Buscar por Email" inputmode="text" (ionChange)="onSearchChange3($event)"
             [debounce]="250" animated mode="ios" #cardContent3 id="cardContent3">
           </ion-searchbar>
-          <h3>{{mailBuscar}}</h3>
         </ion-col>
 
          <ion-col size="12">

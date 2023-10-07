@@ -33,6 +33,15 @@ export class NewComunicadoPage implements OnInit {
     grupos: [],
     id: ''
   };
+
+  notificationCom ={
+    titulo:'',
+    contenido: '',
+    empresa: '',
+    grupos: [],
+    fecha: undefined
+  };
+
   fecha = new Date();
   fechaSelect = undefined;
 
@@ -100,7 +109,18 @@ export class NewComunicadoPage implements OnInit {
     }
 
     await this.cardService.createCom(this.userInfo.code, this.comunicado, this.id);
-    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo Comunicado!', this.userInfo.code + g));
+
+    if (this.programar === true) {
+      this.comunicado.grupos.forEach(g => this.notificationCom.grupos.push(this.userInfo.code + g));
+      this.notificationCom.titulo = this.comunicado.titulo;
+      this.notificationCom.contenido = this.comunicado.contenido;
+      this.notificationCom.fecha = this.comunicado.fechaCheck;
+      this.notificationCom.empresa = this.userInfo.code;
+      this.scheduleNotification('notificacionesPendientes', this.notificationCom);
+    } else {
+      this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo Comunicado!', this.userInfo.code + g));
+    }
+
     await loading.dismiss();
     this.showAlert('Comunicado Ingresado', 'Exito');
     this.router.navigateByUrl('/tabs/tab1', {
@@ -151,24 +171,28 @@ export class NewComunicadoPage implements OnInit {
     }
   }
 
-  async scheduleNotification() {
-    const options: ScheduleOptions = {
-      notifications: [{
-        id: 111122133,
-        title: 'Tituloaaa',
-        body: 'Textoaaa',
-        schedule: {
-          at: this.fechaSelect,
-          allowWhileIdle: true
-        }
-      }]
-    };
-    try {
-      await LocalNotifications.schedule(options);
-      alert(JSON.stringify(options));
-    } catch (e) {
-      alert(JSON.stringify(e));
-    }
+  async scheduleNotification(col, data) {
+    this.cardService.scheduleNotification(col, data);
   }
+
+  // async scheduleNotification() {
+  //   const options: ScheduleOptions = {
+  //     notifications: [{
+  //       id: 111122133,
+  //       title: 'Tituloaaa',
+  //       body: 'Textoaaa',
+  //       schedule: {
+  //         at: this.fechaSelect,
+  //         allowWhileIdle: true
+  //       }
+  //     }]
+  //   };
+  //   try {
+  //     await LocalNotifications.schedule(options);
+  //     alert(JSON.stringify(options));
+  //   } catch (e) {
+  //     alert(JSON.stringify(e));
+  //   }
+  // }
 
 }

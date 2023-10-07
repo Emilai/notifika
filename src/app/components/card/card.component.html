@@ -1,29 +1,29 @@
 <div *ngIf="cards">
-<ion-card *ngIf="cards.length === 0">
-  <ion-card-header>
-        <ion-card-title>No tienes Comunicados disponibles</ion-card-title>
-    <ion-card-subtitle>Aqui verás los comunicados de tu Institución</ion-card-subtitle>
-  </ion-card-header>
-</ion-card>
-</div>
-<ion-grid>
-  <ion-row>
-<ion-col *ngFor="let card of cards" size="12" size-sm="12" size-md="6" size-lg="3">
-  <ion-card
-  class="ion-margin card" mode="md" >
-    <ion-img [src]="card.img" class="cardImg" (click)="mostrarModal(card)"></ion-img>
-    <ion-card-header (click)="mostrarModal(card)">
-
-      <ion-card-subtitle color="medium">{{card.fecha}}</ion-card-subtitle>
-      <ion-card-title color="dark">{{card.titulo}}</ion-card-title>
-      <ion-chip *ngFor="let chip of card.grupos" color="primary" mode="ios" outline="true" size="small" class="ion-margin-top chip">
-        <ion-label class="label">{{chip}}</ion-label>
-      </ion-chip>
+  <ion-card *ngIf="cards.length === 0">
+    <ion-card-header>
+      <ion-card-title>No tienes Comunicados disponibles</ion-card-title>
+      <ion-card-subtitle>Aqui verás tus Comunicados</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
+</div>
 
-</ion-col>
+<ion-grid>
+  <ion-row>
+    <ion-col *ngFor="let card of cards" size="12" size-sm="12" size-md="6" size-lg="3">
+
+      <ion-card class="ion-margin card" mode="md">
+        <ion-img [src]="card.img" class="cardImg" (click)="mostrarModal(card)"></ion-img>
+        <ion-card-header (click)="mostrarModal(card)">
+
+          <ion-card-subtitle color="medium">{{card.fecha}}</ion-card-subtitle>
+          <ion-card-title color="dark">{{card.titulo}}</ion-card-title>
+          <ion-chip *ngFor="let chip of card.grupos" color="primary" mode="ios" outline="true" size="small"
+            class="ion-margin-top chip">
+            <ion-label class="label">{{chip}}</ion-label>
+          </ion-chip>
+        </ion-card-header>
+      </ion-card>
+
+    </ion-col>
   </ion-row>
 </ion-grid>
-
-

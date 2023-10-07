@@ -10,6 +10,7 @@ import { PushService } from '../services/push.service';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class NewComunicadoPage implements OnInit {
   comunicado = {
     titulo: '',
     fecha: undefined,
+    fechaCheck: undefined,
     date: undefined,
     contenido: '',
     img: '',
@@ -32,15 +34,18 @@ export class NewComunicadoPage implements OnInit {
     id: ''
   };
   fecha = new Date();
+  fechaSelect = undefined;
 
   userInfo: any;
   instituto: any;
   grupos: any;
   imgg: any;
+  programar = false;
 
   date = new Date();
   date2: any;
   id: any;
+  disableDate = undefined;
 
   constructor(private router: Router,
     private authService: AuthService,
@@ -50,11 +55,9 @@ export class NewComunicadoPage implements OnInit {
     private fireStorage: AngularFireStorage,
     private datePipe: DatePipe,
     private pushService: PushService) {
-    this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
     }
 
   async ngOnInit() {
-
 
     (await this.authService.userData()).subscribe(userData => {
       const userInfo = userData.data();
@@ -68,6 +71,7 @@ export class NewComunicadoPage implements OnInit {
       this.id = this.userInfo.code + '-' + this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     });
     this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
+    this.disableDate = this.datePipe.transform(this.fecha, 'yyyy-MM-ddTHH:mm:ss');
 
     return;
   }
@@ -84,7 +88,17 @@ export class NewComunicadoPage implements OnInit {
     await loading.present();
     this.comunicado.img = this.imgg;
     this.comunicado.id = this.id;
-    this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
+    // this.comunicado.fechaDisplay = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
+    if (this.programar === true){
+      this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.fechaCheck = parseISO(this.fechaSelect);
+      this.comunicado.fecha = format(new Date(this.fechaSelect), 'dd - MMMM - yyyy', { locale: es });
+    } else {
+      this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.fechaCheck = this.fecha;
+      this.comunicado.fecha = format(new Date(this.fecha), 'dd - MMMM - yyyy', { locale: es });
+    }
+
     await this.cardService.createCom(this.userInfo.code, this.comunicado, this.id);
     this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo Comunicado!', this.userInfo.code + g));
     await loading.dismiss();
@@ -136,4 +150,25 @@ export class NewComunicadoPage implements OnInit {
       await loading.dismiss();
     }
   }
+
+  async scheduleNotification() {
+    const options: ScheduleOptions = {
+      notifications: [{
+        id: 111122133,
+        title: 'Tituloaaa',
+        body: 'Textoaaa',
+        schedule: {
+          at: this.fechaSelect,
+          allowWhileIdle: true
+        }
+      }]
+    };
+    try {
+      await LocalNotifications.schedule(options);
+      alert(JSON.stringify(options));
+    } catch (e) {
+      alert(JSON.stringify(e));
+    }
+  }
+
 }

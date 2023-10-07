@@ -23,6 +23,7 @@ export class EventoPage implements OnInit {
   comunicado = {
     titulo: '',
     fecha: undefined,
+    fechaCheck: undefined,
     date: undefined,
     contenido: '',
     img: '',
@@ -33,9 +34,13 @@ export class EventoPage implements OnInit {
   userInfo: any;
   instituto: any;
   grupos: any;
+  fechaSelect: undefined;
+  fecha = new Date();
+
+  programar = false;
 
   imgg: any;
-
+  disableDate = undefined;
   date = new Date();
   date2: any;
 
@@ -62,6 +67,7 @@ export class EventoPage implements OnInit {
       });
     });
     this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
+    this.disableDate = this.datePipe.transform(this.fecha, 'yyyy-MM-ddTHH:mm:ss');
     return;
   }
 
@@ -75,9 +81,18 @@ export class EventoPage implements OnInit {
   async cargarComunicado() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.comunicado.date = this.comunicado.fecha;
     this.comunicado.img = this.imgg;
-    this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
+
+    if (this.programar === true) {
+      this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.fechaCheck = parseISO(this.fechaSelect);
+      this.comunicado.fecha = format(new Date(this.fechaSelect), 'dd - MMMM - yyyy', { locale: es });
+    } else {
+      this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.fechaCheck = this.fecha;
+      this.comunicado.fecha = format(new Date(this.fecha), 'dd - MMMM - yyyy', { locale: es });
+    }
+
     await this.cardService.createEvent(this.userInfo.code, this.comunicado);
     await console.log(this.comunicado);
     this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo evento para tí!', this.userInfo.code + g));

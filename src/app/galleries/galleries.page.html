@@ -14,11 +14,15 @@
       <ion-input type="text" placeholder="Titulo" [(ngModel)]="comunicado.titulo" required></ion-input>
     </ion-item>
 
-    <ion-item class="ion-margin-bottom">
+    <ion-item>
+      <ion-checkbox slot="start" [(ngModel)]="programar"></ion-checkbox>
+      <ion-label>Desea programar la publicación de esta Galería?</ion-label>
+    </ion-item>
+    <ion-item class="ion-margin-bottom" *ngIf="programar">
       <ion-item>
         <span slot="title">Seleccione la fecha</span>
-        <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" presentation="date" [(ngModel)]="comunicado.fecha"
-          required></ion-datetime>
+        <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect" min="{{disableDate}}"
+          required><span slot="time-label">Hora</span></ion-datetime>
       </ion-item>
     </ion-item>
 
@@ -58,8 +62,8 @@
 
 
     <ion-button (click)="cargarGaleria()" expand="block" fill="clear" shape="round"
-      [disabled]="!comunicado.titulo || !comunicado.fecha || !imgg || !imgPrincipal || !comunicado.grupos">
-      Cargar Evento
+      [disabled]="!comunicado.titulo || !fecha || !imgg || !imgPrincipal || !comunicado.grupos">
+      Cargar Galería
     </ion-button>
 
 

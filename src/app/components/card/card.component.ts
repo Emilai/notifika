@@ -1,4 +1,4 @@
-import { getLocaleFirstDayOfWeek } from '@angular/common';
+import { DatePipe, getLocaleFirstDayOfWeek } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, iosTransitionAnimation, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
@@ -25,7 +25,8 @@ export class CardComponent implements OnInit {
     public authService: AuthService,
     public orderBy: OrderModule,
     private alertController: AlertController,
-    private orderPipe: OrderPipe) {
+    private orderPipe: OrderPipe,
+    public datePipe: DatePipe) {
      }
 
   async ngOnInit() {
@@ -46,7 +47,6 @@ export class CardComponent implements OnInit {
       });
       return userInfo;
     });
-
 
     }
 

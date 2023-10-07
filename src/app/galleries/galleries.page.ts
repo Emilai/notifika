@@ -20,6 +20,7 @@ export class GalleriesPage implements OnInit {
     titulo: '',
     fecha: undefined,
     date: undefined,
+    fechaCheck: undefined,
     img: '',
     link: '',
     grupos: [],
@@ -31,6 +32,11 @@ export class GalleriesPage implements OnInit {
 
   imgg: any;
   imgPrincipal: any;
+  fecha = new Date();
+
+  programar = false;
+  fechaSelect = undefined;
+  disableDate = undefined;
 
   date = new Date();
   date2: any;
@@ -58,6 +64,7 @@ export class GalleriesPage implements OnInit {
       });
     });
     this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
+    this.disableDate = this.datePipe.transform(this.fecha, 'yyyy-MM-ddTHH:mm:ss');
     return;
   }
 
@@ -71,10 +78,19 @@ export class GalleriesPage implements OnInit {
   async cargarGaleria() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.comunicado.date = this.comunicado.fecha;
     this.comunicado.img = this.imgPrincipal;
     this.comunicado.link = this.imgg;
-    this.comunicado.fecha = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
+
+    if (this.programar === true) {
+      this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.fechaCheck = parseISO(this.fechaSelect);
+      this.comunicado.fecha = format(new Date(this.fechaSelect), 'dd - MMMM - yyyy', { locale: es });
+    } else {
+      this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.fechaCheck = this.fecha;
+      this.comunicado.fecha = format(new Date(this.fecha), 'dd - MMMM - yyyy', { locale: es });
+    }
+
     await this.cardService.createGalery(this.userInfo.code, this.comunicado);
     await console.log(this.comunicado);
     // eslint-disable-next-line max-len

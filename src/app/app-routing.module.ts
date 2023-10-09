@@ -72,13 +72,19 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
-    path: '**',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    path: 'edit-groups',
+    loadChildren: () => import('./modal/edit-groups/edit-groups.module').then(m => m.EditGroupsPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
-    path: 'edit-groups',
-    loadChildren: () => import('./modal/edit-groups/edit-groups.module').then( m => m.EditGroupsPageModule)
+    path: 'programmed',
+    loadChildren: () => import('./programmed/programmed.module').then(m => m.ProgrammedPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   }
 
 ];

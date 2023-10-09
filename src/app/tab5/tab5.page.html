@@ -6,8 +6,10 @@
 
   <div class="maxDiv">
 
-
-  <ion-button (click)="comunicado()" class="btn" expand="block">
+<ion-card>
+<ion-card-header>
+  <ion-card-title class="title">Nuevos Comunicados</ion-card-title>
+    <ion-button (click)="comunicado()" class="btn" expand="block">
   <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
   Crear Comunicado
 </ion-button>
@@ -21,6 +23,31 @@
   <ion-icon slot="start" name="calendar-outline"></ion-icon>
   Crear Evento
 </ion-button>
+</ion-card-header>
+</ion-card>
+
+
+
+<ion-card>
+<ion-card-header>
+  <ion-card-title class="title">Comunicados Programados</ion-card-title>
+    <ion-button (click)="comunicadoProg()" class="btn" expand="block" color="secondary">
+  <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
+  Comunicados Programados
+</ion-button>
+
+  <ion-button (click)="galeryProg()" class="btn" expand="block" color="secondary">
+  <ion-icon slot="start" name="images-outline"></ion-icon>
+  Galerías Programadas
+</ion-button>
+
+  <ion-button (click)="eventoProg()" class="btn" expand="block" color="secondary">
+  <ion-icon slot="start" name="calendar-outline"></ion-icon>
+  Eventos Programados
+</ion-button>
+</ion-card-header>
+</ion-card>
+
 
 
   </div>

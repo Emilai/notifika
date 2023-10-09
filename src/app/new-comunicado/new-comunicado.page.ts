@@ -31,15 +31,20 @@ export class NewComunicadoPage implements OnInit {
     img: '',
     link: '',
     grupos: [],
-    id: ''
+    id: '',
+    notId: ''
   };
 
   notificationCom ={
     titulo:'',
     contenido: '',
+    body:'Hay un nuevo Comunicado!',
     empresa: '',
     grupos: [],
-    fecha: undefined
+    fecha: undefined,
+    sent: false,
+    cancel: false,
+    notId: ''
   };
 
   fecha = new Date();
@@ -98,28 +103,35 @@ export class NewComunicadoPage implements OnInit {
     this.comunicado.img = this.imgg;
     this.comunicado.id = this.id;
     // this.comunicado.fechaDisplay = format(parseISO(this.comunicado.fecha), 'dd - MMMM - yyyy', { locale: es });
+
     if (this.programar === true){
       this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = parseISO(this.fechaSelect);
       this.comunicado.fecha = format(new Date(this.fechaSelect), 'dd - MMMM - yyyy', { locale: es });
+      const numId = Math.random() * 1000;
+      this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
+      this.notificationCom.notId = this.comunicado.notId;
+
     } else {
       this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = this.fecha;
       this.comunicado.fecha = format(new Date(this.fecha), 'dd - MMMM - yyyy', { locale: es });
+      const numId = Math.random() * 1000;
+      this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
+      this.notificationCom.notId = this.comunicado.notId;
     }
 
-    await this.cardService.createCom(this.userInfo.code, this.comunicado, this.id);
+    this.cardService.createCom(this.userInfo.code, this.comunicado, this.id);
 
-    if (this.programar === true) {
-      this.comunicado.grupos.forEach(g => this.notificationCom.grupos.push(this.userInfo.code + g));
-      this.notificationCom.titulo = this.comunicado.titulo;
-      this.notificationCom.contenido = this.comunicado.contenido;
-      this.notificationCom.fecha = this.comunicado.fechaCheck;
-      this.notificationCom.empresa = this.userInfo.code;
-      this.scheduleNotification('notificacionesPendientes', this.notificationCom);
-    } else {
-      this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay un nuevo Comunicado!', this.userInfo.code + g));
-    }
+    this.notificationCom.titulo = this.comunicado.titulo;
+    this.notificationCom.contenido = this.comunicado.contenido;
+    this.notificationCom.fecha = this.comunicado.fechaCheck;
+    this.notificationCom.empresa = this.userInfo.code;
+
+    this.comunicado.grupos.forEach(async g => {
+      this.notificationCom.grupos = this.userInfo.code + g;
+      await this.scheduleNotification('notificacionesPendientes', this.notificationCom);
+    });
 
     await loading.dismiss();
     this.showAlert('Comunicado Ingresado', 'Exito');
@@ -148,13 +160,13 @@ export class NewComunicadoPage implements OnInit {
     console.log(this.comunicado.grupos);
   }
 
-  notification(titulo, texto, grupos) {
-    try {
-      this.pushService.sendNotification(titulo, texto, grupos);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // notification(titulo, texto, grupos) {
+  //   try {
+  //     this.pushService.sendNotification(titulo, texto, grupos);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   async onFileChange(event: any) {
     const file = event.target.files[0];

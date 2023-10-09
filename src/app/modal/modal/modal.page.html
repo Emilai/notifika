@@ -27,21 +27,40 @@
       <ion-card-subtitle *ngIf="cardInfo.link" class="ion-margin-top" (click)="link()">
         Link: {{cardInfo.link}}
       </ion-card-subtitle>
-    </ion-card-content>
-    <ion-chip class="tick" color="secondary" (click)="controlLect()" *ngIf="userInfo && userInfo.admin">
+          <ion-chip class="tick" color="secondary" (click)="controlLect()" *ngIf="userInfo && userInfo.admin">
       <ion-label>Verificar Lecturas</ion-label>
     </ion-chip>
+    </ion-card-content>
+
 
   </ion-card>
 
   <ion-card *ngIf="controlLecturas">
 
-    <ion-chip color="secondary" (click)="toModal()">
+    <ion-chip color="secondary" (click)="toModal()" class="chip1">
       <ion-label>Volver al Comunicado</ion-label>
       <ion-icon name="arrow-back-circle-outline" color="secondary"></ion-icon>
     </ion-chip>
 
-    <ion-grid>
+        <ion-chip (click)="exportarLecturas()" class="excelBtn" color="success">
+      <ion-icon name="add"></ion-icon>
+      <ion-label>Descargar en Excel</ion-label>
+    </ion-chip>
+
+    <table *ngIf="lecturas" id="excel-table">
+      <tr>
+        <th size="4" class="title">NOMBRE</th>
+        <th size="4" class="title">DOCUMENTO</th>
+        <th size="4" class="title">FECHA</th>
+      </tr>
+      <tr *ngFor="let data of lecturas">
+        <td size="4" class="data">{{data.nombre}}</td>
+        <td size="4" class="data">{{data.cedula}}</td>
+        <td size="4" class="data">{{data.fecha}}</td>
+      </tr>
+    </table>
+
+    <!-- <ion-grid>
       <ion-row>
         <ion-col size="4" class="title">NOMBRE</ion-col>
         <ion-col size="4" class="title">DOCUMENTO</ion-col>
@@ -56,9 +75,8 @@
           <ion-col size="4" >{{data.fecha}}</ion-col>
         </ion-row>
       </div>
-    </ion-grid>
+    </ion-grid> -->
 
   </ion-card>
-
 
 </ion-content>

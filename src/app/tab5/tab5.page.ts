@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProgrammedPage } from '../programmed/programmed.page';
+import { AlertController, ModalController } from '@ionic/angular';
+import { CardService } from '../services/card.service';
+import { AuthService } from '../services/auth.service';
+import { OrderModule, OrderPipe } from 'ngx-order-pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-tab5',
@@ -8,11 +14,30 @@ import { Router } from '@angular/router';
 })
 export class Tab5Page implements OnInit {
 
+
+  cards: any;
+  user: any;
+  userInfo: any;
+  userGroups: any;
+
   constructor(
-    private router: Router
+    private router: Router,
+    public cardService: CardService,
+    public modalCtrl: ModalController,
+    public authService: AuthService,
+    public orderBy: OrderModule,
+    private orderPipe: OrderPipe,
+    public datePipe: DatePipe
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.user = this.authService.auth.currentUser;
+    await(await this.authService.userData()).subscribe(userData => {
+      const userInfo = userData.data();
+      this.userInfo = userInfo;
+      this.userGroups = this.userInfo.grupos;
+      return userInfo;
+    });
   }
 
   comunicado() {
@@ -36,4 +61,52 @@ export class Tab5Page implements OnInit {
     );
   }
 
+  comunicadoProg() {
+    this.router.navigateByUrl('/programmed', {
+      replaceUrl: true
+    }
+    );
+  }
+
+  galeryProg() {
+    this.cardService.getProgrammedGalleries(this.userInfo.code, this.userInfo.grupos).then(cards => {
+      cards.subscribe(card => {
+        this.cards = card.map(cardRef => {
+          const data = cardRef.payload.doc.data();
+          return data;
+        });
+        this.cards = this.orderPipe.transform(this.cards, 'date', true);
+        this.cardService.programmed = this.cards;
+
+      });
+    });
+    this.mostrarModal();
+  }
+
+  eventoProg() {
+    this.cardService.getProgrammedEvent(this.userInfo.code, this.userInfo.grupos).then(cards => {
+      cards.subscribe(card => {
+        this.cards = card.map(cardRef => {
+          const data = cardRef.payload.doc.data();
+          return data;
+        });
+        this.cards = this.orderPipe.transform(this.cards, 'date', true);
+        this.cardService.programmed = this.cards;
+
+      });
+    });
+    this.mostrarModal();
+  }
+
+  async mostrarModal() {
+
+    const modal = await this.modalCtrl.create({
+      component: ProgrammedPage,
+      showBackdrop: true,
+      canDismiss: true,
+      animated: true,
+      mode: 'ios',
+    });
+    await modal.present();
+  }
 }

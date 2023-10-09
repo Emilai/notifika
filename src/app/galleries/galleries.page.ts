@@ -19,11 +19,26 @@ export class GalleriesPage implements OnInit {
   comunicado = {
     titulo: '',
     fecha: undefined,
-    date: undefined,
     fechaCheck: undefined,
+    date: undefined,
+    contenido: '',
     img: '',
     link: '',
     grupos: [],
+    id: '',
+    notId: ''
+  };
+
+  notificationCom = {
+    titulo: '',
+    contenido: '',
+    body: 'Hay una nueva Galería!',
+    empresa: '',
+    grupos: [],
+    fecha: undefined,
+    sent: false,
+    cancel: false,
+    notId: ''
   };
 
   userInfo: any;
@@ -85,16 +100,31 @@ export class GalleriesPage implements OnInit {
       this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = parseISO(this.fechaSelect);
       this.comunicado.fecha = format(new Date(this.fechaSelect), 'dd - MMMM - yyyy', { locale: es });
+      const numId = Math.random() * 1000;
+      this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
+      this.notificationCom.notId = this.comunicado.notId;
     } else {
       this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = this.fecha;
       this.comunicado.fecha = format(new Date(this.fecha), 'dd - MMMM - yyyy', { locale: es });
+      const numId = Math.random() * 1000;
+      this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
+      this.notificationCom.notId = this.comunicado.notId;
     }
 
     await this.cardService.createGalery(this.userInfo.code, this.comunicado);
-    await console.log(this.comunicado);
+
+
     // eslint-disable-next-line max-len
-    this.comunicado.grupos.forEach(g => this.notification(this.comunicado.titulo, 'Hay una nueva Gallería disponible!', this.userInfo.code + g));
+    this.notificationCom.titulo = this.comunicado.titulo;
+    this.notificationCom.contenido = this.comunicado.contenido;
+    this.notificationCom.fecha = this.comunicado.fechaCheck;
+    this.notificationCom.empresa = this.userInfo.code;
+
+    this.comunicado.grupos.forEach(async g => {
+      this.notificationCom.grupos = this.userInfo.code + g;
+      await this.scheduleNotification('notificacionesPendientes', this.notificationCom);
+    });
     await loading.dismiss();
     // this.kuponInfo = this.kuponInfo2;
     this.showAlert('Galeria Ingresada', 'Exito');
@@ -122,13 +152,13 @@ export class GalleriesPage implements OnInit {
     this.comunicado.grupos = result;
   }
 
-  notification(titulo, texto, grupos) {
-    try {
-      this.pushService.sendNotification(titulo, texto, grupos);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // notification(titulo, texto, grupos) {
+  //   try {
+  //     this.pushService.sendNotification(titulo, texto, grupos);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   async onFileChangePrincipal(event: any) {
     const file = event.target.files[0];
@@ -170,5 +200,9 @@ export class GalleriesPage implements OnInit {
       this.imgg = imagesUrlArray;
       await loading.dismiss();
     }
+  }
+
+  async scheduleNotification(col, data) {
+    this.cardService.scheduleNotification(col, data);
   }
 }

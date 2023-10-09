@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/type-annotation-spacing */
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -5,6 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { OrderPipe } from 'ngx-order-pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { CardService } from 'src/app/services/card.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-modal',
@@ -112,6 +114,18 @@ controlLect() {
 
   async checkRead() {
     await this.cardService.checkReadCom(this.userInfo.code, this.cardInfo.id, this.userInfo.id);
+  }
+
+  exportarLecturas() {
+    const element = document.getElementById('excel-table');
+    const name = this.cardInfo.id + '.xlsx';
+    const ws:XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    console.log(this.lecturas);
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, name);
   }
 }
 

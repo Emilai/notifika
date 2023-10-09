@@ -4,10 +4,17 @@
 
 .tick {
     float: right;
+    margin-right: 10px;
 }
 
 .title {
     font-weight: bold;
+    margin: 25px 50px 25px 50px;
+}
+
+.data {
+    margin: auto;
+    margin-bottom: 5px;
 }
 
 .title2 {
@@ -24,4 +31,26 @@
     height: 20px;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 50px;
 }
+
+.chip1 {
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+table {
+display: block;
+}
+
+tr {
+    display: flex;
+    justify-content: center;
+}
+
+.excelBtn {
+    float: right;
+    margin-right: 50px;
+        margin-top: 30px;
+}
+

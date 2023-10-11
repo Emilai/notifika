@@ -97,6 +97,11 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'groupedit',
+    loadChildren: () => import('./groupedit/groupedit.module').then(m => m.GroupeditPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
     path: '**',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
     ...canActivate(redirectUnauthorizedToLogin)

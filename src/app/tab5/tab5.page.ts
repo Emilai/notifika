@@ -82,6 +82,13 @@ export class Tab5Page implements OnInit {
     );
   }
 
+  grupos() {
+    this.router.navigateByUrl('/groupedit', {
+      replaceUrl: true
+    }
+    );
+  }
+
   async mostrarModal() {
 
     const modal = await this.modalCtrl.create({

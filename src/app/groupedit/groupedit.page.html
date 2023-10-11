@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <app-upbar></app-upbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+    <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+    Volver a la App
+  </ion-button>
+
+  <div *ngIf="instituto" class="maxDiv">
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Grupos de {{instituto.nombre}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+        <ion-list [inset]="true">
+      <ion-item *ngFor="let grupo of instituto.grupos, index as i">
+        <ion-label>{{grupo}}</ion-label>
+        <ion-icon id="click-trigger" name="trash" color="danger" class="icon2" (click)="del(i)"></ion-icon>
+      </ion-item>
+
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Crear Nuevo Grupo</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Nombre del Grupo" [(ngModel)]="nuevoGrupo" required></ion-input>
+      <ion-icon id="click-trigger" name="add" color="success" class="icon2" (click)="add()"></ion-icon>
+    </ion-item>
+  </ion-card-content>
+</ion-card>
+
+<ion-button expand="block" shape="round" (click)="update()">
+  Guardar Cambios
+</ion-button>
+<ion-button expand="block" shape="round" color="danger" (click)="cancel()">
+  Cancelar
+</ion-button>
+  </div>
+
+
+</ion-content>

@@ -82,6 +82,21 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'programmed-gallery',
+    loadChildren: () => import('./programmed-gallery/programmed-gallery.module').then(m => m.ProgrammedGalleryPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'programmed-events',
+    loadChildren: () => import('./programmed-events/programmed-events.module').then(m => m.ProgrammedEventsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'editprogrammed',
+    loadChildren: () => import('./editprogrammed/editprogrammed.module').then(m => m.EditprogrammedPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
     path: '**',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
     ...canActivate(redirectUnauthorizedToLogin)

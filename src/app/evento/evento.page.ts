@@ -29,6 +29,7 @@ export class EventoPage implements OnInit {
     img: '',
     link: '',
     grupos: [],
+    timeStamp: undefined,
     id: '',
     notId: ''
   };
@@ -37,6 +38,7 @@ export class EventoPage implements OnInit {
   instituto: any;
   grupos: any;
   fechaSelect: undefined;
+  fechaSelect2: undefined;
   fecha = new Date();
 
   programar = false;
@@ -57,6 +59,7 @@ export class EventoPage implements OnInit {
   disableDate = undefined;
   date = new Date();
   date2: any;
+  id: any;
 
   constructor(private router: Router, private authService: AuthService,
     public cardService: CardService,
@@ -79,6 +82,7 @@ export class EventoPage implements OnInit {
           // this.instituto = this.instituto.sort((a, b) => b.date - a.date);
         });
       });
+      this.id = this.userInfo.code + '-' + this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     });
     this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     this.disableDate = this.datePipe.transform(this.fecha, 'yyyy-MM-ddTHH:mm:ss');
@@ -96,24 +100,26 @@ export class EventoPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     this.comunicado.img = this.imgg;
+    this.comunicado.id = this.id;
+    this.comunicado.timeStamp = parseISO(this.fechaSelect2);
 
     if (this.programar === true) {
       this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = parseISO(this.fechaSelect);
-      this.comunicado.fecha = format(new Date(this.fechaSelect), 'dd - MMMM - yyyy', { locale: es });
+      this.comunicado.fecha = format(new Date(this.fechaSelect2), 'dd - MMMM - yyyy', { locale: es });
       const numId = Math.random() * 1000;
       this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
       this.notificationCom.notId = this.comunicado.notId;
     } else {
       this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = this.fecha;
-      this.comunicado.fecha = format(new Date(this.fecha), 'dd - MMMM - yyyy', { locale: es });
+      this.comunicado.fecha = format(new Date(this.fechaSelect2), 'dd - MMMM - yyyy', { locale: es });
       const numId = Math.random() * 1000;
       this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
       this.notificationCom.notId = this.comunicado.notId;
     }
 
-    await this.cardService.createEvent(this.userInfo.code, this.comunicado);
+    await this.cardService.createEvent(this.userInfo.code, this.comunicado, this.comunicado.id);
 
     this.notificationCom.titulo = this.comunicado.titulo;
     this.notificationCom.contenido = this.comunicado.contenido;
@@ -127,7 +133,7 @@ export class EventoPage implements OnInit {
     // this.kuponInfo = this.kuponInfo2;
     await loading.dismiss();
     this.showAlert('Evento Ingresado', 'Exito');
-    this.router.navigateByUrl('/tabs/tab3', {
+    this.router.navigateByUrl('/tabs/tab5', {
       replaceUrl: true
     }
     );

@@ -16,7 +16,7 @@ import { ComponentsModule } from '../components/components.module';
         FormsModule,
         IonicModule,
         ProgrammedPageRoutingModule,
-      ComponentsModule
+        ComponentsModule
     ]
 })
 export class ProgrammedPageModule {}

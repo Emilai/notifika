@@ -69,33 +69,17 @@ export class Tab5Page implements OnInit {
   }
 
   galeryProg() {
-    this.cardService.getProgrammedGalleries(this.userInfo.code, this.userInfo.grupos).then(cards => {
-      cards.subscribe(card => {
-        this.cards = card.map(cardRef => {
-          const data = cardRef.payload.doc.data();
-          return data;
-        });
-        this.cards = this.orderPipe.transform(this.cards, 'date', true);
-        this.cardService.programmed = this.cards;
-
-      });
-    });
-    this.mostrarModal();
+    this.router.navigateByUrl('/programmed-gallery', {
+      replaceUrl: true
+    }
+    );
   }
 
   eventoProg() {
-    this.cardService.getProgrammedEvent(this.userInfo.code, this.userInfo.grupos).then(cards => {
-      cards.subscribe(card => {
-        this.cards = card.map(cardRef => {
-          const data = cardRef.payload.doc.data();
-          return data;
-        });
-        this.cards = this.orderPipe.transform(this.cards, 'date', true);
-        this.cardService.programmed = this.cards;
-
-      });
-    });
-    this.mostrarModal();
+    this.router.navigateByUrl('/programmed-events', {
+      replaceUrl: true
+    }
+    );
   }
 
   async mostrarModal() {

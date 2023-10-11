@@ -61,6 +61,7 @@ export class NewComunicadoPage implements OnInit {
   id: any;
   disableDate = undefined;
 
+
   constructor(private router: Router,
     private authService: AuthService,
     public cardService: CardService,
@@ -135,7 +136,7 @@ export class NewComunicadoPage implements OnInit {
 
     await loading.dismiss();
     this.showAlert('Comunicado Ingresado', 'Exito');
-    this.router.navigateByUrl('/tabs/tab1', {
+    this.router.navigateByUrl('/tabs/tab5', {
       replaceUrl: true
     }
     );

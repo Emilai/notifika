@@ -32,7 +32,6 @@ export class ModalPage implements OnInit {
   docIsRead = undefined;
   fecha: any;
 
-  // AHORA TENGO QUE HACER QUE AL ABRIR EL MODAL SE CHEQUEE SI EL USUARIO YA LEYO EL COMUNICADO, Y SI NO LO HIZO SE GRABE LA LECTURA.
 
   constructor(private modalCtrl: ModalController,
     private datePipe: DatePipe,

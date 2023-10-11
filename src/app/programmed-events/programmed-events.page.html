@@ -13,7 +13,7 @@
     <ion-row>
       <ion-col size="4" class="title">Titulo</ion-col>
       <ion-col size="4" class="title">Fecha Programada (Año-Mes-Dia-Hora)</ion-col>
-      <ion-col size="4" class="title">Ver, Editar o Eliminar</ion-col>
+      <ion-col size="4" class="title">Ver o Eliminar</ion-col>
     </ion-row>
     <hr class="hr">
 
@@ -23,7 +23,7 @@
         <ion-col size="4">{{data.date}}</ion-col>
         <ion-col size="1">
           <ion-icon id="click-trigger" name="eye-outline" color="primary" (click)="open(data)"></ion-icon>
-          <ion-icon id="click-trigger" name="create-outline" color="primary" class="icon2" (click)="edit(data)"></ion-icon>
+          <!-- <ion-icon id="click-trigger" name="create-outline" color="primary" class="icon2" (click)="edit(data)"></ion-icon> -->
           <ion-icon id="click-trigger" name="trash" color="danger" class="icon2" (click)="del(data)"></ion-icon>
         </ion-col>
         <hr class="hr2">

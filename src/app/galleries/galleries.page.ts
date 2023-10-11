@@ -52,6 +52,7 @@ export class GalleriesPage implements OnInit {
   programar = false;
   fechaSelect = undefined;
   disableDate = undefined;
+  id: any;
 
   date = new Date();
   date2: any;
@@ -77,6 +78,7 @@ export class GalleriesPage implements OnInit {
           // this.instituto = this.instituto.sort((a, b) => b.date - a.date);
         });
       });
+      this.id = this.userInfo.code + '-' + this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     });
     this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     this.disableDate = this.datePipe.transform(this.fecha, 'yyyy-MM-ddTHH:mm:ss');
@@ -90,11 +92,13 @@ export class GalleriesPage implements OnInit {
     );
   }
 
+
   async cargarGaleria() {
     const loading = await this.loadingController.create();
     await loading.present();
     this.comunicado.img = this.imgPrincipal;
     this.comunicado.link = this.imgg;
+    this.comunicado.id = this.id;
 
     if (this.programar === true) {
       this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
@@ -112,7 +116,7 @@ export class GalleriesPage implements OnInit {
       this.notificationCom.notId = this.comunicado.notId;
     }
 
-    await this.cardService.createGalery(this.userInfo.code, this.comunicado);
+    await this.cardService.createGalery(this.userInfo.code, this.comunicado, this.comunicado.id);
 
 
     // eslint-disable-next-line max-len
@@ -128,7 +132,7 @@ export class GalleriesPage implements OnInit {
     await loading.dismiss();
     // this.kuponInfo = this.kuponInfo2;
     this.showAlert('Galeria Ingresada', 'Exito');
-    this.router.navigateByUrl('/tabs/tab2', {
+    this.router.navigateByUrl('/tabs/tab5', {
       replaceUrl: true
     }
     );

@@ -1,0 +1,32 @@
+
+<ion-content class="modal">
+
+
+  <div class="ion-padding maxDiv">
+
+    <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Volver a la App
+    </ion-button>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Titulo" [(ngModel)]="titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <!-- <ion-input type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required></ion-input> -->
+      <ckeditor [editor]="editor" [(ngModel)]="contenido" class="textEditor"></ckeditor>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Link externo (opcional)" [(ngModel)]="link" required></ion-input>
+    </ion-item>
+
+
+    <ion-button (click)="cargarComunicado()" expand="block" fill="clear" shape="round">
+      Actualizar Comunicado
+    </ion-button>
+
+  </div>
+</ion-content>
+

@@ -2,7 +2,7 @@
   <app-upbar></app-upbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
 
 
   <div class="ion-padding maxDiv">
@@ -23,19 +23,20 @@
 
     <ion-item class="ion-margin-bottom ion-align-items-center" *ngIf="programar">
       <ion-item class="">
-        <span slot="title">Seleccione la fecha</span>
         <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect" min="{{disableDate}}"
-          required><span slot="time-label">Hora</span></ion-datetime>
+          required><span slot="title">Seleccione la fecha de Programación</span><span slot="time-label">Hora</span>
+        </ion-datetime>
       </ion-item>
     </ion-item>
 
+    <ion-title>Contenido del Comunicado:</ion-title>
     <ion-item class="ion-margin-bottom">
       <!-- <ion-input type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required></ion-input> -->
       <ckeditor [editor]="editor" [(ngModel)]="comunicado.contenido" class="textEditor"></ckeditor>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
-      <ion-label>
+      <ion-label for="file">
         <p>Seleccionar Imagen</p>
       </ion-label>
       <ion-input type="file" accept=".jpg,.png" placeholder="Cargar Imagen" (change)="onFileChange($event)" required>

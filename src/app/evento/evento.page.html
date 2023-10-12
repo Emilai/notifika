@@ -2,7 +2,7 @@
   <app-upbar></app-upbar>
 </ion-header>
 
-    <ion-content>
+    <ion-content [fullscreen]="true">
 
   <div class="ion-padding maxDiv">
 
@@ -16,26 +16,24 @@
     </ion-item>
 
           <ion-item>
-        <span slot="title">Seleccione la fecha del Evento</span>
+        
         <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect2" min="{{disableDate}}"
-          required><span slot="time-label">Hora</span></ion-datetime>
+          required><span slot="title">Seleccione la fecha del Evento</span><span slot="time-label">Hora</span></ion-datetime>
       </ion-item>
-
+<br>
     <ion-item>
       <ion-checkbox slot="start" [(ngModel)]="programar"></ion-checkbox>
       <ion-label>Desea programar la publicación de este evento?</ion-label>
     </ion-item>
     <ion-item class="ion-margin-bottom" *ngIf="programar">
       <ion-item>
-        <span slot="title">Seleccione la fecha de Programación</span>
+        
         <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect" min="{{disableDate}}"
-          required><span slot="time-label">Hora</span></ion-datetime>
+          required><span slot="title">Seleccione la fecha de Programación</span><span slot="time-label">Hora</span></ion-datetime>
       </ion-item>
     </ion-item>
-
+      <ion-title>Contenido del Evento:</ion-title>
     <ion-item class="ion-margin-bottom">
-      <!-- <ion-input class="content" type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required>
-      </ion-input> -->
       <ckeditor [editor]="editor" [(ngModel)]="comunicado.contenido" class="textEditor"></ckeditor>
     </ion-item>
 

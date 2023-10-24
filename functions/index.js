@@ -29,6 +29,7 @@ exports.taskRunner = functions.runWith({ memory: '512MB' }).pubsub.schedule('* *
             notification: {
                 title: titulo,
                 body: body,
+                badge: "1"
             },
         android: {
             notification: {

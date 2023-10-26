@@ -15,7 +15,7 @@
 
     <ion-item class="ion-margin-bottom">
       <!-- <ion-input type="text" placeholder="Contenido" [(ngModel)]="comunicado.contenido" required></ion-input> -->
-      <ckeditor [editor]="editor" [(ngModel)]="contenido" class="textEditor"></ckeditor>
+      <ckeditor [editor]="editor" [(ngModel)]="contenido" class="textEditor" [config]="config"></ckeditor>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">

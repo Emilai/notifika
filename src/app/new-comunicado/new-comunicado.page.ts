@@ -61,6 +61,10 @@ export class NewComunicadoPage implements OnInit {
   id: any;
   disableDate = undefined;
 
+  config = {
+    removePlugins: ['MediaEmbed','EasyImage', 'ImageUpload','CKFinder', 'Link']
+  };
+
 
   constructor(private router: Router,
     private authService: AuthService,
@@ -87,6 +91,7 @@ export class NewComunicadoPage implements OnInit {
     });
     this.date2 = this.datePipe.transform(this.date, 'yyyy-MM-dd-HH-mm-ss');
     this.disableDate = this.datePipe.transform(this.fecha, 'yyyy-MM-ddTHH:mm:ss');
+
 
     return;
   }

@@ -61,6 +61,10 @@ export class EventoPage implements OnInit {
   date2: any;
   id: any;
 
+  config = {
+    removePlugins: ['MediaEmbed', 'EasyImage', 'ImageUpload', 'CKFinder', 'Link']
+  };
+
   constructor(private router: Router, private authService: AuthService,
     public cardService: CardService,
     private loadingController: LoadingController,

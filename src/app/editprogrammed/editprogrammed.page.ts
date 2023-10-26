@@ -51,6 +51,10 @@ export class EditprogrammedPage implements OnInit {
   date2: any;
   disableDate = undefined;
 
+  config = {
+    removePlugins: ['MediaEmbed', 'EasyImage', 'ImageUpload', 'CKFinder', 'Link']
+  };
+
   constructor(private router: Router,
     private modalCtrl: ModalController,
     private authService: AuthService,

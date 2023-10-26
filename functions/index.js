@@ -28,18 +28,19 @@ exports.taskRunner = functions.runWith({ memory: '512MB' }).pubsub.schedule('* *
         const job = await admin.messaging().send({
             notification: {
                 title: titulo,
-                body: body,
-                badge: "1"
+                body: body
             },
         android: {
             notification: {
-                sound: "default"
+                sound: "default",
+                notification_count: 1
             }
         },
         apns: {
             payload: {
                 aps: {
-                    sound: "default"
+                    sound: "default",
+                    badge: 1
                 }
             }
         },

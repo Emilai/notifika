@@ -4,6 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { PushService } from './services/push.service';
+import { Badge } from '@capawesome/capacitor-badge';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -24,5 +25,6 @@ export class AppComponent {
       });
     }
     this.pushService.configuracionInicialPush();
+
   }
 }

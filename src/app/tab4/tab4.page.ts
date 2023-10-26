@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
 import { PushService } from '../services/push.service';
 
+
 @Component({
   selector: 'app-tab4',
   templateUrl: './tab4.page.html',
@@ -98,5 +99,6 @@ export class Tab4Page implements OnInit {
   web() {
     window.location.href = this.instituto.web;
   }
+
 
 }

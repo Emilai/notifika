@@ -12,6 +12,10 @@ const config: CapacitorConfig = {
       iconColor: '#488AFF',
       sound: 'beep.wav',
     },
+    Badge: {
+      persist: false,
+      autoClear: true,
+    },
   },
   server: { iosScheme: 'ionic' }
 };

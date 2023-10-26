@@ -17,6 +17,10 @@
                 "badge",
                 "sound"
             ]
-        }
+        },
+        "Badge": {
+      "persist": false,
+      "autoClear": true
+    }
   }
 }

@@ -33,6 +33,7 @@
     "@capacitor/push-notifications": "^4.0.1",
     "@capacitor/splash-screen": "^4.0.1",
     "@capacitor/status-bar": "1.0.8",
+    "@capawesome/capacitor-badge": "^5.0.0",
     "@ckeditor/ckeditor5-angular": "^7.0.0",
     "@ckeditor/ckeditor5-build-classic": "^39.0.1",
     "@ckeditor/ckeditor5-core": "^39.0.1",

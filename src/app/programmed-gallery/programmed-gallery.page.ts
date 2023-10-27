@@ -91,8 +91,7 @@ export class ProgrammedGalleryPage implements OnInit {
   // }
 
   del(data) {
-    // this.showAlert('Se eliminará la Galería', 'Desea continuar?', data);
-    console.log(data.id);
+    this.showAlert('Se eliminará la Galería', 'Desea continuar?', data);
   }
 
   async showAlert(header, message, data) {

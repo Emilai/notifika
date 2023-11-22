@@ -18,7 +18,9 @@
           <ion-item>
         
         <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect2" min="{{disableDate}}"
-          required><span slot="title">Seleccione la fecha del Evento</span><span slot="time-label">Hora</span></ion-datetime>
+          required><span slot="title">Inicio del Evento</span><span slot="time-label">Hora</span></ion-datetime>
+          <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect3" min="{{disableDate}}"
+          required><span slot="title">Final del Evento</span><span slot="time-label">Hora</span></ion-datetime>
       </ion-item>
 <br>
     <ion-item>
@@ -53,15 +55,22 @@
       <ion-input type="text" placeholder="Link externo (opcional)" [(ngModel)]="comunicado.link" required></ion-input>
     </ion-item>
 
-    <ion-list *ngIf="instituto">
+    <ion-list *ngIf="instituto && userInfo.superadmin === false">
+      <ion-item>
+        <ion-select placeholder="Seleccione el/los grupos" [multiple]="true" (ionChange)="checkValue($event)">
+          <ion-select-option *ngFor="let grupo of findNotGeneral(userInfo.grupos)" value="{{grupo}}" required>{{grupo}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
 
+        <ion-list *ngIf="instituto && userInfo.superadmin === true">
       <ion-item>
         <ion-select placeholder="Seleccione el/los grupos" [multiple]="true" (ionChange)="checkValue($event)">
           <ion-select-option *ngFor="let grupo of instituto.grupos" value="{{grupo}}" required>{{grupo}}
           </ion-select-option>
         </ion-select>
       </ion-item>
-
     </ion-list>
 
 

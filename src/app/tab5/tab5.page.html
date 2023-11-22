@@ -46,8 +46,8 @@
 </ion-card-header>
 </ion-card>
 
-<ion-card>
-<ion-card-header>
+<ion-card *ngIf="userInfo">
+<ion-card-header *ngIf="userInfo.superadmin">
   <ion-card-title class="title">Administrar Empresa</ion-card-title>
 
     <ion-button (click)="grupos()" class="btn" expand="block" color="tertiary">

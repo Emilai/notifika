@@ -47,15 +47,22 @@
       <ion-input type="text" placeholder="ID Galería FLICKR" [(ngModel)]="comunicado.link" required></ion-input>
     </ion-item> -->
 
-    <ion-list *ngIf="instituto">
+    <ion-list *ngIf="instituto && userInfo.superadmin === false">
+      <ion-item>
+        <ion-select placeholder="Seleccione el/los grupos" [multiple]="true" (ionChange)="checkValue($event)">
+          <ion-select-option *ngFor="let grupo of findNotGeneral(userInfo.grupos)" value="{{grupo}}" required>{{grupo}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
 
+        <ion-list *ngIf="instituto && userInfo.superadmin === true">
       <ion-item>
         <ion-select placeholder="Seleccione el/los grupos" [multiple]="true" (ionChange)="checkValue($event)">
           <ion-select-option *ngFor="let grupo of instituto.grupos" value="{{grupo}}" required>{{grupo}}
           </ion-select-option>
         </ion-select>
       </ion-item>
-
     </ion-list>
 
 

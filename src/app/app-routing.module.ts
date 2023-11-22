@@ -102,6 +102,10 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'autoauth',
+    loadChildren: () => import('./autoauth/autoauth.module').then(m => m.AutoauthPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
     ...canActivate(redirectUnauthorizedToLogin)

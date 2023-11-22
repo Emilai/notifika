@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -23,6 +23,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, OrderModule,
@@ -42,5 +43,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
   provideStorage(() => getStorage())],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, DatePipe, LowerCasePipe],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

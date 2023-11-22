@@ -68,7 +68,6 @@ export class GalleriesPage implements OnInit {
 
   async ngOnInit() {
 
-
     (await this.authService.userData()).subscribe(userData => {
       const userInfo = userData.data();
       this.userInfo = userInfo;
@@ -208,5 +207,9 @@ export class GalleriesPage implements OnInit {
 
   async scheduleNotification(col, data) {
     this.cardService.scheduleNotification(col, data);
+  }
+
+  findNotGeneral(grupos: any[]): any[] {
+    return grupos.filter(g => g !== 'General');
   }
 }

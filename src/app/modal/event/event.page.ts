@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CardService } from 'src/app/services/card.service';
+import 'add-to-calendar-button';
 
 @Component({
   selector: 'app-event',

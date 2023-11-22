@@ -20,6 +20,16 @@
   Link: {{cardInfo.link}}
 </ion-card-subtitle>
     </ion-card-content>
+                <add-to-calendar-button class="calendarBtn"
+          [attr.name]="cardInfo.titulo"
+          options="'Google'"
+          language="es"
+          [attr.startDate]="cardInfo.eventStartDate"
+          [attr.endDate]="cardInfo.eventEndDate"
+          [attr.startTime]="cardInfo.eventStartTime"
+          [attr.endTime]="cardInfo.eventEndTime"
+          timeZone="currentBrowser"
+></add-to-calendar-button>
   </ion-card>
 
 </ion-content>

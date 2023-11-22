@@ -103,7 +103,5 @@ export class RegisterPage implements OnInit {
     this.router.navigateByUrl('/tlogin', { replaceUrl: true });
   }
 
-
-
 }
 

@@ -193,6 +193,10 @@ export class NewComunicadoPage implements OnInit {
     this.cardService.scheduleNotification(col, data);
   }
 
+  findNotGeneral(grupos: any[]): any[] {
+    return grupos.filter (g => g !== 'General');
+  }
+
   // async scheduleNotification() {
   //   const options: ScheduleOptions = {
   //     notifications: [{

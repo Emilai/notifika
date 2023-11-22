@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <app-upbar></app-upbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-button (click)="checkUsers()" expand="block" fill="clear" shape="round">
+    Check Users to Upload
+  </ion-button>
+
+  <ion-card *ngIf="usersToLoad">
+    <ion-card-header>
+      <ion-card-subtitle>Usuarios para cargar:</ion-card-subtitle>
+      <ion-card-title>{{cantidad}}
+        <ion-button class="btn" (click)="register()" shape="round">
+          Cargar Usuarios
+        </ion-button>
+      </ion-card-title>
+
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2" class="title">NOMBRE</ion-col>
+        <ion-col size="2" class="title">DOCUMENTO</ion-col>
+        <ion-col size="2" class="title">EMAIL</ion-col>
+        <ion-col size="5" class="title">GRUPOS</ion-col>
+      </ion-row>
+      <hr class="hr">
+    </ion-grid>
+
+    <ion-grid *ngFor="let user of usersToLoad">
+      <ion-row>
+        <ion-col size="2">{{user.name}}</ion-col>
+        <ion-col size="2">{{user.cedula}}</ion-col>
+        <ion-col size="2">{{user.mail}}</ion-col>
+        <ion-col size="5">{{user.grupos}}</ion-col>
+      </ion-row>
+      <hr class="hr2">
+    </ion-grid>
+  </ion-card>
+</ion-content>

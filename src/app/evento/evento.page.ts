@@ -25,6 +25,10 @@ export class EventoPage implements OnInit {
     fecha: undefined,
     fechaCheck: undefined,
     date: undefined,
+    eventStartDate: undefined,
+    eventStartTime: undefined,
+    eventEndDate: undefined,
+    eventEndTime: undefined,
     contenido: '',
     img: '',
     link: '',
@@ -39,6 +43,7 @@ export class EventoPage implements OnInit {
   grupos: any;
   fechaSelect: undefined;
   fechaSelect2: undefined;
+  fechaSelect3: undefined;
   fecha = new Date();
 
   programar = false;
@@ -108,16 +113,28 @@ export class EventoPage implements OnInit {
     this.comunicado.timeStamp = parseISO(this.fechaSelect2);
 
     if (this.programar === true) {
-      this.comunicado.date = this.datePipe.transform(this.fechaSelect, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.date = this.datePipe.transform(this.fechaSelect2, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = parseISO(this.fechaSelect);
       this.comunicado.fecha = format(new Date(this.fechaSelect2), 'dd - MMMM - yyyy', { locale: es });
+
+      this.comunicado.eventStartDate = this.datePipe.transform(this.fechaSelect2, 'yyyy-M-dd');
+      this.comunicado.eventStartTime = this.datePipe.transform(this.fechaSelect2, 'HH:mm');
+      this.comunicado.eventEndDate = this.datePipe.transform(this.fechaSelect3, 'yyyy-M-dd');
+      this.comunicado.eventEndTime = this.datePipe.transform(this.fechaSelect3, 'HH:mm');
+
       const numId = Math.random() * 1000;
       this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
       this.notificationCom.notId = this.comunicado.notId;
     } else {
-      this.comunicado.date = this.datePipe.transform(this.fecha, 'yyyy-MM-dd-HH:mm:ss');
+      this.comunicado.date = this.datePipe.transform(this.fechaSelect2, 'yyyy-MM-dd-HH:mm:ss');
       this.comunicado.fechaCheck = this.fecha;
       this.comunicado.fecha = format(new Date(this.fechaSelect2), 'dd - MMMM - yyyy', { locale: es });
+
+      this.comunicado.eventStartDate = this.datePipe.transform(this.fechaSelect2, 'yyyy-M-dd');
+      this.comunicado.eventStartTime = this.datePipe.transform(this.fechaSelect2, 'HH:mm');
+      this.comunicado.eventEndDate = this.datePipe.transform(this.fechaSelect3, 'yyyy-M-dd');
+      this.comunicado.eventEndTime = this.datePipe.transform(this.fechaSelect3, 'HH:mm');
+
       const numId = Math.random() * 1000;
       this.comunicado.notId = this.comunicado.date + '--' + this.userInfo.code + '--' + numId;
       this.notificationCom.notId = this.comunicado.notId;
@@ -187,4 +204,9 @@ export class EventoPage implements OnInit {
   async scheduleNotification(col, data) {
     this.cardService.scheduleNotification(col, data);
   }
+
+  findNotGeneral(grupos: any[]): any[] {
+    return grupos.filter(g => g !== 'General');
+  }
+
 }

@@ -12,8 +12,8 @@
     </ion-item>
 
         <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Cédula de Identidad" [attr.maxlength]="8" [(ngModel)]="userInfo.cedula" required></ion-input>
-      <ion-note slot="error" *ngIf="email.errors">Cédula sin guión (ej: para 1.234.567-8 poner 12345678)</ion-note>
+      <ion-input type="text" placeholder="Documento de Identidad" [(ngModel)]="userInfo.cedula" required></ion-input>
+      <ion-note slot="error" *ngIf="email.errors">Documento sin guión (ej: para 1.234.567-8 poner 12345678)</ion-note>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">

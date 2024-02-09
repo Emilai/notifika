@@ -32,7 +32,8 @@ export class NewComunicadoPage implements OnInit {
     link: '',
     grupos: [],
     id: '',
-    notId: ''
+    notId: '',
+    read: true
   };
 
   notificationCom ={

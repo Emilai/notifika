@@ -19,6 +19,7 @@ export class RegisterPage implements OnInit {
     cedula: ''
   };
   codes: any;
+  hide = true;
 
   constructor(
     private fb: FormBuilder,
@@ -52,9 +53,23 @@ export class RegisterPage implements OnInit {
 
     const codigo = this.userInfo.code.toLowerCase();
     if( this.codes.codigo.includes(codigo) ) {
-      this.register();
+      this.checkDocument();
     } else {
       this.showAlert('Codigo erroneo', 'Por favor intente denuevo');
+    }
+  }
+
+  async checkDocument() {
+    const docNumber = this.userInfo.cedula;
+    try {
+      const userDocs: any[] = await this.authService.getUserByDoc(docNumber);
+      if (userDocs.length > 0) {
+        this.showAlert('Verifique Documento', 'El usuario ingresado ya existe');
+      } else {
+        this.register();
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -85,7 +100,7 @@ export class RegisterPage implements OnInit {
       this.router.navigateByUrl('/tabs/tab1', { replaceUrl: true });
       this.showAlert('Bienvenid@ a Notifika', 'Cuenta creada con exito.');
     } else {
-      this.showAlert('Registro fallido', 'Por favor intente denuevo');
+      this.showAlert('Registro fallido', 'Por favor intente denuevo o contacte a Soporte');
     }
   }
 
@@ -102,6 +117,8 @@ export class RegisterPage implements OnInit {
   back() {
     this.router.navigateByUrl('/tlogin', { replaceUrl: true });
   }
-
+  toggleShow() {
+    this.hide = !this.hide;
+  }
 }
 

@@ -14,6 +14,15 @@ export class LoginPage implements OnInit {
   credentials: FormGroup;
   forgetEmail = '';
   forgetBox = false;
+  cedula: any;
+  userDoc: any;
+  mail = '';
+  credentials2 = {
+    email: '',
+    password: ''
+  };
+  toggleMail = false;
+  hide = true;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +47,26 @@ export class LoginPage implements OnInit {
     });
   }
 
+  async getUser(cedula) {
+    const docNumber = cedula.toString();
+    try {
+      const userDocs: any[] = await this.authService.getUserByDoc(docNumber);
+      if (userDocs && userDocs.length === 1) {
+        userDocs.forEach(user => {
+          const userEmail = user.email;
+          console.log(userEmail);
+          this.credentials2.email = userEmail;
+          console.log(this.credentials2);
+          this.login2();
+        });
+      } else {
+        this.showAlert('No se encuentra numero de Docuemento', 'Por favor intente denuevo o escriba a Soporte');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async register() {
     this.router.navigateByUrl('/register', { replaceUrl: true });
   }
@@ -47,6 +76,20 @@ export class LoginPage implements OnInit {
     await loading.present();
 
     const user = await this.authService.login(this.credentials.value);
+    await loading.dismiss();
+
+    if (user) {
+      this.router.navigateByUrl('/tabs/tab1', { replaceUrl: true });
+    } else {
+      this.showAlert('Cuenta Invalida', 'Por favor intente denuevo');
+    }
+  }
+
+  async login2() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    const user = await this.authService.login(this.credentials2);
     await loading.dismiss();
 
     if (user) {
@@ -78,5 +121,9 @@ export class LoginPage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  toggleShow() {
+    this.hide = !this.hide;
   }
 }

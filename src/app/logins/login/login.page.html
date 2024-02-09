@@ -6,47 +6,108 @@
 
 <ion-content>
 
-  <div *ngIf="!forgetBox" class="maxDiv">
-    <form [formGroup]="credentials" (ngSubmit)="login()" class="ion-padding">
-
+  <div *ngIf="!forgetBox">
+    <div *ngIf="!toggleMail" class="maxDiv ion-padding">
       <ion-item class="title">
-        <ion-label>
-          Ingresar a la Aplicación
-        </ion-label>
-        <ion-icon name="person-circle-outline" size="large" slot="end"></ion-icon>
+        <ion-label>Ingresar Documento y Contraseña</ion-label>
+      </ion-item>
+    </div>
+
+    <div *ngIf="toggleMail" class="maxDiv ion-padding">
+      <ion-item class="title">
+        <ion-label>Ingresar Email y Contraseña</ion-label>
+      </ion-item>
+    </div>
+  </div>
+
+  <div *ngIf="!toggleMail">
+    <div *ngIf="!forgetBox" class="maxDiv ion-padding">
+      <ion-item *ngIf="!forgetBox">
+        <ion-label class="label">Ingresar con Documento | Email</ion-label>
+        <ion-toggle slot="end" [(ngModel)]="toggleMail"></ion-toggle>
       </ion-item>
 
-      <ion-item class="ion-margin-bottom">
-        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
-        <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">Email invalido</ion-note>
-      </ion-item>
+      <div class="ion-padding">
+        <ion-item>
+          <ion-note class="note">Documento sin guión (ej: para 1.234.567-8 ingresar 12345678)</ion-note>
+        </ion-item>
+        <ion-item class="ion-margin-bottom">
+          <ion-input type="number" placeholder="Numero de Documento" [(ngModel)]="cedula"></ion-input>
+        </ion-item>
 
-      <ion-item class="ion-margin-bottom">
-        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
-        <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Password invalido
-        </ion-note>
-      </ion-item>
+        <ion-item class="ion-margin-bottom">
+          <ion-input [type]="hide ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="credentials2.password">
+          </ion-input>
+          <ion-button class="type-toggle" (click)="toggleShow()" fill="clear">
+            <ion-icon class="show-option" name="{{hide ? 'eye-off-outline' : 'eye-outline'}}"></ion-icon>
+          </ion-button>
+          <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Password invalido
+          </ion-note>
+        </ion-item>
 
+        <ion-button type="button" (click)="getUser(cedula)" expand="block" shape="round" class="loginBtn" [disabled]="!credentials2.password || !cedula">
+          Ingresar
+        </ion-button>
+      </div>
 
-      <ion-button type="submit" expand="block" shape="round" [disabled]="!credentials.valid" class="loginBtn">
-        Ingresar
+      <hr class="hr">
+
+      <ion-button type="button" (click)="register()" expand="block" fill="clear" shape="round">
+        Registrar nueva cuenta
+      </ion-button>
+      <hr>
+      <ion-button type="button" (click)="passwordReset()" expand="block" fill="clear" shape="round" color="danger">
+        Olvidé mi Contraseña
       </ion-button>
 
-
-    </form>
-
-    <hr class="hr">
-
-    <ion-button type="button" (click)="register()" expand="block" fill="clear" shape="round">
-      Registrar nueva cuenta
-    </ion-button>
-    <hr>
-    <ion-button type="button" (click)="passwordReset()" expand="block" fill="clear" shape="round" color="danger">
-      Olvidé mi Contraseña
-    </ion-button>
+    </div>
   </div>
 
 
+  <div *ngIf="toggleMail">
+    <div *ngIf="!forgetBox" class="maxDiv ion-padding">
+      <ion-item *ngIf="!forgetBox">
+        <ion-label class="label">Ingresar con Documento | Email</ion-label>
+        <ion-toggle slot="end" [(ngModel)]="toggleMail"></ion-toggle>
+      </ion-item>
+
+      <div class="ion-padding noPaddingBottom">
+        <ion-item>
+          <ion-note class="note">Ingrese el mail con el que está registrado</ion-note>
+        </ion-item>
+      </div>
+
+      <form [formGroup]="credentials" (ngSubmit)="login()" class="ion-padding noPaddingtop">
+        <ion-item class="ion-margin-bottom">
+          <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+          <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">Email invalido</ion-note>
+        </ion-item>
+
+        <ion-item class="ion-margin-bottom">
+          <ion-input [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password">
+          </ion-input>
+          <ion-button class="type-toggle" (click)="toggleShow()" fill="clear">
+            <ion-icon class="show-option" name="{{hide ? 'eye-off-outline' : 'eye-outline'}}"></ion-icon>
+          </ion-button>
+          <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Password invalido
+          </ion-note>
+        </ion-item>
+        <ion-button type="submit" expand="block" shape="round" [disabled]="!credentials.valid" class="loginBtn">
+          Ingresar
+        </ion-button>
+      </form>
+
+      <hr class="hr">
+
+      <ion-button type="button" (click)="register()" expand="block" fill="clear" shape="round">
+        Registrar nueva cuenta
+      </ion-button>
+      <hr>
+      <ion-button type="button" (click)="passwordReset()" expand="block" fill="clear" shape="round" color="danger">
+        Olvidé mi Contraseña
+      </ion-button>
+    </div>
+  </div>
 
 
   <div *ngIf="forgetBox" class="ion-padding forget maxDiv">

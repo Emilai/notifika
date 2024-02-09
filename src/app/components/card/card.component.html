@@ -14,9 +14,11 @@
       <ion-card class="ion-margin card" mode="md">
         <ion-img [src]="card.img" class="cardImg" (click)="mostrarModal(card)"></ion-img>
         <ion-card-header (click)="mostrarModal(card)">
+          <ion-badge *ngIf="!card?.read" color="danger">No Leido</ion-badge>
 
           <ion-card-subtitle color="medium">{{card.fecha}}</ion-card-subtitle>
           <ion-card-title color="dark">{{card.titulo}}</ion-card-title>
+          
           <ion-chip *ngFor="let chip of card.grupos" color="primary" mode="ios" outline="true" size="small"
             class="ion-margin-top chip">
             <ion-label class="label">{{chip}}</ion-label>

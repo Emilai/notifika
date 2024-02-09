@@ -66,7 +66,6 @@ export class ModalPage implements OnInit {
         console.log('error:', error);
         this.docIsRead = false;
       }
-
       //get users that has read this comunication
       this.cardService.getReadCom(this.userInfo.code, this.cardInfo.id).then(cards => {
         cards.subscribe(card => {

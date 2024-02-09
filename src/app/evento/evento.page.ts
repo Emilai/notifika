@@ -117,9 +117,9 @@ export class EventoPage implements OnInit {
       this.comunicado.fechaCheck = parseISO(this.fechaSelect);
       this.comunicado.fecha = format(new Date(this.fechaSelect2), 'dd - MMMM - yyyy', { locale: es });
 
-      this.comunicado.eventStartDate = this.datePipe.transform(this.fechaSelect2, 'yyyy-M-dd');
+      this.comunicado.eventStartDate = this.datePipe.transform(this.fechaSelect2, 'yyyy-MM-dd');
       this.comunicado.eventStartTime = this.datePipe.transform(this.fechaSelect2, 'HH:mm');
-      this.comunicado.eventEndDate = this.datePipe.transform(this.fechaSelect3, 'yyyy-M-dd');
+      this.comunicado.eventEndDate = this.datePipe.transform(this.fechaSelect3, 'yyyy-MM-dd');
       this.comunicado.eventEndTime = this.datePipe.transform(this.fechaSelect3, 'HH:mm');
 
       const numId = Math.random() * 1000;
@@ -130,9 +130,9 @@ export class EventoPage implements OnInit {
       this.comunicado.fechaCheck = this.fecha;
       this.comunicado.fecha = format(new Date(this.fechaSelect2), 'dd - MMMM - yyyy', { locale: es });
 
-      this.comunicado.eventStartDate = this.datePipe.transform(this.fechaSelect2, 'yyyy-M-dd');
+      this.comunicado.eventStartDate = this.datePipe.transform(this.fechaSelect2, 'yyyy-MM-dd');
       this.comunicado.eventStartTime = this.datePipe.transform(this.fechaSelect2, 'HH:mm');
-      this.comunicado.eventEndDate = this.datePipe.transform(this.fechaSelect3, 'yyyy-M-dd');
+      this.comunicado.eventEndDate = this.datePipe.transform(this.fechaSelect3, 'yyyy-MM-dd');
       this.comunicado.eventEndTime = this.datePipe.transform(this.fechaSelect3, 'HH:mm');
 
       const numId = Math.random() * 1000;
@@ -208,5 +208,6 @@ export class EventoPage implements OnInit {
   findNotGeneral(grupos: any[]): any[] {
     return grupos.filter(g => g !== 'General');
   }
+
 
 }

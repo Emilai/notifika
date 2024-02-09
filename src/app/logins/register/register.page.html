@@ -13,7 +13,7 @@
 
         <ion-item class="ion-margin-bottom">
       <ion-input type="text" placeholder="Documento de Identidad" [(ngModel)]="userInfo.cedula" required></ion-input>
-      <ion-note slot="error" *ngIf="email.errors">Documento sin guión (ej: para 1.234.567-8 poner 12345678)</ion-note>
+      <ion-note slot="error" *ngIf="email.errors">Documento sin guión (ej: para 1.234.567-8 ingresar 12345678)</ion-note>
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
@@ -31,7 +31,10 @@
     </ion-item>
 
     <ion-item class="ion-margin-bottom">
-      <ion-input type="password" placeholder="Password" formControlName="password" ></ion-input>
+      <ion-input [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password" ></ion-input>
+      <ion-button class="type-toggle" (click)="toggleShow()" fill="clear">
+          <ion-icon class="show-option" name="{{hide ? 'eye-off-outline' : 'eye-outline'}}"></ion-icon>
+        </ion-button>
       <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Password invalido (minimo 8 caracteres)</ion-note>
     </ion-item>
 

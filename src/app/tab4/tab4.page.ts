@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -46,16 +47,18 @@ export class Tab4Page implements OnInit {
   }
 
   deleteAccountOption() {
-    this.showAlert('Su cuenta será borrada', 'Desea hacerlo?');
+    this.showAlert('Solicitará la eliminación de su cuenta por Whatsapp', 'Desea hacerlo?');
   }
 
   async deleteAccount() {
-    await this.authService.deleteUserData();
-    await this.authService.logout();
-    this.router.navigateByUrl('/login', {
-      replaceUrl: true
-    });
-    this.showAlert2('Su cuenta ha sido eliminada');
+
+    window.location.href = `https://api.whatsapp.com/send?phone=+59898608201&text=Deseo%20eliminar%20mi%20cuenta%20de%20Notifika.%20Usuario:%20${this.userInfo.email}%20-%20Empresa:%20${this.instituto.nombre}`;
+    // await this.authService.deleteUserData();
+    // await this.authService.logout();
+    // this.router.navigateByUrl('/login', {
+    //   replaceUrl: true
+    // });
+    // this.showAlert2('Su cuenta ha sido eliminada');
   }
 
   async showAlert(header, message) {
@@ -73,7 +76,7 @@ export class Tab4Page implements OnInit {
           text: 'Confirmar',
           handler: () => {
             this.deleteAccount();
-            this.authService.deleteAuthData();
+            // this.authService.deleteAuthData();
           }
         }]
     });
@@ -99,6 +102,7 @@ export class Tab4Page implements OnInit {
   web() {
     window.location.href = this.instituto.web;
   }
+
 
 
 }

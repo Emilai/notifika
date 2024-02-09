@@ -26,8 +26,8 @@
 </ion-card-header>
 </ion-card>
 
-<ion-card>
-<ion-card-header>
+<ion-card *ngIf="userInfo">
+<ion-card-header *ngIf="userInfo.superadmin">
   <ion-card-title class="title">Programados</ion-card-title>
     <ion-button (click)="comunicadoProg()" class="btn" expand="block" color="secondary">
   <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>

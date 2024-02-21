@@ -19,6 +19,7 @@
     <ion-card 
       (click)="mostrarModal(card)" class="ion-padding-start ion-padding-end card">
       <ion-card-header>
+        <ion-badge *ngIf="!card?.read" color="danger">No Leido</ion-badge>
         <ion-card-subtitle class="sub">{{card.fecha}}</ion-card-subtitle>
         <ion-card-title color="dark" class="title">{{card.titulo}}</ion-card-title>
         <ion-chip *ngFor="let chip of card.grupos" color="primary" mode="ios" outline="true" size="small"

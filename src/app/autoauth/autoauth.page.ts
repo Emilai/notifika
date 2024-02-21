@@ -78,7 +78,7 @@ export class AutoauthPage implements OnInit {
 
           if (user) {
             console.log('Usuario registrado: ', usuario.mail);
-            await this.registerInDB(user.user.uid, usuario.name, usuario.mail, usuario.code, usuario.cedula);
+            await this.registerInDB(user.user.uid, usuario.name, usuario.mail, usuario.code, usuario.cedula, usuario.grupos);
           }
         }
       }
@@ -87,14 +87,16 @@ export class AutoauthPage implements OnInit {
     }
   }
 
-  async registerInDB(uid, name, mail, code, cedula) {
+  async registerInDB(uid, name, mail, code, cedula, grupos) {
+
+    const gruposArray = grupos.split(',').map(group => group.trim());
     const usuarioFinal = {
       id: uid,
       nombre: name,
       email: mail,
       code: code,
       cedula: cedula,
-      grupos: ['General'],
+      grupos: gruposArray,
       admin: false,
       superadmin: false
     };

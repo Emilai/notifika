@@ -19,8 +19,13 @@
         
         <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect2" min="{{disableDate}}"
           required><span slot="title">Inicio del Evento</span><span slot="time-label">Hora</span></ion-datetime>
+          <ion-note slot="error" *ngIf="!fechaSelect2">Debe seleccionar una fecha de inicio
+          </ion-note>
           <ion-datetime display-format="YYYY-MM-DD" locale="es-ES" [(ngModel)]="fechaSelect3" min="{{disableDate}}"
           required><span slot="title">Final del Evento</span><span slot="time-label">Hora</span></ion-datetime>
+          
+          <ion-note slot="error" *ngIf="!fechaSelect3">Debe seleccionar una fecha de finalización
+          </ion-note>
       </ion-item>
 <br>
     <ion-item>
@@ -76,7 +81,7 @@
 
 
     <ion-button (click)="cargarComunicado()" expand="block" fill="clear" shape="round"
-      [disabled]="!comunicado.titulo || !fecha || !comunicado.contenido || !imgg || !comunicado.grupos">
+      [disabled]="!comunicado.titulo || !fecha || !comunicado.contenido || !imgg || !comunicado.grupos ||!fechaSelect2 || !fechaSelect3">
       Cargar Evento
     </ion-button>
 

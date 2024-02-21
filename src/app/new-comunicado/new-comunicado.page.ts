@@ -33,6 +33,7 @@ export class NewComunicadoPage implements OnInit {
     grupos: [],
     id: '',
     notId: '',
+    tab: 'tab1',
     read: true
   };
 
@@ -45,7 +46,8 @@ export class NewComunicadoPage implements OnInit {
     fecha: undefined,
     sent: false,
     cancel: false,
-    notId: ''
+    notId: '',
+    tab: 'tab1'
   };
 
   fecha = new Date();

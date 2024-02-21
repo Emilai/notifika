@@ -59,7 +59,6 @@ export class ModalPage implements OnInit {
             this.docIsRead = false;
             this.setRead();
             console.log('Lectura de documento Grabado');
-
           }
         });
       } catch (error) {

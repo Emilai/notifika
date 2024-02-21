@@ -35,7 +35,9 @@ export class EventoPage implements OnInit {
     grupos: [],
     timeStamp: undefined,
     id: '',
-    notId: ''
+    notId: '',
+    read: true,
+    tab: 'tab3'
   };
 
   userInfo: any;
@@ -57,7 +59,8 @@ export class EventoPage implements OnInit {
     fecha: undefined,
     sent: false,
     cancel: false,
-    notId: ''
+    notId: '',
+    tab: 'tab3'
   };
 
   imgg: any;

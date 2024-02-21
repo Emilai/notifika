@@ -8,6 +8,7 @@ import { ModalPage } from 'src/app/modal/modal/modal.page';
 import { map, switchMap, take } from 'rxjs/operators';
 import { from, of, forkJoin } from 'rxjs';
 import { mergeMap, catchError, toArray } from 'rxjs/operators';
+import { Tab2Page } from 'src/app/tab2/tab2.page';
 
 @Component({
   selector: 'app-card',
@@ -26,7 +27,7 @@ export class CardComponent implements OnInit {
     public authService: AuthService,
     private firestore: AngularFirestore,
     public datePipe: DatePipe,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) { }
 
   // async ngOnInit() {
@@ -158,8 +159,6 @@ export class CardComponent implements OnInit {
                 return 0; // Return 0 if the dates are equal
               }
             });
-
-            console.log('Processed cards:', this.cards);
 
             // Manually trigger change detection
             this.cdr.detectChanges();

@@ -26,7 +26,9 @@ export class GalleriesPage implements OnInit {
     link: '',
     grupos: [],
     id: '',
-    notId: ''
+    notId: '',
+    read: true,
+    tab: 'tab2',
   };
 
   notificationCom = {
@@ -38,7 +40,8 @@ export class GalleriesPage implements OnInit {
     fecha: undefined,
     sent: false,
     cancel: false,
-    notId: ''
+    notId: '',
+    tab: 'tab2'
   };
 
   userInfo: any;

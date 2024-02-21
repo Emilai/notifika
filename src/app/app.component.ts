@@ -33,5 +33,6 @@ export class AppComponent {
     }
     this.pushService.configuracionInicialPush();
 
+
   }
 }

@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { PushService } from '../services/push.service';
 import { CardService } from '../services/card.service';
 import { Subscription } from 'rxjs';
+import { BindingService } from '../services/binding.service';
 
 @Component({
   selector: 'app-tabs',
@@ -15,13 +16,17 @@ export class TabsPage implements OnInit, OnDestroy {
   token: any;
   instituto: any;
   comCount: any;
+  galCount: any;
+  eveCount: any;
   private subscription: Subscription;
+  private subscription2: Subscription;
+  private subscription3: Subscription;
 
 
   constructor(
     private pushService: PushService,
     private authService: AuthService,
-    public cardService: CardService
+    private cardService: CardService
     ) {
     this.userInfo = {
       admin: false
@@ -29,6 +34,8 @@ export class TabsPage implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
   }
 
   async ngOnInit() {
@@ -41,13 +48,21 @@ export class TabsPage implements OnInit, OnDestroy {
           this.instituto = kupones.data();
           // console.log('Instituto: ', this.instituto.grupos);
           await this.instituto.grupos.forEach(grupo => this.pushService.topicUnSubscribe(this.userInfo.code + grupo));
+          //Hascer el unsuscribe from previous topics
           await this.pushService.topicSubscribe(this.userInfo.code);
           await this.userInfo.grupos.forEach(grupo => this.pushService.topicSubscribe(this.userInfo.code + grupo));
         });
       });
     });
+
     this.subscription = this.cardService.myVariable$.subscribe(value => {
       this.comCount = value;
+    });
+    this.subscription2 = this.cardService.myVariable2$.subscribe(value => {
+      this.galCount = value;
+    });
+    this.subscription3 = this.cardService.myVariable3$.subscribe(value => {
+      this.eveCount = value;
     });
 
     return;

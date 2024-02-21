@@ -22,7 +22,7 @@ exports.taskRunner = functions.runWith({ memory: '512MB' }).pubsub.schedule('* *
 
     tasks.forEach(async snapshot => {
         // destruct data from firebase document
-        const { titulo, body, grupos } = snapshot.data()
+        const { titulo, body, grupos, notId, tab } = snapshot.data()
 
         // using firebase-admin messaging function to send notification to our subscribed topic i.e. `all` with required `data`/payload
         const job = await admin.messaging().send({
@@ -30,6 +30,10 @@ exports.taskRunner = functions.runWith({ memory: '512MB' }).pubsub.schedule('* *
                 title: titulo,
                 body: body
             },
+            data: {
+    id: notId,
+    tab: tab,
+  },
         android: {
             notification: {
                 sound: "default",

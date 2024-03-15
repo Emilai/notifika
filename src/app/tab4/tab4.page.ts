@@ -52,7 +52,7 @@ export class Tab4Page implements OnInit {
 
   async deleteAccount() {
 
-    window.location.href = `https://api.whatsapp.com/send?phone=+59898608201&text=Deseo%20eliminar%20mi%20cuenta%20de%20Notifika.%20Usuario:%20${this.userInfo.email}%20-%20Empresa:%20${this.instituto.nombre}`;
+    window.location.href = `https://api.whatsapp.com/send?phone=+59891998256&text=Deseo%20eliminar%20mi%20cuenta%20de%20Notifika.%20Usuario:%20${this.userInfo.email}%20-%20Empresa:%20${this.instituto.nombre}`;
     // await this.authService.deleteUserData();
     // await this.authService.logout();
     // this.router.navigateByUrl('/login', {

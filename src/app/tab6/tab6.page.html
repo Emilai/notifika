@@ -2,12 +2,36 @@
   <app-upbar></app-upbar>
 </ion-header>
 
-<ion-content  [fullscreen]="true">
+<ion-content [fullscreen]="true">
 
   <ion-card>
+    <ion-card-header class="ion-margin">
+      <ion-card-subtitle>Ingrese el documento del usuario que desea buscar sin puntos ni guiones</ion-card-subtitle>
+    </ion-card-header>
     <ion-grid>
       <ion-row>
         <ion-col size="4">
+          <ion-searchbar placeholder="Documento" inputmode="text" mode="ios" [(ngModel)]="documento">
+          </ion-searchbar>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-button (click)="buscarUsuario()" class="btn" mode="ios" color="secondary">
+            <ion-icon slot="start" name="search"></ion-icon>
+            Buscar Usuario
+          </ion-button>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-chip color="primary" *ngIf="totalUsers" class="chip">
+            <ion-avatar>
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <ion-label>Total Usuarios: <span>{{totalUsers.length}}</span></ion-label>
+          </ion-chip>
+        </ion-col>
+
+        <!-- <ion-col size="4">
           <ion-searchbar placeholder="Buscar por Nombre o Apellido" inputmode="text"
             (ionChange)="onSearchChange($event)" [debounce]="250" animated mode="ios" #cardContent id="cardContent">
           </ion-searchbar>
@@ -30,21 +54,24 @@
           </ion-avatar>
           <ion-label>Total Usuarios: <span>{{cards.length}}</span></ion-label>
         </ion-chip>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
 
   </ion-card>
-  <ion-card>
+  <ion-card *ngIf="cards">
     <ion-grid>
-      <ion-row>
+      <ion-row *ngIf="cards.length > 0">
         <ion-col size="2" class="title">NOMBRE</ion-col>
         <ion-col size="2" class="title">DOCUMENTO</ion-col>
         <ion-col size="2" class="title">EMAIL</ion-col>
         <ion-col size="5" class="title">GRUPOS</ion-col>
         <ion-col size="1" class="title">Editar Usuario</ion-col>
       </ion-row>
-      <hr class="hr">
+      <ion-row *ngIf="cards.length === 0">
+        <ion-col size="12" class="title">No hay usuarios en la empresa con el documento ingresado</ion-col>
+      </ion-row>
+      <hr class="hr" *ngIf="cards">
     </ion-grid>
 
     <ion-grid *ngFor="let user of cards | filtro:textoBuscar | filtrodoc:docBuscar | filtromail:mailBuscar">

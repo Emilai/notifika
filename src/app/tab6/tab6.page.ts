@@ -3,7 +3,7 @@ import { CardService } from '../services/card.service';
 import { AuthService } from '../services/auth.service';
 import { OrderPipe } from 'ngx-order-pipe';
 import { EditGroupsPage } from '../modal/edit-groups/edit-groups.page';
-import { ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab6',
@@ -19,12 +19,16 @@ export class Tab6Page implements OnInit {
   textoBuscar = '';
   docBuscar = '';
   mailBuscar = '';
+  documento = '';
+  totalUsers: any;
 
   constructor(
     private cardService: CardService,
     private authService: AuthService,
     private orderPipe: OrderPipe,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -33,15 +37,15 @@ export class Tab6Page implements OnInit {
       const userInfo = userData.data();
       this.userInfo = userInfo;
       this.userGroups = this.userInfo.grupos;
-      this.cardService.getCompanyUsers(this.userInfo.code).then(cards => {
-        cards.subscribe(card => {
-          this.cards = card.map(cardRef => {
-            const data = cardRef.payload.doc.data();
-            return data;
-          });
-          this.cards = this.orderPipe.transform(this.cards, 'cedula', false);
-        });
-      });
+      // this.cardService.getCompanyUsers(this.userInfo.code).then(cards => {
+      //   cards.subscribe(card => {
+      //     this.cards = card.map(cardRef => {
+      //       const data = cardRef.payload.doc.data();
+      //       return data;
+      //     });
+      //     this.cards = this.orderPipe.transform(this.cards, 'cedula', false);
+      //   });
+      // });
       return userInfo;
     });
 
@@ -71,4 +75,27 @@ export class Tab6Page implements OnInit {
     this.mailBuscar = event.detail.value;
   }
 
+  async buscarUsuario() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    this.cardService.getCompanyUser(this.documento, this.userInfo.code).then(cards => {
+      cards.subscribe(card => {
+        this.cards = card.map(cardRef => {
+          const data = cardRef.payload.doc.data();
+          return data;
+        });
+      });
+    });
+    await loading.dismiss();
+  }
+
+  async showAlert(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 }

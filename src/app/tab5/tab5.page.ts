@@ -89,6 +89,19 @@ export class Tab5Page implements OnInit {
     );
   }
 
+  documentos() {
+    this.router.navigateByUrl('/documentos', {
+      replaceUrl: true
+    }
+    );
+  }
+  dashboard() {
+    this.router.navigateByUrl('/dashboard', {
+      replaceUrl: true
+    }
+    );
+  }
+
   async mostrarModal() {
 
     const modal = await this.modalCtrl.create({

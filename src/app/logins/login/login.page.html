@@ -45,19 +45,25 @@
           </ion-note>
         </ion-item>
 
-        <ion-button type="button" (click)="getUser(cedula)" expand="block" shape="round" class="loginBtn" [disabled]="!credentials2.password || !cedula">
+        <ion-button type="button" (click)="getUser(cedula)" expand="block" shape="round" class="loginBtn"
+          [disabled]="!credentials2.password || !cedula">
           Ingresar
         </ion-button>
       </div>
 
       <hr class="hr">
 
-      <ion-button type="button" (click)="register()" expand="block" fill="clear" shape="round">
+      <ion-button type="button" (click)="register()" expand="block" fill="outline" shape="round">
         Registrar nueva cuenta
       </ion-button>
       <hr>
-      <ion-button type="button" (click)="passwordReset()" expand="block" fill="clear" shape="round" color="danger">
+      <ion-button type="button" (click)="wppReset()" expand="block" fill="outline" shape="round" color="danger">
         Olvidé mi Contraseña
+      </ion-button>
+
+      <hr>
+      <ion-button type="button" (click)="soporte()" expand="block" fill="outline" shape="round" color="success">
+        Contactar a Soporte
       </ion-button>
 
     </div>
@@ -99,12 +105,16 @@
 
       <hr class="hr">
 
-      <ion-button type="button" (click)="register()" expand="block" fill="clear" shape="round">
+      <ion-button type="button" (click)="register()" expand="block" fill="outline" shape="round">
         Registrar nueva cuenta
       </ion-button>
       <hr>
-      <ion-button type="button" (click)="passwordReset()" expand="block" fill="clear" shape="round" color="danger">
+      <ion-button type="button" (click)="wppReset()" expand="block" fill="outline" shape="round" color="danger">
         Olvidé mi Contraseña
+      </ion-button>
+      <hr>
+      <ion-button type="button" (click)="soporte()" expand="block" fill="outline" shape="round" color="success">
+        Contactar a Soporte
       </ion-button>
     </div>
   </div>

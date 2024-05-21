@@ -8,10 +8,10 @@
   <ion-card *ngIf="content">
     <ion-img [src]="cardInfo.img"></ion-img>
     <ion-card-header class="ion-padding">
-          <ion-chip class="tick" color="secondary" *ngIf="docIsRead">
-      <ion-label>Leído</ion-label>
-      <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
-    </ion-chip>
+      <ion-chip class="tick" color="secondary" *ngIf="docIsRead">
+        <ion-label>Leído</ion-label>
+        <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
+      </ion-chip>
       <ion-card-subtitle>{{cardInfo.fecha}}</ion-card-subtitle>
       <ion-card-title color="dark" class="title2">{{cardInfo.titulo}}</ion-card-title>
       <ion-chip *ngFor="let chip of cardInfo.grupos" color="primary" mode="ios" outline="true" size="small"
@@ -27,9 +27,9 @@
       <ion-card-subtitle *ngIf="cardInfo.link" class="ion-margin-top" (click)="link()">
         Link: {{cardInfo.link}}
       </ion-card-subtitle>
-          <ion-chip class="tick" color="secondary" (click)="controlLect()" *ngIf="userInfo && userInfo.admin">
-      <ion-label>Verificar Lecturas</ion-label>
-    </ion-chip>
+      <ion-chip class="tick" color="secondary" (click)="controlLect()" *ngIf="userInfo && userInfo.superadmin">
+        <ion-label>Verificar Lecturas</ion-label>
+      </ion-chip>
     </ion-card-content>
 
 
@@ -42,7 +42,7 @@
       <ion-icon name="arrow-back-circle-outline" color="secondary"></ion-icon>
     </ion-chip>
 
-        <ion-chip (click)="exportarLecturas()" class="excelBtn" color="success">
+    <ion-chip (click)="exportarLecturas()" class="excelBtn" color="success">
       <ion-icon name="add"></ion-icon>
       <ion-label>Descargar en Excel</ion-label>
     </ion-chip>

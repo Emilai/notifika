@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <app-upbar></app-upbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <ion-button (click)="back()" expand="block" fill="clear" shape="round">
+    <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+    Volver a la App
+  </ion-button>
+
+  
+
+  <div *ngIf="instituto" class="maxDiv">
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Seleccionar Documento</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+        <ion-item class="ion-margin-bottom">
+      <ion-input type="file" placeholder="Cargar Documento" (change)="onFileChange($event)" required>
+      </ion-input>
+    </ion-item>
+  </ion-card-content>
+</ion-card>
+
+<ion-button expand="block" shape="round" (click)="update()">
+  Crear Documento
+</ion-button>
+<ion-button expand="block" shape="round" color="danger" (click)="cancel()">
+  Cancelar
+</ion-button>
+  </div>
+
+
+</ion-content>

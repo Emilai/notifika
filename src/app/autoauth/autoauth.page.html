@@ -15,10 +15,35 @@
         <ion-button class="btn" (click)="register()" shape="round">
           Cargar Usuarios
         </ion-button>
+                <ion-button class="btn" (click)="register2()" shape="round">
+          Actualizar Usuarios
+        </ion-button>
       </ion-card-title>
 
     </ion-card-header>
   </ion-card>
+
+  <!-- <ion-card *ngIf="lecturesToLoad">
+    <ion-card-header>
+      <ion-card-subtitle>Lecturas para cargar:</ion-card-subtitle>
+      <ion-card-title>{{cantidadlecturas}}
+        <ion-button class="btn" (click)="registerLectures()" shape="round">
+          Cargar Lecturas
+        </ion-button>
+      </ion-card-title>
+
+    </ion-card-header>
+  </ion-card> -->
+<!-- 
+  <ion-card>
+    <ion-card-header>
+
+        <ion-button class="btn" (click)="deleteUsers()" shape="round">
+          Borrar Usuarios de DB
+        </ion-button>
+
+    </ion-card-header>
+  </ion-card> -->
 
   <ion-card>
     <ion-grid>
@@ -31,7 +56,7 @@
       <hr class="hr">
     </ion-grid>
 
-    <ion-grid *ngFor="let user of usersToLoad">
+    <!-- <ion-grid *ngFor="let user of usersToLoad">
       <ion-row>
         <ion-col size="2">{{user.name}}</ion-col>
         <ion-col size="2">{{user.cedula}}</ion-col>
@@ -39,6 +64,6 @@
         <ion-col size="5">{{user.grupos}}</ion-col>
       </ion-row>
       <hr class="hr2">
-    </ion-grid>
+    </ion-grid> -->
   </ion-card>
 </ion-content>

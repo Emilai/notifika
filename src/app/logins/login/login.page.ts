@@ -102,6 +102,15 @@ export class LoginPage implements OnInit {
   passwordReset() {
     this.forgetBox = !this.forgetBox;
   }
+
+  wppReset() {
+    this.showAlert2('Solicitará la recuperación de su cuenta por Whatsapp', 'Desea hacerlo?');
+  }
+
+  soporte() {
+    this.showAlert2('Solicitará ayuda de Soporte por Whatsapp', 'Desea hacerlo?');
+  }
+
   async forgotPassword(email) {
     try {
       await this.authService.forgotPass(email);
@@ -114,11 +123,34 @@ export class LoginPage implements OnInit {
     }
   }
 
+
   async showAlert(header, message) {
     const alert = await this.alertController.create({
       header,
       message,
       buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  async showAlert2(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Confirmar',
+        handler: () => {
+          window.location.href = `https://api.whatsapp.com/send?phone=+59891998256&text=Necesito%20ayuda%20del%20soporte%20de%20Notifika.`;;
+          // this.authService.deleteAuthData();
+        }
+      }]
     });
     await alert.present();
   }

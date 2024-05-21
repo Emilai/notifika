@@ -2,7 +2,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { OrderPipe } from 'ngx-order-pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { CardService } from 'src/app/services/card.service';
@@ -38,6 +38,7 @@ export class ModalPage implements OnInit {
     private cardService: CardService,
     private orderPipe: OrderPipe,
     private firestore: AngularFirestore,
+    private loadingController: LoadingController,
     private authService: AuthService) { }
 
   async ngOnInit() {
@@ -65,17 +66,6 @@ export class ModalPage implements OnInit {
         console.log('error:', error);
         this.docIsRead = false;
       }
-      //get users that has read this comunication
-      this.cardService.getReadCom(this.userInfo.code, this.cardInfo.id).then(cards => {
-        cards.subscribe(card => {
-          this.lecturas = card.map(cardRef => {
-            const data = cardRef.payload.doc.data();
-            return data;
-          });
-          this.lecturas = this.orderPipe.transform(this.lecturas, 'fecha', false);
-        });
-      });
-
       });
 
     return;
@@ -90,7 +80,25 @@ export class ModalPage implements OnInit {
     window.open(this.cardInfo.link, '_system');
   }
 
-controlLect() {
+async controlLect() {
+  if (!this.lecturas) {
+    if (this.userInfo.superadmin === true) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      await this.cardService.getReadCom(this.userInfo.code, this.cardInfo.id).then(cards => {
+        cards.subscribe(async card => {
+          this.lecturas = card.map(cardRef => {
+            const data = cardRef.payload.doc.data();
+            return data;
+          });
+          this.lecturas = this.orderPipe.transform(this.lecturas, 'fecha', false);
+          await loading.dismiss();
+        });
+      });
+    } else {
+      console.log('No admin User, no lectures display');
+    }
+  }
   this.content = !this.content;
   this.controlLecturas = !this.controlLecturas;
 }

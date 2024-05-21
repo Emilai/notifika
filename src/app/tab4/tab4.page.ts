@@ -1,10 +1,11 @@
 /* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
 import { PushService } from '../services/push.service';
+import { RecibosPage } from '../modal/recibos/recibos.page';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class Tab4Page implements OnInit {
     public cardService: CardService,
     private router: Router,
     private alertController: AlertController,
-    private pushService: PushService
+    private pushService: PushService,
+    public modalCtrl: ModalController
   ) { }
 
 
@@ -103,6 +105,21 @@ export class Tab4Page implements OnInit {
     window.location.href = this.instituto.web;
   }
 
+  async mostrarRecibos(cedula, fym, code) {
+    const modal = await this.modalCtrl.create({
+      component: RecibosPage,
+      showBackdrop: true,
+      canDismiss: true,
+      animated: true,
+      mode: 'ios',
+    });
 
+
+    this.authService.cedula = cedula;
+    this.authService.fym = fym;
+    this.authService.code = code;
+    await modal.present();
+
+  }
 
 }

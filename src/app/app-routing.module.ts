@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate } from '@angular/fire/auth-guard';
+import { RecibosPageModule } from './modal/recibos/recibos.module';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['tabs/tab1']);
@@ -62,6 +63,11 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'recibos',
+    loadChildren: () => import('./modal/recibos/recibos.module').then(m => m.RecibosPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
     path: 'tab5',
     loadChildren: () => import('./tab5/tab5.module').then(m => m.Tab5PageModule),
     ...canActivate(redirectUnauthorizedToLogin)
@@ -104,6 +110,16 @@ const routes: Routes = [
   {
     path: 'autoauth',
     loadChildren: () => import('./autoauth/autoauth.module').then(m => m.AutoauthPageModule)
+  },
+  {
+    path: 'documentos',
+    loadChildren: () => import('./documentos/documentos.module').then(m => m.DocumentosPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   },
   {
     path: '**',

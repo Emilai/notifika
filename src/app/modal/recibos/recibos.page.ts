@@ -62,7 +62,7 @@ export class RecibosPage implements OnInit {
           }
           console.log(this.documentos);
         });
-      });;
+      });
     } catch(e) {
       console.log(e);
     }

@@ -54,10 +54,13 @@
   <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
   Administrar Grupos
 </ion-button>
-    <ion-button (click)="documentos()" class="btn" expand="block" color="tertiary">
+<div *ngIf="instituto">
+    <ion-button *ngIf="instituto.recibos" (click)="documentos()" class="btn" expand="block" color="tertiary">
   <ion-icon slot="start" name="folder-outline"></ion-icon>
   Administrar Documentos
 </ion-button>
+</div>
+
     <ion-button (click)="dashboard()" class="btn" expand="block" color="tertiary">
   <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
   Estadisticas

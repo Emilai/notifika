@@ -15,6 +15,8 @@ export class DocumentosPage implements OnInit {
   instituto: any;
   userInfo: any;
   nuevoDoc: object = {};
+  documentos: object;
+  dataEmpresa: any;
 
   tituloDoc: any;
   file: any;
@@ -29,7 +31,7 @@ export class DocumentosPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    (await this.authService.userData()).subscribe(userData => {
+    (await this.authService.userData()).subscribe(async userData => {
       const userInfo = userData.data();
       this.userInfo = userInfo;
       this.cardService.getInstitution(this.userInfo.code).then(inst => {
@@ -38,6 +40,19 @@ export class DocumentosPage implements OnInit {
         });
       });
       this.userInfo = userInfo;
+      try {
+        const empresa: any = await this.cardService.getInstitution(this.userInfo.code).then(inst => {
+          inst.subscribe(kupones => {
+            this.dataEmpresa = kupones.data();
+            if (this.dataEmpresa.documentos !== undefined) {
+              this.documentos = this.dataEmpresa.documentos;
+            }
+            console.log(this.documentos);
+          });
+        });
+      } catch (e) {
+        console.log(e);
+      }
     });
 
     return;
@@ -56,20 +71,21 @@ export class DocumentosPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     this.nuevoDoc[this.tituloDoc] = this.file;
-    if(this.file) {
-      try {
-        await this.cardService.createDocs(this.userInfo.code, this.nuevoDoc);
+
+      if (this.file) {
+        try {
+          await this.cardService.createDocs(this.userInfo.code, this.nuevoDoc);
+          await loading.dismiss();
+          this.showAlert('Documento Cargado', '💪🏻😁');
+          this.cancel();
+        } catch {
+          await loading.dismiss();
+          this.showAlert('Hubo un error al actualizar', 'contacte a soporte@notifika.uy');
+        }
+      } else {
         await loading.dismiss();
-        this.showAlert('Documento Cargado', '💪🏻😁');
-        this.cancel();
-      } catch {
-        await loading.dismiss();
-        this.showAlert('Hubo un error al actualizar', 'contacte a soporte@notifika.uy');
+        this.showAlert('No ha seleccionado un documento', 'Si es un error contacte a soporte@notifika.uy');
       }
-    } else {
-      await loading.dismiss();
-      this.showAlert('No ha seleccionado un documento', 'Si es un error contacte a soporte@notifika.uy');
-    }
   }
 
   async onFileChange(event: any) {
@@ -78,13 +94,18 @@ export class DocumentosPage implements OnInit {
     if (file) {
       const loading = await this.loadingController.create();
       await loading.present();
-      const path = `${this.userInfo.code}/documentos/${file.name}`;
-      const uploadTask = await this.fireStorage.upload(path, file);
-      const url = await uploadTask.ref.getDownloadURL();
-      console.log('URL: ', url);
-      this.file = url;
       this.tituloDoc = file.name.replace(/[^\w\s_]/gi, ' ').split(' ').join(' ');
-      await loading.dismiss();
+      if (this.documentos.hasOwnProperty(this.tituloDoc)){
+        await loading.dismiss();
+        this.showAlert3('Carga erronea', 'El nombre del documento debe ser distinto de otro existente en los documentos compartidos');
+      } else {
+        const path = `${this.userInfo.code}/documentos/${file.name}`;
+        const uploadTask = await this.fireStorage.upload(path, file);
+        const url = await uploadTask.ref.getDownloadURL();
+        console.log('URL: ', url);
+        this.file = url;
+        await loading.dismiss();
+      }
     }
   }
 
@@ -100,6 +121,47 @@ export class DocumentosPage implements OnInit {
       header,
       message,
       buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  del(data) {
+    this.showAlert2('Se eliminará el Documento', 'Desea continuar?', data);
+  }
+
+  async showAlert2(header, message, key) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Confirmar',
+        handler: async () => {
+          const documentData = this.documentos;
+          delete documentData[key];
+          await this.cardService.updateDocs(this.userInfo.code, documentData);
+        }
+      }]
+    });
+    await alert.present();
+  }
+  async showAlert3(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: [
+      {
+        text: 'OK',
+        handler: async () => {
+          this.cancel();
+        }
+      }]
     });
     await alert.present();
   }

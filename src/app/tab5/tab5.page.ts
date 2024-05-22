@@ -19,6 +19,7 @@ export class Tab5Page implements OnInit {
   user: any;
   userInfo: any;
   userGroups: any;
+  instituto: any;
 
   constructor(
     private router: Router,
@@ -36,6 +37,11 @@ export class Tab5Page implements OnInit {
       const userInfo = userData.data();
       this.userInfo = userInfo;
       this.userGroups = this.userInfo.grupos;
+      this.cardService.getInstitution(this.userInfo.code).then(inst => {
+        inst.subscribe(kupones => {
+          this.instituto = kupones.data();
+        });
+      });
       return userInfo;
     });
   }

@@ -17,7 +17,6 @@ export class DocumentosPage implements OnInit {
   nuevoDoc: object = {};
   documentos: object;
   dataEmpresa: any;
-
   tituloDoc: any;
   file: any;
 

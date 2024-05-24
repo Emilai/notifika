@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  gap: 20px; /* Añade espacio entre las cajas */
+  padding: 0 20px; /* Añade espacio en los lados izquierdo y derecho del contenedor */
+}
+.container2 {
+  display: block;
+  padding: 0 20px; /* Añade espacio en los lados izquierdo y derecho del contenedor */
+  margin-bottom: 20px;
+}
+
+.box {
+  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+  background-color: #2b2d3e;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 1px 1px #666;
+  position: relative;
+  border-radius: 5px;
+  flex: 0 0 calc(50% - 10px); /* Ocupa el 50% menos la mitad del gap para margen igual */
+}
+
+.box:first-child {
+  flex: 0 0 calc(70% - 10px); /* Ocupa el 70% del ancho del contenedor menos la mitad del gap */
+}
+
+.box:last-child {
+  flex: 0 0 calc(30% - 10px); /* Ocupa el 30% del ancho del contenedor menos la mitad del gap */
+}
+
+.details {
+  position: absolute;
+  color: #fff;
+  transform: scale(0.8);
+}
+
+.details h2 {
+  font-weight: 600;
+  margin: 5px;
+  font-size: 18px;
+}
+.details h1 {
+  font-weight: 600;
+  margin: 5px;
+}
+
+.box1 {
+  background-image: linear-gradient(135deg, #7fe8f4 10%, #3d72e7 100%);
+}
+
+
+.barChart {
+  margin: 0px;
+  padding: 25px 20px;
+  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+  background-color: #2b2d3e;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 1px 1px #666;
+  position: relative;
+  border-radius: 5px;
+
+  .details {
+    position: absolute;
+    color: #fff;
+    transform: scale(0.8) translate(-10px, 35px);
+
+    h1,
+    h2 {
+      font-weight: 600;
+      margin: 5px;
+    }
+  }
+}

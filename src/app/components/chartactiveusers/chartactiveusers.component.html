@@ -1,0 +1,39 @@
+  <div class="container">
+    <ion-progress-bar type="indeterminate" *ngIf="!this.activeUsersSeries"></ion-progress-bar>
+    <div class="box box1" *ngIf="this.activeUsersSeries">
+      <div class="details">
+        <h1>{{activeUsersCount}}</h1>
+        <h2>Usuarios</h2>
+        <h2>Activos</h2>
+      </div>
+
+      <apx-chart [chart]="options.chart" [series]="options.series" [stroke]="options.stroke" [markers]="options.markers"
+        [grid]="options.grid" [xaxis]="options.xaxis" [tooltip]="options.tooltip" [colors]="options.colors"></apx-chart>
+    </div>
+    <ion-progress-bar type="indeterminate" *ngIf="!this.totalUsersCount"></ion-progress-bar>
+    <div class="box box1 box2" *ngIf="this.totalUsersCount">
+      <div class="details">
+        <h1>{{totalUsersCount}}</h1>
+        <h2>Usuarios</h2>
+        <h2>Registrados</h2>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="container2">
+    <ion-progress-bar type="indeterminate" *ngIf="!lecturasChart"></ion-progress-bar>
+    <div class="barChart" *ngIf="lecturasChart">
+      <apx-chart [chart]="barOptions.chart" [series]="barOptions.series" [labels]="barOptions.labels"
+        [grid]="barOptions.grid" [xaxis]="barOptions.xaxis" [yaxis]="barOptions.yaxis" [title]="barOptions.title"
+        [legend]="barOptions.legend" [dataLabels]="barOptions.dataLabels"></apx-chart>
+    </div>
+  </div>
+
+  <div class="container2">
+    <ion-progress-bar type="indeterminate" *ngIf="!lecturasChart"></ion-progress-bar>
+    <div class="barChart" *ngIf="lecturasChart">
+      <apx-chart [chart]="barOptions2.chart" [series]="barOptions2.series" [labels]="barOptions2.labels"
+        [grid]="barOptions2.grid" [xaxis]="barOptions2.xaxis" [yaxis]="barOptions2.yaxis" [title]="barOptions2.title"
+        [legend]="barOptions2.legend" [dataLabels]="barOptions2.dataLabels"></apx-chart>
+    </div>
+  </div>

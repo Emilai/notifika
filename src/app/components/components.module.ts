@@ -3,22 +3,27 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { UpbarComponent } from './upbar/upbar.component';
 import { CardComponent } from './card/card.component';
+import { ChartactiveusersComponent } from './chartactiveusers/chartactiveusers.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 
 @NgModule({
     declarations: [
         UpbarComponent,
-        CardComponent
+        CardComponent,
+        ChartactiveusersComponent
     ],
 
     exports: [
         UpbarComponent,
-        CardComponent
+        CardComponent,
+        ChartactiveusersComponent
     ],
     imports: [
         CommonModule,
         IonicModule,
+        NgApexchartsModule
     ]
 
 })

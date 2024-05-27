@@ -1,10 +1,4 @@
-<ion-header [translucent]="true">
-  <app-upbar></app-upbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-
-  <div *ngIf="cards">
+<div *ngIf="cards">
     <ion-card *ngIf="cards.length === 0">
       <ion-card-header>
         <ion-card-title>No tienes Galerías disponibles</ion-card-title>
@@ -33,6 +27,3 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
-</ion-content>

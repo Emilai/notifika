@@ -18,6 +18,7 @@ import {
 } from 'ng-apexcharts';
 import { series } from './datos';
 import { LoadingController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -57,10 +58,12 @@ export class ChartactiveusersComponent implements OnInit {
   cards: any;
   lecturasPorComunicado = {
     comunicados: [],
+    ids: [],
     lecturas: []
   };
   lecturasPorHorario ={
     comunicados: [],
+    ids: [],
     franja1: [],
     franja2:[],
     franja3: [],
@@ -318,123 +321,112 @@ export class ChartactiveusersComponent implements OnInit {
   }
 
   async getComunicadosData(code) {
-    console.log('getComunicadosData start');
-    this.cardService.getComunicData(code).subscribe(async (cardsSnapshot) => {
-      console.log('cardsSnapshot', cardsSnapshot);
+    const data = this.cardService.getComunicData(code).subscribe(async (cardsSnapshot) => {
       const cards = cardsSnapshot.map(card => ({ id: card.id, ...card.data() }));
 
-      this.cards = cards.sort((a, b) => {
-        const dateA = new Date(a.date).getTime() || 0; // Convertir a tiempo en milisegundos
-        const dateB = new Date(b.date).getTime() || 0; // Convertir a tiempo en milisegundos
-        return dateB - dateA; // Ordenar de más reciente a más antiguo
-      });
+      const mergedCards = cards.map(card => card);
 
-      console.log('Comunicados sorted', this.cards);
+      this.cards = mergedCards.sort((a, b) => {
+        const dateA = a.date || 0; // Use 0 if date is undefined
+        const dateB = b.date || 0; // Use 0 if date is undefined
 
-      if (this.cards.length > 0) {
-        try {
-          const lecturaPromises = this.cards.map(element => {
-            return this.getComunicadoLecturas(this.userInfo.code, element.id, element.date);
-          });
-
-          // Espera a que todas las promesas se completen antes de continuar
-          await Promise.all(lecturaPromises);
-
-          // Después de obtener todas las lecturas, construir lecturasPorComunicado
-          this.constructLecturasPorComunicado();
-        } catch (error) {
-          console.error('Error in getting comunicados lectures:', error);
+        if (dateA > dateB) {
+          return -1; // Return -1 to place 'a' before 'b'
+        } else if (dateA < dateB) {
+          return 1; // Return 1 to place 'a' after 'b'
+        } else {
+          return 0; // Return 0 if the dates are equal
         }
-      } else {
-        console.log('No cards found');
+      });
+      console.log('Comunicados', this.cards);
+
+      if (this.cards) {
+        for (const element of this.cards) {
+          if (!this.lecturasPorComunicado.ids.includes(element.id)) {
+            this.lecturasPorComunicado.ids.push(element.id);
+            await this.getComunicadoLecturas(this.userInfo.code, element.id, element.date);
+          }
+        }
+        this.constructLecturasPorComunicado();
       }
-    }, error => {
-      console.error('Error fetching comunicados:', error);
     });
   }
 
 
-  async getComunicadoLecturas(code, id, date): Promise<void> {
-    return new Promise((resolve, reject) => {
-      console.log(`getComunicadoLecturas for id ${id}`);
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const data = this.cardService.getComunicLectures(code, id).subscribe((data) => {
-          const cardsSnapshot = data;
-          const cards = cardsSnapshot.map(card => ({ id: card.id, ...card.data() }));
-          const cantidadLecturas = cards.length;
+  async getComunicadoLecturas(code, id, date) {
+    console.log(`getComunicadoLecturas for id ${id}`);
+    try {
+      const cardsSnapshot = await this.cardService.getComunicLectures(code, id).pipe(take(1)).toPromise();
+      const cards = cardsSnapshot.map(card => ({ id: card.id, ...card.data() }));
+      const cantidadLecturas = cards.length;
 
-          console.log('Lecturas for id', id, 'quantity', cantidadLecturas);
+      console.log('Lecturas for id', id, 'quantity', cantidadLecturas);
 
-          // Extraer solo la parte de la fecha (YYYY-MM-DD)
-          const formattedDate = date.split('-').slice(0, 3).join('-');
+      const formattedDate = date.split('-').slice(0, 3).join('-');
 
-          // Agregar fecha y cantidad de lecturas a lecturasPorComunicado
-          this.lecturasPorComunicado.comunicados.push(formattedDate);
-          this.lecturasPorComunicado.lecturas.push(cantidadLecturas);
+      this.lecturasPorComunicado.comunicados.push(formattedDate);
+      this.lecturasPorComunicado.lecturas.push(cantidadLecturas);
 
-          let franja1 = 0;
-          let franja2 = 0;
-          let franja3 = 0;
-          let franja4 = 0;
+      let franja1 = 0;
+      let franja2 = 0;
+      let franja3 = 0;
+      let franja4 = 0;
 
-          // Contar lecturas por franja horaria
-          cards.forEach(card => {
-            const hour = parseInt(card.fecha.split(' | ')[1].split(':')[0], 10); // Obtener la hora de la fecha en formato 24h
-            if (!isNaN(hour)) {
-              if (hour >= 0 && hour < 6) {
-                franja1++;
-              } else if (hour >= 6 && hour < 12) {
-                franja2++;
-              } else if (hour >= 12 && hour < 18) {
-                franja3++;
-              } else if (hour >= 18 && hour < 24) {
-                franja4++;
-              }
-            }
-          });
+      cards.forEach(card => {
+        const hour = parseInt(card.fecha.split(' | ')[1].split(':')[0], 10);
+        if (!isNaN(hour)) {
+          if (hour >= 0 && hour < 6) {
+            franja1++;
+          } else if (hour >= 6 && hour < 12) {
+            franja2++;
+          } else if (hour >= 12 && hour < 18) {
+            franja3++;
+          } else if (hour >= 18 && hour < 24) {
+            franja4++;
+          }
+        }
+      });
 
-          // Agregar datos de franja horaria al objeto lecturasPorHorario
-          this.lecturasPorHorario.comunicados.push(formattedDate);
-          this.lecturasPorHorario.franja1.push(franja1);
-          this.lecturasPorHorario.franja2.push(franja2);
-          this.lecturasPorHorario.franja3.push(franja3);
-          this.lecturasPorHorario.franja4.push(franja4);
+      this.lecturasPorHorario.comunicados.push(formattedDate);
+      this.lecturasPorHorario.franja1.push(franja1);
+      this.lecturasPorHorario.franja2.push(franja2);
+      this.lecturasPorHorario.franja3.push(franja3);
+      this.lecturasPorHorario.franja4.push(franja4);
 
-          resolve(); // Resolver la promesa cuando se complete
-        }, error => {
-          console.error(`Error fetching lecturas for id ${id}:`, error);
-          reject(error); // Rechazar la promesa en caso de error
-        });
-      } catch (error) {
-        console.error(`Error fetching lecturas for id ${id}:`, error);
-        reject(error); // Rechazar la promesa en caso de error
-      }
-    });
+    } catch (error) {
+      console.error(`Error fetching lecturas for id ${id}:`, error);
+    }
   }
 
   constructLecturasPorComunicado() {
     console.log('constructLecturasPorComunicado start');
-    // Ordenar lecturasPorComunicado por la fecha
+
     const combined = this.lecturasPorComunicado.comunicados.map((date, index) => ({
       date,
       lecturas: this.lecturasPorComunicado.lecturas[index],
       franja1: this.lecturasPorHorario.franja1[index],
       franja2: this.lecturasPorHorario.franja2[index],
       franja3: this.lecturasPorHorario.franja3[index],
-      franja4: this.lecturasPorHorario.franja4[index]
+      franja4: this.lecturasPorHorario.franja4[index],
+      id: this.lecturasPorComunicado.ids[index]
     }));
 
     combined.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    this.lecturasPorComunicado.comunicados = combined.map(item => item.date);
-    this.lecturasPorComunicado.lecturas = combined.map(item => item.lecturas);
+    const uniqueCombined = combined.filter((item, index, self) =>
+      index === self.findIndex((t) => t.id === item.id)
+    );
 
-    this.lecturasPorHorario.comunicados = combined.map(item => item.date);
-    this.lecturasPorHorario.franja1 = combined.map(item => item.franja1);
-    this.lecturasPorHorario.franja2 = combined.map(item => item.franja2);
-    this.lecturasPorHorario.franja3 = combined.map(item => item.franja3);
-    this.lecturasPorHorario.franja4 = combined.map(item => item.franja4);
+    this.lecturasPorComunicado.comunicados = uniqueCombined.map(item => item.date);
+    this.lecturasPorComunicado.lecturas = uniqueCombined.map(item => item.lecturas);
+    this.lecturasPorComunicado.ids = uniqueCombined.map(item => item.id);
+
+    this.lecturasPorHorario.comunicados = uniqueCombined.map(item => item.date);
+    this.lecturasPorHorario.franja1 = uniqueCombined.map(item => item.franja1);
+    this.lecturasPorHorario.franja2 = uniqueCombined.map(item => item.franja2);
+    this.lecturasPorHorario.franja3 = uniqueCombined.map(item => item.franja3);
+    this.lecturasPorHorario.franja4 = uniqueCombined.map(item => item.franja4);
+    this.lecturasPorHorario.ids = uniqueCombined.map(item => item.id);
 
     console.log('lecturasPorComunicado sorted', this.lecturasPorComunicado);
     console.log('lecturasPorHorario sorted', this.lecturasPorHorario);
@@ -444,7 +436,7 @@ export class ChartactiveusersComponent implements OnInit {
       this.barChart2();
       this.lecturasChart = true;
       console.log('barChart rendered and lecturasChart set to true');
-    }, 100); // Ajusta el delay según sea necesario
+    }, 100);
   }
 
   ////////// Counteo de Fechas para Usuarios Activos ////////////

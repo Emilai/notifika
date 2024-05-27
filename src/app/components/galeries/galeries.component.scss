@@ -1,0 +1,27 @@
+.cardImg {
+  object-fit: cover;
+  height: 250px;
+  width: 100%;
+}
+
+.title {
+  font-size: 18px !important;
+}
+
+.card {
+    min-height: 200px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.label {
+    font-size: 10px;
+}
+
+.chip {
+    padding: 3px;
+    border-radius: 10px;
+    height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

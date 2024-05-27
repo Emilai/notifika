@@ -1,39 +1,54 @@
-import { getLocaleFirstDayOfWeek } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { iosTransitionAnimation, ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { ModalPage } from 'src/app/modal/modal/modal.page';
-import { AuthService } from 'src/app/services/auth.service';
-import { CardService } from 'src/app/services/card.service';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { OrderModule } from 'ngx-order-pipe';
 import { OrderPipe } from 'ngx-order-pipe';
-import { from, of, forkJoin } from 'rxjs';
-import { mergeMap, catchError, toArray } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { GalleryPage } from '../modal/gallery/gallery.module';
-
+import { from, of } from 'rxjs';
+import { mergeMap, toArray } from 'rxjs/operators';
+import { CardService } from 'src/app/services/card.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { EventPage } from 'src/app/modal/event/event.page';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-events',
+  templateUrl: './events.component.html',
+  styleUrls: ['./events.component.scss'],
 })
-
-export class Tab2Page implements OnInit {
-
+export class EventsComponent implements OnInit {
+  @Input() eveCount: number;
   cards: any;
   user: any;
   userInfo: any;
   userGroups: any;
   unreadCount = 0;
 
+
   constructor(public cardService: CardService, public modalCtrl: ModalController,
     public authService: AuthService,
     public orderBy: OrderModule,
-    private firestore: AngularFirestore,
     private orderPipe: OrderPipe,
-    private cdr: ChangeDetectorRef) {
-  }
+    private cdr: ChangeDetectorRef,
+    private firestore: AngularFirestore) { }
+
+
+  // async ngOnInit() {
+  //   this.user = this.authService.auth.currentUser;
+  //   await (await this.authService.userData()).subscribe(userData => {
+  //     const userInfo = userData.data();
+  //     this.userInfo = userInfo;
+  //     this.userGroups = this.userInfo.grupos;
+  //     this.cardService.getEvent(this.userInfo.code, this.userInfo.grupos).then(cards => {
+  //       cards.subscribe(card => {
+  //         this.cards = card.map(cardRef => {
+  //           const data = cardRef.payload.doc.data();
+  //           return data;
+  //         });
+  //         this.cards = this.orderPipe.transform(this.cards, 'date' , true);
+  //       });
+  //     });
+  //     return userInfo;
+  //   });
+  // }
 
   async ngOnInit() {
     try {
@@ -45,8 +60,9 @@ export class Tab2Page implements OnInit {
 
 
   async mostrarModal(card) {
+
     const modal = await this.modalCtrl.create({
-      component: GalleryPage,
+      component: EventPage,
       showBackdrop: true,
       canDismiss: true,
       animated: true,
@@ -56,7 +72,7 @@ export class Tab2Page implements OnInit {
       // Update the cards or perform any action when the modal is dismissed
       this.updateCards();
     });
-    this.cardService.gallery = card;
+    this.cardService.cardInfo = card;
     await modal.present();
   }
 
@@ -78,7 +94,7 @@ export class Tab2Page implements OnInit {
         try {
           const doc = await this.firestore.collection(this.userInfo.code)
             .doc('datos')
-            .collection('galerias')
+            .collection('eventos')
             .doc(element.id)
             .collection('lecturas')
             .doc(this.userInfo.id)
@@ -89,7 +105,7 @@ export class Tab2Page implements OnInit {
             console.log(element.id, 'No Existe');
             element.read = false;
           } else {
-            console.log(element);
+            console.log(element, 'Existe');
           }
         } catch (error) {
           console.log('error:', error);
@@ -101,6 +117,7 @@ export class Tab2Page implements OnInit {
     );
   }
 
+
   async fetchAndProcessCards() {
     try {
       const userData = await (await this.authService.userData()).toPromise();
@@ -109,16 +126,14 @@ export class Tab2Page implements OnInit {
         this.userInfo = userData.data();
         console.log('User Info:', this.userInfo);
 
-        this.cardService.getGalleries(this.userInfo.code, this.userInfo.grupos)
+        this.cardService.getEvent(this.userInfo.code, this.userInfo.grupos)
           .subscribe(async (cardsSnapshot) => {
             const cards = cardsSnapshot.map(card => ({ id: card.id, ...card.data() }));
-
-            console.log('Cards before update:', cards);
 
             const updatedCards = await this.checkComCount$(cards).toPromise();
             this.unreadCount = updatedCards.filter(card => !card.read).length;
             console.log('No leidos: ', this.unreadCount);
-            this.cardService.setVariable2(this.unreadCount);
+            this.cardService.setVariable3(this.unreadCount);
 
             const mergedCards = cards.map(card => {
               const updatedCard = updatedCards.find(updated => updated.id === card.id);

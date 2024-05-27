@@ -1,27 +1,19 @@
-<ion-header [translucent]="true">
-  <app-upbar></app-upbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-
-  <div *ngIf="cards">
+<div *ngIf="cards">
     <ion-card *ngIf="cards.length === 0">
       <ion-card-header>
-        <ion-card-title>No tienes Galerías disponibles</ion-card-title>
-        <ion-card-subtitle>Aqui verás tus Galerías</ion-card-subtitle>
+        <ion-card-title>No tienes Eventos disponibles</ion-card-title>
+        <ion-card-subtitle>Aqui verás tus Eventos</ion-card-subtitle>
       </ion-card-header>
     </ion-card>
   </div>
 
-
   <ion-grid>
     <ion-row>
       <ion-col *ngFor="let card of cards" size="12" size-sm="12" size-md="6" size-lg="3">
-        <ion-card class="ion-margin card" (click)="mostrarModal(card)" mode="md">
-          <ion-img [src]="card.img" class="cardImg"></ion-img>
+        <ion-card (click)="mostrarModal(card)" class="ion-padding-start ion-padding-end card">
           <ion-card-header>
             <ion-badge *ngIf="!card?.read" color="danger">No Leido</ion-badge>
-            <ion-card-subtitle color="medium">{{card.fecha}}</ion-card-subtitle>
+            <ion-card-subtitle class="sub">{{card.fecha}}</ion-card-subtitle>
             <ion-card-title color="dark" class="title">{{card.titulo}}</ion-card-title>
             <ion-chip *ngFor="let chip of card.grupos" color="primary" mode="ios" outline="true" size="small"
               class="ion-margin-top chip">
@@ -33,6 +25,3 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
-</ion-content>

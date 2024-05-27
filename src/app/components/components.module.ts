@@ -5,6 +5,8 @@ import { UpbarComponent } from './upbar/upbar.component';
 import { CardComponent } from './card/card.component';
 import { ChartactiveusersComponent } from './chartactiveusers/chartactiveusers.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { GaleriesComponent } from './galeries/galeries.component';
+import { EventsComponent } from './events/events.component';
 
 
 
@@ -12,13 +14,17 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     declarations: [
         UpbarComponent,
         CardComponent,
-        ChartactiveusersComponent
+        ChartactiveusersComponent,
+        GaleriesComponent,
+        EventsComponent
     ],
 
     exports: [
         UpbarComponent,
         CardComponent,
-        ChartactiveusersComponent
+        ChartactiveusersComponent,
+        GaleriesComponent,
+        EventsComponent
     ],
     imports: [
         CommonModule,

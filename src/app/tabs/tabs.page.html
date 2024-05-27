@@ -4,12 +4,24 @@
     <ion-tab-button tab="tab1">
       <ion-icon name="chatbubble-outline"></ion-icon>
       <ion-label>Comunicados</ion-label>
-       <ion-badge *ngIf="comCount > 0" color="danger">{{comCount}}</ion-badge>
-       <ion-badge *ngIf="!comCount && comCount !== 0" color="warning">?</ion-badge>
-       <ion-badge *ngIf="!comCount && comCount === 0" color="success">✔</ion-badge>
+      <ion-badge *ngIf="totalCount > 0" color="danger">{{totalCount}}</ion-badge>
+      <ion-badge *ngIf="!totalCount && totalCount !== 0" color="warning">?</ion-badge>
+      <ion-badge *ngIf="!totalCount && totalCount === 0" color="success">✔</ion-badge>
     </ion-tab-button>
 
-    <ion-tab-button tab="tab2">
+    <div *ngIf="instituto">
+    <ion-tab-button *ngIf="instituto.recibos" (click)="mostrarRecibos(userInfo.cedula, instituto.fym, userInfo.code)">
+      <ion-icon name="folder-open-outline"></ion-icon>
+      <ion-label>Documentos</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *ngIf="!instituto.recibos" (click)="recibosError()">
+      <ion-icon name="folder-open-outline"></ion-icon>
+      <ion-label>Documentos</ion-label>
+    </ion-tab-button>
+    </div>
+
+
+    <!-- <ion-tab-button tab="tab2">
       <ion-icon name="images-outline"></ion-icon>
       <ion-label>Galerías</ion-label>
       <ion-badge *ngIf="galCount > 0" color="danger">{{galCount}}</ion-badge>
@@ -23,7 +35,8 @@
       <ion-badge *ngIf="eveCount > 0" color="danger">{{eveCount}}</ion-badge>
       <ion-badge *ngIf="!eveCount && eveCount !== 0" color="warning">?</ion-badge>
       <ion-badge *ngIf="!eveCount && eveCount === 0" color="success">✔</ion-badge>
-    </ion-tab-button>
+    </ion-tab-button> -->
+
     <ion-tab-button tab="tab4">
       <ion-icon name="cog-outline"></ion-icon>
       <ion-label>Cuenta</ion-label>

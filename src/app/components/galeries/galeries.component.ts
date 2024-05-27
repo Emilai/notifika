@@ -1,5 +1,5 @@
 import { getLocaleFirstDayOfWeek } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { iosTransitionAnimation, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ModalPage } from 'src/app/modal/modal/modal.page';
@@ -10,17 +10,15 @@ import { OrderPipe } from 'ngx-order-pipe';
 import { from, of, forkJoin } from 'rxjs';
 import { mergeMap, catchError, toArray } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { GalleryPage } from '../modal/gallery/gallery.module';
-
+import { GalleryPage } from 'src/app/modal/gallery/gallery.page';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-galeries',
+  templateUrl: './galeries.component.html',
+  styleUrls: ['./galeries.component.scss'],
 })
-
-export class Tab2Page implements OnInit {
-
+export class GaleriesComponent implements OnInit {
+  @Input() galCount: number;
   cards: any;
   user: any;
   userInfo: any;

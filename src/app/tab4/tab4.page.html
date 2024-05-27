@@ -15,7 +15,7 @@
       <ion-card-subtitle>Dirección: {{instituto.dir}}</ion-card-subtitle>
 
       <div class="divContact">
-         <ion-button href="tel:{{instituto.tel}}" fill="outline" shape="round" size="small" class="ion-margin-top">
+         <ion-button href="tel:{{instituto.tel}}" fill="none" shape="round" size="small" class="ion-margin-top">
         Teléfono: {{instituto.tel}}
       </ion-button>
         <ion-icon *ngIf="instituto.whatsapp" name="logo-whatsapp" class="icons" (click)="whatsapp()" target="_blank">
@@ -41,12 +41,6 @@
         <ion-label class="label" color="primary">{{grupo}}</ion-label>
       </ion-chip>
 
-    </ion-card-content>
-    <ion-card-content *ngIf="instituto">
-      <ion-button *ngIf="instituto.recibos === true" (click)="mostrarRecibos(userInfo.cedula, instituto.fym, userInfo.code)" expand="block" fill="solid" shape="round" class="ion-padding loginBtn" color="primary">
-        <ion-icon name="document" slot="start"></ion-icon>
-    Documentos y Recibos
-  </ion-button>
     </ion-card-content>
   </ion-card>
 

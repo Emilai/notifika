@@ -1,7 +1,20 @@
 <ion-header [translucent]="true">
   <app-upbar></app-upbar>
+      <ion-segment value="comunicados" color="primary" [(ngModel)]="selectedSegment">
+      <ion-segment-button value="comunicados">
+        <ion-label>Comunicados<ion-badge *ngIf="comCount > 0" color="danger">{{comCount}}</ion-badge></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="galerias">
+        <ion-label>Galerías<ion-badge *ngIf="galCount > 0" color="danger">{{galCount}}</ion-badge></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="eventos">
+        <ion-label>Eventos<ion-badge *ngIf="eveCount > 0" color="danger">{{eveCount}}</ion-badge></ion-label>
+      </ion-segment-button>
+    </ion-segment>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-card></app-card>
+  <app-card [comCount]="comCount" [ngStyle]="{'display': selectedSegment === 'comunicados' ? 'block' : 'none'}"></app-card>
+  <app-galeries [galCount]="galCount" [ngStyle]="{'display': selectedSegment === 'galerias' ? 'block' : 'none'}"></app-galeries>
+  <app-events [eveCount]="eveCount" [ngStyle]="{'display': selectedSegment === 'eventos' ? 'block' : 'none'}"></app-events>
 </ion-content>

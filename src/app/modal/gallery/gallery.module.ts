@@ -18,3 +18,5 @@ import { GalleryPage } from './gallery.page';
   declarations: [GalleryPage]
 })
 export class GalleryPageModule {}
+
+export { GalleryPage };

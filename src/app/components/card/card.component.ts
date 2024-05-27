@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CardService } from 'src/app/services/card.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,7 +16,7 @@ import { Tab2Page } from 'src/app/tab2/tab2.page';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-
+  @Input() comCount: number;
   cards: any[] = [];
   userInfo: any;
   unreadCount = 0;

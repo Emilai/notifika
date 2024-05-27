@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-icon class="icon ion-padding" slot="start" name="backspace-outline" (click)="salir()"></ion-icon>
-    <ion-title>Mis Documentos y Recibos</ion-title>
+    <ion-title>Mis Documentos</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,10 +9,10 @@
 
   <ion-segment value="default" color="primary" [(ngModel)]="selectedSegment">
   <ion-segment-button value="recibos">
-    <ion-label>Recibos</ion-label>
+    <ion-label>Personales</ion-label>
   </ion-segment-button>
   <ion-segment-button value="documentos">
-    <ion-label>Documentos</ion-label>
+    <ion-label>Generales</ion-label>
   </ion-segment-button>
 </ion-segment>
 <div *ngIf="selectedSegment === 'recibos'">

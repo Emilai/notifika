@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/card.service';
 import { PushService } from '../services/push.service';
 import { RecibosPage } from '../modal/recibos/recibos.page';
+import { PasschangePage } from '../modal/passchange/passchange.page';
 
 
 @Component({
@@ -119,7 +120,17 @@ export class Tab4Page implements OnInit {
     this.authService.fym = fym;
     this.authService.code = code;
     await modal.present();
+  }
 
+  async passChange() {
+    const modal = await this.modalCtrl.create({
+      component: PasschangePage,
+      showBackdrop: true,
+      canDismiss: true,
+      animated: true,
+      mode: 'ios',
+    });
+    await modal.present();
   }
 
 }

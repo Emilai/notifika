@@ -5,8 +5,6 @@
       <ion-icon name="chatbubble-outline"></ion-icon>
       <ion-label>Comunicados</ion-label>
       <ion-badge *ngIf="totalCount > 0" color="danger">{{totalCount}}</ion-badge>
-      <ion-badge *ngIf="!totalCount && totalCount !== 0" color="warning">?</ion-badge>
-      <ion-badge *ngIf="!totalCount && totalCount === 0" color="success">✔</ion-badge>
     </ion-tab-button>
 
     <div *ngIf="instituto">

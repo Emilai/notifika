@@ -38,9 +38,9 @@ export class TabsPage implements OnInit, OnDestroy {
     };
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
-    this.subscription3.unsubscribe();
+    // this.subscription.unsubscribe();
+    // this.subscription2.unsubscribe();
+    // this.subscription3.unsubscribe();
   }
 
   async ngOnInit() {

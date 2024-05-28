@@ -28,7 +28,7 @@ export class GalleriesPage implements OnInit {
     id: '',
     notId: '',
     read: true,
-    tab: 'tab2',
+    tab: 'tab1',
   };
 
   notificationCom = {

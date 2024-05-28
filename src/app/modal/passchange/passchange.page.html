@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon class="icon ion-padding" slot="start" name="backspace-outline" (click)="salir()"></ion-icon>
+    <ion-title>Cambiar Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Ingrese su contraseña actual</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-item class="ion-margin-bottom">
+      <ion-input [type]="hide ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="oldPass">
+      </ion-input>
+      <ion-button class="type-toggle" (click)="toggleShow()" fill="clear">
+        <ion-icon class="show-option" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <p *ngIf="invalidPass">Su contraseña no es correcta</p>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Ingrese su nueva contraseña</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-item class="ion-margin-bottom">
+      <ion-input [type]="hide ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="newPass" (ngModelChange)="validateNewPass()">
+      </ion-input>
+      <ion-button class="type-toggle" (click)="toggleShow()" fill="clear">
+        <ion-icon class="show-option" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <p *ngIf="newPassInvalid">Contraseña inválida (mínimo 8 caracteres)</p>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Repita su nueva contraseña</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-item class="ion-margin-bottom">
+      <ion-input [type]="hide ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="newPassConfirm" (ngModelChange)="validateNewPassConfirm()">
+      </ion-input>
+      <ion-button class="type-toggle" (click)="toggleShow()" fill="clear">
+        <ion-icon class="show-option" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <p *ngIf="newPassConfirmInvalid">Las contraseñas no coinciden</p>
+  </ion-card>
+
+   <ion-button expand="full" (click)="changePassword()" [disabled]="isChangePasswordDisabled()">Cambiar Contraseña</ion-button>
+</ion-content>

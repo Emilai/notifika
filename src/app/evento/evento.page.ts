@@ -37,7 +37,7 @@ export class EventoPage implements OnInit {
     id: '',
     notId: '',
     read: true,
-    tab: 'tab3'
+    tab: 'tab1'
   };
 
   userInfo: any;

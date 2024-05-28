@@ -125,6 +125,10 @@ const routes: Routes = [
     path: '**',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'passchange',
+    loadChildren: () => import('./modal/passchange/passchange.module').then( m => m.PasschangePageModule)
   }
 
 ];

@@ -37,3 +37,12 @@
         [legend]="barOptions2.legend" [dataLabels]="barOptions2.dataLabels"></apx-chart>
     </div>
   </div>
+
+  <div class="container2">
+      <ion-progress-bar type="indeterminate" *ngIf="!lecturasChart"></ion-progress-bar>
+      <div class="barChart" *ngIf="lecturasChart">
+        <apx-chart [chart]="barOptions3.chart" [series]="barOptions3.series" [labels]="barOptions3.labels"
+          [grid]="barOptions3.grid" [xaxis]="barOptions3.xaxis" [yaxis]="barOptions3.yaxis" [title]="barOptions3.title"
+          [legend]="barOptions3.legend" [dataLabels]="barOptions3.dataLabels"></apx-chart>
+      </div>
+    </div>

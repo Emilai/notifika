@@ -51,7 +51,7 @@
       <tr>
         <th size="4" class="title">NOMBRE</th>
         <th size="4" class="title">DOCUMENTO</th>
-        <th size="4" class="title">FECHA</th>
+        <th size="4" class="title">FECHA <ion-icon name="arrow-down-outline" *ngIf="order" (click)="orden()"></ion-icon><ion-icon name="arrow-up-outline" *ngIf="!order" (click)="orden()"></ion-icon></th>
       </tr>
       <tr *ngFor="let data of lecturas">
         <td size="4" class="data">{{data.nombre}}</td>

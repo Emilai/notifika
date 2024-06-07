@@ -25,7 +25,7 @@ export class ModalPage implements OnInit {
     cedula: '',
     fecha: ''
   };
-
+  order = true;
   date = new Date();
   date2: any;
   lecturas: any;
@@ -131,6 +131,11 @@ async controlLect() {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     XLSX.writeFile(wb, name);
+  }
+
+  orden() {
+    this.order = !this.order;
+    this.lecturas = this.orderPipe.transform(this.lecturas, 'fecha', !this.order);
   }
 }
 

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { AlertController, ModalController } from '@ionic/angular';
 import { RecibosPage } from '../modal/recibos/recibos.page';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 @Component({
   selector: 'app-tabs',
@@ -31,7 +32,8 @@ export class TabsPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private cardService: CardService,
     public modalCtrl: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private functions: AngularFireFunctions
     ) {
     this.userInfo = {
       admin: false
@@ -58,17 +60,8 @@ export class TabsPage implements OnInit, OnDestroy {
           await this.userInfo.grupos.forEach(grupo => this.pushService.topicSubscribe(this.userInfo.code + grupo));
         });
       });
+      await this.registerVisit(this.userInfo.id, this.userInfo.code);
     });
-
-    // this.subscription = this.cardService.myVariable$.subscribe(value => {
-    //   this.comCount = value;
-    // });
-    // this.subscription2 = this.cardService.myVariable2$.subscribe(value => {
-    //   this.galCount = value;
-    // });
-    // this.subscription3 = this.cardService.myVariable3$.subscribe(value => {
-    //   this.eveCount = value;
-    // });
     this.subscription = combineLatest([
       this.cardService.myVariable$,
       this.cardService.myVariable2$,
@@ -82,6 +75,16 @@ export class TabsPage implements OnInit, OnDestroy {
       this.totalCount = this.comCount + this.galCount + this.eveCount;
     });
     return;
+  }
+
+  async registerVisit(userId: string, code: string) {
+    const registerUserVisit = this.functions.httpsCallable('registerUserVisit');
+    try {
+      await registerUserVisit({ userId, code }).toPromise();
+      console.log('Visit registered successfully');
+    } catch (error) {
+      console.error('Error registering visit:', error);
+    }
   }
 
   async mostrarRecibos(cedula, fym, code) {

@@ -47,9 +47,11 @@ export class ChartactiveusersComponent implements OnInit {
   public options: Partial<ChartOptions>;
   public barOptions: Partial<ChartOptions>;
   public barOptions2: Partial<ChartOptions>;
+  public barOptions3: Partial<ChartOptions>;
 
   instituto: any;
   userInfo: any;
+  usersPerDay: any;
   activeUsers: any;
   totalUsers: any;
   activeUsersCount: any;
@@ -70,6 +72,10 @@ export class ChartactiveusersComponent implements OnInit {
     franja4: []
   };
   lecturasChart = false;
+  usuariosPorDia = {
+    count: [],
+    date: []
+  };
 
   constructor(
     private authService: AuthService,
@@ -283,6 +289,85 @@ export class ChartactiveusersComponent implements OnInit {
     };
   }
 
+  barChart3() {
+    this.barOptions3 = {
+      chart: {
+        type: 'area',
+        height: 180,
+        stacked: false,
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 2,
+          opacity: 0.2,
+        },
+        width: '100%',
+        toolbar: {
+          show: false,
+        },
+      },
+      series: [
+        {
+          name: 'Visitas diarias a la App',
+          data: this.usuariosPorDia.count,
+        }
+      ],
+      labels: this.usuariosPorDia.date,
+      grid: {
+        borderColor: '#343E59',
+        padding: {
+          right: 0,
+          left: 0,
+        },
+      },
+      xaxis: {
+        labels: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+      },
+      stroke: {
+        width: 5,
+        curve: 'smooth',
+      },
+      yaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: '#78909c',
+          },
+        },
+      },
+      title: {
+        text: 'Visitas diarias a la App',
+        align: 'left',
+        style: {
+          fontSize: '16px',
+          color: '#78909c',
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        labels: {
+          colors: '#78909c',
+        },
+      },
+    };
+  }
+
 /////////////////////// Functions on Component //////////////////////
 
   async ngOnInit() {
@@ -298,6 +383,7 @@ export class ChartactiveusersComponent implements OnInit {
       await this.getActiveUsersCount(this.userInfo.code);
       await this.getTotalUsersCount(this.userInfo.code);
       await this.getComunicadosData(this.userInfo.code);
+      await this.dailyUsers(this.userInfo.code);
     });
     return;
   }
@@ -313,12 +399,27 @@ export class ChartactiveusersComponent implements OnInit {
   }
 
   async getTotalUsersCount(code) {
-    const count = await (await this.cardService.getCompanyUsersCount(code)).subscribe(result => {
-      this.totalUsers = result;
-      this.totalUsersCount = result.length.toString();
-    });;
-    return count;
+    try {
+      const countDocPromise = this.cardService.getCompanyUsersCount(code); // Promise<Observable<DocumentSnapshot<unknown>>>
+
+      const countDocObservable = await countDocPromise; // Esperar a que se resuelva la promesa y obtener el observable
+
+      countDocObservable.subscribe(countDoc => {
+        if (countDoc.exists) {
+          this.totalUsersCount = countDoc.data();
+          this.totalUsersCount = this.totalUsersCount.count.toString();
+        } else {
+          this.totalUsersCount = '0';
+        }
+      });
+    } catch (error) {
+      console.error('Error getting user count:', error);
+      this.totalUsersCount = '0';
+    }
   }
+
+
+
 
   async getComunicadosData(code) {
     const data = this.cardService.getComunicData(code).subscribe(async (cardsSnapshot) => {
@@ -434,6 +535,7 @@ export class ChartactiveusersComponent implements OnInit {
     setTimeout(() => {
       this.barChart();
       this.barChart2();
+      this.barChart3();
       this.lecturasChart = true;
       console.log('barChart rendered and lecturasChart set to true');
     }, 100);
@@ -463,6 +565,28 @@ export class ChartactiveusersComponent implements OnInit {
     this.activeUsersSeries = result;
     console.log('result: ', result);
     return result;
+  }
+
+  async dailyUsers(code: string) {
+    try {
+      this.cardService.getDailyUsers(code).subscribe(cardsSnapshot => {
+        const cards = cardsSnapshot.map(card => ({ ...card.data() }));
+
+        // Clear previous values
+        this.usuariosPorDia.count = [];
+        this.usuariosPorDia.date = [];
+
+        // Assign values to usuariosPorDia
+        cards.forEach(card => {
+          this.usuariosPorDia.count.push(card.count);
+          this.usuariosPorDia.date.push(card.date);
+        });
+
+        console.log(this.usuariosPorDia);
+      });
+    } catch (error) {
+      console.error('Error fetching daily users:', error);
+    }
   }
 
 }
